@@ -1246,15 +1246,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Admin login - Modo demo simplificado
-    document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    if (adminLoginForm) {
+        adminLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        // Modo demo - aceita qualquer senha para demonstração
-        document.getElementById('adminLoginView').style.display = 'none';
-        document.getElementById('adminDashboard').style.display = 'block';
-        renderAdminDashboard();
-        showNotification('Acesso administrativo liberado! (Modo Demo)', 'success');
-    });
+            // Modo demo - aceita qualquer senha para demonstração
+            const adminLoginView = document.getElementById('adminLoginView');
+            const adminDashboard = document.getElementById('adminDashboard');
+
+            if (adminLoginView && adminDashboard) {
+                adminLoginView.style.display = 'none';
+                adminDashboard.style.display = 'block';
+                renderAdminDashboard();
+                showNotification('Acesso administrativo liberado! (Modo Demo)', 'success');
+            }
+        });
+    }
     
     // Booking form updates
     ['modal-checkin', 'modal-checkout', 'room-type'].forEach(id => {
