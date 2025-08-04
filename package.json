@@ -4,10 +4,12 @@
   "description": "A basic web application",
   "main": "index.js",
   "scripts": {
-    "dev": "npx http-server . -p 8080",
+    "dev": "npx live-server --port=8080 --wait=200 --watch=. --ignore=node_modules",
+    "dev-basic": "npx http-server . -p 8080",
     "start": "npm run dev"
   },
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
   }
 }
