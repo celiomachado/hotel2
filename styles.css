@@ -1115,21 +1115,47 @@ p {
     }
 
     .hero-image {
-        height: 300px;
+        height: 350px;
         margin-top: 2rem;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .carousel-container {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        border-radius: var(--border-radius-small);
     }
 
     .carousel-btn {
-        width: 40px;
-        height: 40px;
+        width: 45px;
+        height: 45px;
+        background: rgba(45, 80, 22, 0.8);
+        backdrop-filter: blur(5px);
     }
 
     .carousel-btn i {
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .carousel-navigation {
-        padding: 0 10px;
+        padding: 0 15px;
+    }
+
+    .carousel-indicators {
+        bottom: 15px;
+    }
+
+    .indicator {
+        width: 10px;
+        height: 10px;
+        background: rgba(255, 255, 255, 0.6);
+    }
+
+    .indicator.active {
+        background: var(--branco);
+        transform: scale(1.3);
     }
 
     .about-content {
