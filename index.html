@@ -5,25 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Serra do Roncador - Sua Estadia na Natureza</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Hotel Serra do Roncador - Sua estadia perfeita em Água Boa, MT. Apartamentos modernos, piscina, wifi e muito mais.">
+    <meta name="keywords" content="hotel, água boa, mato grosso, hospedagem, piscina, wifi">
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <a href="#home" class="nav-logo">
                 <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F4bae4a94950745ec86fc2f77376bf15e?format=webp&width=800" alt="Hotel Serra do Roncador" class="nav-logo-image">
-            </div>
-            <ul class="nav-menu">
+                <span>Serra do Roncador</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
                 <li><a href="#home" class="nav-link">Início</a></li>
+                <li><a href="#gallery" class="nav-link">Galeria</a></li>
                 <li><a href="#quartos" class="nav-link">Quartos</a></li>
                 <li><a href="#sobre" class="nav-link">Sobre</a></li>
                 <li><a href="#contato" class="nav-link">Contato</a></li>
                 <li><a href="#guest-area" class="nav-link guest-access">Área do Hóspede</a></li>
                 <li><a href="admin.html" class="nav-link admin-access">Admin</a></li>
             </ul>
-            <div class="nav-toggle">
+            <div class="nav-toggle" id="navToggle">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -31,50 +35,66 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section com Background Animado -->
     <section id="home" class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Bem-vindo ao Hotel Serra do Roncador</h1>
-            <p class="hero-subtitle">Localizado na BR 158 em Água Boa - MT, oferecemos 50 apartamentos modernos e confortáveis para sua estadia</p>
-            <div class="hero-actions">
-                <button class="btn btn-primary" onclick="openBookingModal()">
-                    <i class="fas fa-calendar-check"></i>
-                    Reservar Agora
-                </button>
-                <button class="btn btn-secondary">
-                    <i class="fas fa-play"></i>
-                    Ver Tour Virtual
-                </button>
-            </div>
+        <!-- Background animado -->
+        <div class="hero-background">
+            <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=1200" alt="Hotel Exterior" class="hero-bg-image active">
+            <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=1200" alt="Área da Piscina" class="hero-bg-image">
+            <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=1200" alt="Vista Externa" class="hero-bg-image">
         </div>
-        <div class="hero-image">
-            <div class="carousel-container">
-                <div class="carousel-slides" id="heroCarousel">
-                    <div class="carousel-slide active">
-                        <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=800" alt="Hotel Serra do Roncador - Vista Externa" class="carousel-image">
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=800" alt="Hotel Serra do Roncador - Área da Piscina" class="carousel-image">
-                    </div>
-                </div>
-                <div class="carousel-navigation">
-                    <button class="carousel-btn prev" onclick="previousSlide()">
-                        <i class="fas fa-chevron-left"></i>
+
+        <!-- Partículas decorativas -->
+        <div class="hero-particles" id="heroParticles"></div>
+
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Bem-vindo ao Hotel Serra do Roncador</h1>
+                <p class="hero-subtitle">Sua estadia perfeita em Água Boa - MT. Conforto, natureza e hospitalidade em perfeita harmonia, com 50 apartamentos modernos para sua experiência única.</p>
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="openBookingModal()">
+                        <i class="fas fa-calendar-check"></i>
+                        Reservar Agora
                     </button>
-                    <button class="carousel-btn next" onclick="nextSlide()">
-                        <i class="fas fa-chevron-right"></i>
+                    <button class="btn btn-secondary" onclick="scrollToGallery()">
+                        <i class="fas fa-images"></i>
+                        Ver Galeria
                     </button>
                 </div>
-                <div class="carousel-indicators">
-                    <span class="indicator active" onclick="currentSlide(1)"></span>
-                    <span class="indicator" onclick="currentSlide(2)"></span>
+            </div>
+            <div class="hero-image">
+                <div class="carousel-container">
+                    <div class="carousel-slides" id="heroCarousel">
+                        <div class="carousel-slide active">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=800" alt="Hotel Serra do Roncador - Vista Externa" class="carousel-image">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=800" alt="Hotel Serra do Roncador - Área da Piscina" class="carousel-image">
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=800" alt="Hotel Serra do Roncador - Jardim" class="carousel-image">
+                        </div>
+                    </div>
+                    <div class="carousel-navigation">
+                        <button class="carousel-btn prev" onclick="previousSlide()" aria-label="Imagem anterior">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="carousel-btn next" onclick="nextSlide()" aria-label="Próxima imagem">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="indicator active" onclick="currentSlide(1)" aria-label="Imagem 1"></span>
+                        <span class="indicator" onclick="currentSlide(2)" aria-label="Imagem 2"></span>
+                        <span class="indicator" onclick="currentSlide(3)" aria-label="Imagem 3"></span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Quick Booking -->
-    <section class="quick-booking">
+    <section class="quick-booking scroll-reveal">
         <div class="container">
             <div class="booking-form-container">
                 <h3>Verificar Disponibilidade</h3>
@@ -105,51 +125,108 @@
         </div>
     </section>
 
+    <!-- Galeria de Imagens -->
+    <section id="gallery" class="image-gallery scroll-reveal">
+        <div class="container">
+            <div class="gallery-header">
+                <h2 class="gallery-title">Nossa Galeria</h2>
+                <p class="gallery-subtitle">Conheça nossos espaços através de imagens que capturam a essência do Hotel Serra do Roncador</p>
+            </div>
+            
+            <div class="gallery-carousel" id="galleryCarousel">
+                <div class="gallery-slides" id="gallerySlides">
+                    <div class="gallery-slide">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=1200" alt="Fachada moderna do hotel">
+                        <div class="gallery-slide-overlay">
+                            <h3>Fachada Principal</h3>
+                            <p>Arquitetura moderna e acolhedora na entrada do hotel</p>
+                        </div>
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=1200" alt="Área da piscina">
+                        <div class="gallery-slide-overlay">
+                            <h3>Área de Lazer</h3>
+                            <p>Piscina e espaços para relaxamento e diversão</p>
+                        </div>
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=1200" alt="Vista do jardim">
+                        <div class="gallery-slide-overlay">
+                            <h3>Jardim e Paisagismo</h3>
+                            <p>Áreas verdes cuidadosamente planejadas</p>
+                        </div>
+                    </div>
+                    <div class="gallery-slide">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2Ff3d2ef19a657470183f2b6f40c843758?format=webp&width=1200" alt="Apartamento confortável">
+                        <div class="gallery-slide-overlay">
+                            <h3>Apartamentos</h3>
+                            <p>Conforto e comodidade em cada detalhe</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="gallery-navigation gallery-prev" onclick="previousGallerySlide()" aria-label="Imagem anterior">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="gallery-navigation gallery-next" onclick="nextGallerySlide()" aria-label="Próxima imagem">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="gallery-dots" id="galleryDots">
+                <span class="gallery-dot active" onclick="currentGallerySlide(0)"></span>
+                <span class="gallery-dot" onclick="currentGallerySlide(1)"></span>
+                <span class="gallery-dot" onclick="currentGallerySlide(2)"></span>
+                <span class="gallery-dot" onclick="currentGallerySlide(3)"></span>
+            </div>
+        </div>
+    </section>
+
     <!-- About Section -->
-    <section id="sobre" class="about">
+    <section id="sobre" class="about scroll-reveal">
         <div class="container">
             <div class="about-content">
                 <div class="about-text">
                     <h2>Sobre o Hotel</h2>
                     <p>O Hotel Serra do Roncador está localizado à margem da BR 158, cerca de 1000 metros do centro da cidade de Água Boa – MT. Possuímos 50 apartamentos modernos e confortáveis, todos equipados com Frigobar, TV, Ar Condicionado, Mesa de Trabalho, Acesso Gratuito a Internet Banda Larga e Wi-Fi.</p>
                     <div class="features">
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-home"></i>
-                            <span>Apartamentos Confortáveis</span>
+                            <span>50 Apartamentos Confortáveis</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-swimming-pool"></i>
                             <span>Piscina e Quadra de Tênis</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-calendar-alt"></i>
                             <span>Centro de Eventos</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-coffee"></i>
                             <span>Café Colonial</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-wifi"></i>
-                            <span>WiFi</span>
+                            <span>WiFi Gratuito</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-globe"></i>
                             <span>Internet Banda Larga</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-desk"></i>
                             <span>Mesa de Trabalho</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-concierge-bell"></i>
-                            <span>Serviço de Quarto</span>
+                            <span>Serviço de Quarto 24h</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-parking"></i>
-                            <span>Estacionamento</span>
+                            <span>Estacionamento Gratuito</span>
                         </div>
-                        <div class="feature">
+                        <div class="feature hover-lift">
                             <i class="fas fa-users"></i>
                             <span>Sala de Reunião</span>
                         </div>
@@ -157,19 +234,19 @@
                 </div>
                 <div class="about-images">
                     <div class="image-grid">
-                        <div class="image-item large">
+                        <div class="image-item large hover-lift">
                             <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=800" alt="Hotel Serra do Roncador - Vista Externa" class="grid-image">
                         </div>
-                        <div class="image-item">
+                        <div class="image-item hover-lift">
                             <div class="placeholder-image room">
                                 <i class="fas fa-bed"></i>
-                                <span>Quartos</span>
+                                <span>Quartos Modernos</span>
                             </div>
                         </div>
-                        <div class="image-item">
+                        <div class="image-item hover-lift">
                             <div class="placeholder-image pool">
                                 <i class="fas fa-swimming-pool"></i>
-                                <span>Piscina</span>
+                                <span>Área de Lazer</span>
                             </div>
                         </div>
                     </div>
@@ -179,11 +256,73 @@
     </section>
 
     <!-- Rooms Section -->
-    <section id="quartos" class="rooms">
+    <section id="quartos" class="rooms scroll-reveal">
         <div class="container">
             <h2 class="section-title">Nossos Quartos</h2>
             <div class="rooms-grid" id="roomsGrid">
                 <!-- Rooms will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="contact scroll-reveal">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h2>Entre em Contato</h2>
+                    <p>Estamos prontos para atendê-lo e tornar sua estadia inesquecível.</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <div>
+                                <h4>Localização</h4>
+                                <p>BR 158 - Água Boa, MT<br>A 1000m do centro da cidade</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <h4>Telefone</h4>
+                                <p>(66) 3468-2001<br>Recepção 24 horas</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>E-mail</h4>
+                                <p>reservas@serradoncador.com.br<br>contato@serradoncador.com.br</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-section">
+                    <h3>Envie uma Mensagem</h3>
+                    <form class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name">Nome</label>
+                                <input type="text" id="contact-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact-email">E-mail</label>
+                                <input type="email" id="contact-email" name="email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-subject">Assunto</label>
+                            <input type="text" id="contact-subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact-message">Mensagem</label>
+                            <textarea id="contact-message" name="message" rows="5" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            Enviar Mensagem
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     </section>
@@ -296,66 +435,17 @@
         </div>
     </div>
 
-    <!-- Admin Modal -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeAdminModal()">&times;</span>
-            <div id="adminLoginView">
-                <h2>Painel Administrativo</h2>
-                <p class="demo-message">Sistema de demonstração - Acesso liberado para testes</p>
-                <form id="adminLoginForm">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-sign-in-alt"></i>
-                        Entrar no Painel
-                    </button>
-                </form>
-                <div class="demo-info">
-                    <p><i class="fas fa-info-circle"></i> Modo demonstração ativo</p>
-                    <small>Todas as funcionalidades administrativas estão disponíveis</small>
-                </div>
-            </div>
-            <div id="adminDashboard" style="display: none;">
-                <!-- Admin dashboard will be populated by JavaScript -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Image Gallery Modal -->
-    <div id="imageGalleryModal" class="modal gallery-modal">
-        <div class="gallery-modal-content">
-            <span class="close gallery-close" onclick="closeImageGallery()">&times;</span>
-            <div class="gallery-container">
-                <button class="gallery-btn prev" onclick="previousGalleryImage()">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <div class="gallery-main-image">
-                    <img id="galleryMainImage" src="" alt="Imagem do quarto em alta qualidade">
-                    <div class="image-info">
-                        <h3 id="galleryImageTitle"></h3>
-                        <p id="galleryImageDescription"></p>
-                    </div>
-                </div>
-                <button class="gallery-btn next" onclick="nextGalleryImage()">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-            <div class="gallery-thumbnails" id="galleryThumbnails">
-                <!-- Thumbnails will be populated by JavaScript -->
-            </div>
-        </div>
-    </div>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Hotel Serra do Roncador</h3>
-                    <p>Sua estadia na natureza com todo o conforto que você merece.</p>
+                    <p>Sua estadia na natureza com todo o conforto que você merece. Localizado estrategicamente em Água Boa - MT.</p>
                     <div class="social-links">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="https://wa.me/5566346820014" target="_blank" title="WhatsApp (66) 3468-2001"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://wa.me/5566346820014" target="_blank" title="WhatsApp (66) 3468-2001" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
                 <div class="footer-section">
@@ -367,20 +457,28 @@
                 </div>
                 <div class="footer-section">
                     <h4>Horários</h4>
-                    <p>Check-in: 14:00</p>
-                    <p>Check-out: 12:00</p>
-                    <p>Recepção: 24h</p>
+                    <p><strong>Check-in:</strong> 14:00</p>
+                    <p><strong>Check-out:</strong> 12:00</p>
+                    <p><strong>Recepção:</strong> 24 horas</p>
+                    <p><strong>Restaurante:</strong> 06:00 - 22:00</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Serviços</h4>
+                    <p><i class="fas fa-wifi"></i> WiFi Gratuito</p>
+                    <p><i class="fas fa-swimming-pool"></i> Piscina</p>
+                    <p><i class="fas fa-parking"></i> Estacionamento</p>
+                    <p><i class="fas fa-concierge-bell"></i> Serviço de Quarto</p>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2024 Hotel Serra do Roncador. Todos os direitos reservados.</p>
+                <p>&copy; 2024 Hotel Serra do Roncador. Todos os direitos reservados. Desenvolvido com ❤️ para sua melhor experiência.</p>
             </div>
         </div>
     </footer>
 
     <!-- WhatsApp Floating Button -->
     <div class="whatsapp-float">
-        <a href="https://wa.me/5566346820014?text=Olá! Gostaria de fazer uma reserva no Hotel Serra do Roncador" target="_blank" rel="noopener noreferrer">
+        <a href="https://wa.me/5566346820014?text=Olá! Gostaria de fazer uma reserva no Hotel Serra do Roncador" target="_blank" rel="noopener noreferrer" aria-label="Contato via WhatsApp">
             <i class="fab fa-whatsapp"></i>
             <span class="whatsapp-text">Fale Conosco</span>
         </a>
