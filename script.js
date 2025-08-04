@@ -1218,21 +1218,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Guest login
-    document.getElementById('guestLoginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('guest-login-email').value;
-        const code = document.getElementById('guest-code').value;
-        
-        const reservation = authenticateGuest(email, code);
-        if (reservation) {
-            document.getElementById('guestLoginView').style.display = 'none';
-            document.getElementById('guestDashboard').style.display = 'block';
-            renderGuestDashboard(reservation);
-        } else {
-            showNotification('Dados de acesso inválidos', 'error');
-        }
-    });
+    const guestLoginForm = document.getElementById('guestLoginForm');
+    if (guestLoginForm) {
+        guestLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const emailInput = document.getElementById('guest-login-email');
+            const codeInput = document.getElementById('guest-code');
+
+            if (!emailInput || !codeInput) {
+                showNotification('Erro no formulário', 'error');
+                return;
+            }
+
+            const email = emailInput.value;
+            const code = codeInput.value;
+
+            const reservation = authenticateGuest(email, code);
+            if (reservation) {
+                document.getElementById('guestLoginView').style.display = 'none';
+                document.getElementById('guestDashboard').style.display = 'block';
+                renderGuestDashboard(reservation);
+            } else {
+                showNotification('Dados de acesso inválidos', 'error');
+            }
+        });
+    }
     
     // Admin login - Modo demo simplificado
     document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
