@@ -404,6 +404,47 @@ p {
     box-shadow: 0 0 0 3px rgba(45, 80, 22, 0.1);
 }
 
+/* Hotel Exterior Section */
+.hotel-exterior {
+    position: relative;
+    height: 60vh;
+    overflow: hidden;
+}
+
+.exterior-image {
+    width: 100%;
+    height: 100%;
+    background-image: url('https://images.pexels.com/photos/8414417/pexels-photo-8414417.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.exterior-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(45, 80, 22, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.exterior-overlay h2 {
+    color: var(--branco);
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.exterior-overlay p {
+    color: var(--branco);
+    font-size: 1.3rem;
+    opacity: 0.9;
+}
+
 /* About Section */
 .about {
     padding: 5rem 0;
