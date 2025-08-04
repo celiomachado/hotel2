@@ -603,11 +603,15 @@ p {
 
 .room-image i {
     font-size: 3rem;
+    position: relative;
+    z-index: 2;
 }
 
 .room-image span {
     font-size: 1.2rem;
     text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
 .room-content {
