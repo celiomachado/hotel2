@@ -14,6 +14,14 @@ function showSlide(index) {
     // Add active class to current slide and indicator
     if (slides[index]) {
         slides[index].classList.add('active');
+
+        // Ensure image is loaded
+        const img = slides[index].querySelector('.carousel-image');
+        if (img && !img.complete) {
+            img.addEventListener('load', function() {
+                slides[index].style.opacity = '1';
+            });
+        }
     }
     if (indicators[index]) {
         indicators[index].classList.add('active');
