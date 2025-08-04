@@ -496,6 +496,7 @@ section {
 .section-title {
     margin-bottom: 1rem;
     position: relative;
+    animation: textGlow 3s ease-in-out infinite;
 }
 
 .section-title::after {
@@ -504,10 +505,21 @@ section {
     bottom: -10px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80px;
+    width: 0;
     height: 3px;
     background: var(--gradient-warm);
     border-radius: 2px;
+    animation: underlineExpand 1s ease-out 0.5s forwards;
+}
+
+@keyframes underlineExpand {
+    0% { width: 0; }
+    100% { width: 80px; }
+}
+
+.section-title:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
 }
 
 .section-subtitle {
