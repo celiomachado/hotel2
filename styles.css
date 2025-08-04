@@ -172,6 +172,8 @@ p {
     list-style: none;
     gap: 2rem;
     align-items: center;
+    position: absolute;
+    right: 0;
 }
 
 .nav-link {
