@@ -1427,24 +1427,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Admin login - Modo demo simplificado
-    const adminLoginForm = document.getElementById('adminLoginForm');
-    if (adminLoginForm) {
-        adminLoginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Modo demo - aceita qualquer senha para demonstração
-            const adminLoginView = document.getElementById('adminLoginView');
-            const adminDashboard = document.getElementById('adminDashboard');
-
-            if (adminLoginView && adminDashboard) {
-                adminLoginView.style.display = 'none';
-                adminDashboard.style.display = 'block';
-                renderAdminDashboard();
-                showNotification('Acesso administrativo liberado! (Modo Demo)', 'success');
-            }
-        });
-    }
+    // Admin functionality moved to separate admin.html page
     
     // Booking form updates
     ['modal-checkin', 'modal-checkout', 'room-type'].forEach(id => {
