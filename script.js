@@ -370,9 +370,13 @@ function renderRooms() {
         };
 
         roomCard.innerHTML = `
-            <div class="room-image ${room.id}">
+            <div class="room-image ${room.id}" onclick="openImageGallery('${room.id}')">
                 <i class="${roomIcons[room.id]}"></i>
                 <span>${room.name}</span>
+                <div class="image-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <span>Ver fotos</span>
+                </div>
             </div>
             <div class="room-content">
                 <h3 class="room-title">${room.name}</h3>
