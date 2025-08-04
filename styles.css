@@ -1004,6 +1004,13 @@ section {
     max-width: 100%;
 }
 
+.contact-form .btn-primary {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .form-group {
     margin-bottom: 1.5rem;
     width: 100%;
