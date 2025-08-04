@@ -320,27 +320,38 @@ function openBookingModal() {
 }
 
 function closeBookingModal() {
-    document.getElementById('bookingModal').style.display = 'none';
+    const modal = document.getElementById('bookingModal');
+    if (modal) modal.style.display = 'none';
 }
 
 function openGuestModal() {
-    document.getElementById('guestModal').style.display = 'block';
+    const modal = document.getElementById('guestModal');
+    if (modal) modal.style.display = 'block';
 }
 
 function closeGuestModal() {
-    document.getElementById('guestModal').style.display = 'none';
-    document.getElementById('guestLoginView').style.display = 'block';
-    document.getElementById('guestDashboard').style.display = 'none';
+    const modal = document.getElementById('guestModal');
+    const loginView = document.getElementById('guestLoginView');
+    const dashboard = document.getElementById('guestDashboard');
+
+    if (modal) modal.style.display = 'none';
+    if (loginView) loginView.style.display = 'block';
+    if (dashboard) dashboard.style.display = 'none';
 }
 
 function openAdminModal() {
-    document.getElementById('adminModal').style.display = 'block';
+    const modal = document.getElementById('adminModal');
+    if (modal) modal.style.display = 'block';
 }
 
 function closeAdminModal() {
-    document.getElementById('adminModal').style.display = 'none';
-    document.getElementById('adminLoginView').style.display = 'block';
-    document.getElementById('adminDashboard').style.display = 'none';
+    const modal = document.getElementById('adminModal');
+    const loginView = document.getElementById('adminLoginView');
+    const dashboard = document.getElementById('adminDashboard');
+
+    if (modal) modal.style.display = 'none';
+    if (loginView) loginView.style.display = 'block';
+    if (dashboard) dashboard.style.display = 'none';
 }
 
 // Rooms Rendering
@@ -809,7 +820,7 @@ function renderAdminDashboardTab() {
 function renderAdminContentTab() {
     return `
         <div class="content-editor">
-            <h3>Editor de Conteúdo do Site</h3>
+            <h3>Editor de Conte��do do Site</h3>
             <div class="editor-sections">
                 <div class="editor-section">
                     <h4>Informações Principais</h4>
