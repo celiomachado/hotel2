@@ -2358,4 +2358,70 @@ p {
     .whatsapp-float i {
         font-size: 1.3rem;
     }
+
+    /* Admin responsive styles for mobile */
+    .admin-page {
+        flex-direction: column;
+        margin-top: 60px;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        order: 2;
+    }
+
+    .admin-main {
+        order: 1;
+        padding: 1rem;
+    }
+
+    .sidebar-nav {
+        display: flex;
+        overflow-x: auto;
+        padding: 0;
+    }
+
+    .sidebar-link {
+        white-space: nowrap;
+        border-left: none;
+        border-bottom: 3px solid transparent;
+        min-width: 120px;
+        justify-content: center;
+    }
+
+    .sidebar-link.active {
+        border-left: none;
+        border-bottom-color: var(--primary-color);
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-nav-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: stretch;
+    }
+
+    .table-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .settings-actions {
+        flex-direction: column;
+    }
+
+    .editor-actions {
+        flex-direction: column;
+    }
 }
