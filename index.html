@@ -1,40 +1,309 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-        }
-        p {
-            color: #666;
-            line-height: 1.6;
-            text-align: center;
-        }
-    </style>
+    <title>Hotel Serra do Roncador - Sua Estadia na Natureza</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to Your Application</h1>
-        <p>Your application is now running successfully!</p>
-        <p>You can start building your project by editing the files in this directory.</p>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-mountain"></i>
+                <span>Hotel Serra do Roncador</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Início</a></li>
+                <li><a href="#quartos" class="nav-link">Quartos</a></li>
+                <li><a href="#sobre" class="nav-link">Sobre</a></li>
+                <li><a href="#contato" class="nav-link">Contato</a></li>
+                <li><a href="#guest-area" class="nav-link guest-access">Área do Hóspede</a></li>
+                <li><a href="#admin" class="nav-link admin-access">Admin</a></li>
+            </ul>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Bem-vindo ao Hotel Serra do Roncador</h1>
+            <p class="hero-subtitle">Desconecte-se do mundo e conecte-se com a natureza em um dos destinos mais místicos do Brasil</p>
+            <div class="hero-actions">
+                <button class="btn btn-primary" onclick="openBookingModal()">
+                    <i class="fas fa-calendar-check"></i>
+                    Reservar Agora
+                </button>
+                <button class="btn btn-secondary">
+                    <i class="fas fa-play"></i>
+                    Ver Tour Virtual
+                </button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="nature-scene">
+                <div class="mountain"></div>
+                <div class="trees"></div>
+                <div class="sun"></div>
+                <div class="clouds"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Booking -->
+    <section class="quick-booking">
+        <div class="container">
+            <div class="booking-form-container">
+                <h3>Verificar Disponibilidade</h3>
+                <form class="booking-form">
+                    <div class="form-group">
+                        <label for="checkin">Check-in</label>
+                        <input type="date" id="checkin" name="checkin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="checkout">Check-out</label>
+                        <input type="date" id="checkout" name="checkout" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Hóspedes</label>
+                        <select id="guests" name="guests">
+                            <option value="1">1 Pessoa</option>
+                            <option value="2">2 Pessoas</option>
+                            <option value="3">3 Pessoas</option>
+                            <option value="4">4 Pessoas</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                        Buscar Quartos
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="sobre" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2>Um Refúgio na Serra do Roncador</h2>
+                    <p>Localizado no coração da Chapada dos Guimarães, o Hotel Serra do Roncador oferece uma experiência única de imersão na natureza. Nosso hotel boutique combina conforto moderno com a beleza selvagem do cerrado brasileiro.</p>
+                    <div class="features">
+                        <div class="feature">
+                            <i class="fas fa-wifi"></i>
+                            <span>Wi-Fi Gratuito</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-swimming-pool"></i>
+                            <span>Piscina Natural</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-hiking"></i>
+                            <span>Trilhas Exclusivas</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-spa"></i>
+                            <span>Spa & Wellness</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-images">
+                    <div class="image-grid">
+                        <div class="image-item large">
+                            <div class="placeholder-image landscape"></div>
+                        </div>
+                        <div class="image-item">
+                            <div class="placeholder-image room"></div>
+                        </div>
+                        <div class="image-item">
+                            <div class="placeholder-image pool"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rooms Section -->
+    <section id="quartos" class="rooms">
+        <div class="container">
+            <h2 class="section-title">Nossos Quartos</h2>
+            <div class="rooms-grid" id="roomsGrid">
+                <!-- Rooms will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeBookingModal()">&times;</span>
+            <h2>Complete sua Reserva</h2>
+            <form id="bookingForm" class="booking-form-full">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modal-checkin">Check-in</label>
+                        <input type="date" id="modal-checkin" name="checkin" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="modal-checkout">Check-out</label>
+                        <input type="date" id="modal-checkout" name="checkout" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modal-guests">Hóspedes</label>
+                        <select id="modal-guests" name="guests">
+                            <option value="1">1 Pessoa</option>
+                            <option value="2">2 Pessoas</option>
+                            <option value="3">3 Pessoas</option>
+                            <option value="4">4 Pessoas</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="room-type">Tipo de Quarto</label>
+                        <select id="room-type" name="roomType">
+                            <option value="standard">Standard - R$ 280/noite</option>
+                            <option value="deluxe">Deluxe - R$ 380/noite</option>
+                            <option value="suite">Suíte Premium - R$ 580/noite</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guest-name">Nome Completo</label>
+                        <input type="text" id="guest-name" name="guestName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guest-email">E-mail</label>
+                        <input type="email" id="guest-email" name="guestEmail" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="guest-phone">Telefone</label>
+                        <input type="tel" id="guest-phone" name="guestPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guest-cpf">CPF</label>
+                        <input type="text" id="guest-cpf" name="guestCpf" required>
+                    </div>
+                </div>
+                <div class="booking-summary">
+                    <h3>Resumo da Reserva</h3>
+                    <div class="summary-details">
+                        <div class="summary-item">
+                            <span>Período:</span>
+                            <span id="summary-period">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Noites:</span>
+                            <span id="summary-nights">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Quarto:</span>
+                            <span id="summary-room">-</span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>Total:</span>
+                            <span id="summary-total">R$ 0,00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeBookingModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Confirmar Reserva</button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <!-- Guest Area Modal -->
+    <div id="guestModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeGuestModal()">&times;</span>
+            <div id="guestLoginView">
+                <h2>Área do Hóspede</h2>
+                <p>Digite seu e-mail e código de reserva para acessar sua área exclusiva</p>
+                <form id="guestLoginForm">
+                    <div class="form-group">
+                        <label for="guest-login-email">E-mail</label>
+                        <input type="email" id="guest-login-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="guest-code">Código da Reserva</label>
+                        <input type="text" id="guest-code" placeholder="Ex: RSR-001" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Acessar</button>
+                </form>
+            </div>
+            <div id="guestDashboard" style="display: none;">
+                <!-- Guest dashboard will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdminModal()">&times;</span>
+            <div id="adminLoginView">
+                <h2>Painel Administrativo</h2>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label for="admin-password">Senha do Administrador</label>
+                        <input type="password" id="admin-password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Entrar</button>
+                </form>
+            </div>
+            <div id="adminDashboard" style="display: none;">
+                <!-- Admin dashboard will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Hotel Serra do Roncador</h3>
+                    <p>Sua estadia na natureza com todo o conforto que você merece.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Contato</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> Chapada dos Guimarães, MT</p>
+                    <p><i class="fas fa-phone"></i> (65) 3301-1234</p>
+                    <p><i class="fas fa-envelope"></i> reservas@serradoncador.com.br</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Horários</h4>
+                    <p>Check-in: 14:00</p>
+                    <p>Check-out: 12:00</p>
+                    <p>Recepção: 24h</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Hotel Serra do Roncador. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
