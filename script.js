@@ -970,7 +970,7 @@ function renderAdminContentTab() {
                 </div>
 
                 <div class="editor-section">
-                    <h4>Pre��os dos Quartos</h4>
+                    <h4>Preços dos Quartos</h4>
                     <div class="room-prices">
                         <div class="price-item">
                             <label>Standard</label>
@@ -1469,8 +1469,32 @@ document.addEventListener('DOMContentLoaded', function() {
         modals.forEach(modal => {
             if (e.target === modal) {
                 modal.style.display = 'none';
+                if (modal.id === 'imageGalleryModal') {
+                    document.body.style.overflow = 'auto';
+                }
             }
         });
+    });
+
+    // Keyboard navigation for image gallery
+    document.addEventListener('keydown', function(e) {
+        const galleryModal = document.getElementById('imageGalleryModal');
+        if (galleryModal && galleryModal.style.display === 'block') {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    previousGalleryImage();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    nextGalleryImage();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    closeImageGallery();
+                    break;
+            }
+        }
     });
     
     // Set minimum dates for booking
