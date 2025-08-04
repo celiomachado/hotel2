@@ -100,7 +100,7 @@ function initializeMobileMenu() {
         
         // Fechar menu ao clicar fora
         document.addEventListener('click', function(e) {
-            if (!mobileToggle.contains(e.target) && !navMenu.contains(e.target)) {
+            if (mobileToggle && navMenu && !mobileToggle.contains(e.target) && !navMenu.contains(e.target)) {
                 navMenu.classList.remove('active');
                 mobileToggle.classList.remove('active');
             }
