@@ -162,23 +162,24 @@ function showHeroSlide(index) {
     }
 }
 
-function nextHeroSlide() {
+// Garantir que as funções estejam no escopo global
+window.nextHeroSlide = function() {
     if (heroSlides && heroSlides.length > 0) {
         const next = (currentHeroSlide + 1) % heroSlides.length;
         showHeroSlide(next);
     }
-}
+};
 
-function previousHeroSlide() {
+window.previousHeroSlide = function() {
     const prev = (currentHeroSlide - 1 + heroSlides.length) % heroSlides.length;
     showHeroSlide(prev);
-}
+};
 
-function currentHeroSlide(index) {
+window.currentHeroSlide = function(index) {
     showHeroSlide(index);
     stopHeroSlider();
     startHeroSlider();
-}
+};
 
 function startHeroSlider() {
     if (heroSlides && heroSlides.length > 1) {
