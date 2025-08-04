@@ -44,10 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeMobileMenu();
         setMinDate();
 
-        // Inicia o slider automaticamente apenas se há slides
-        if (heroSlides && heroSlides.length > 0) {
-            startHeroSlider();
-        }
+        // Inicia o slider automaticamente após breve delay
+        setTimeout(() => {
+            if (heroSlides && heroSlides.length > 1) {
+                startHeroSlider();
+            }
+        }, 1000);
     } catch (error) {
         console.error('Erro na inicialização:', error);
     }
