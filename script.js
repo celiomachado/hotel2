@@ -79,7 +79,7 @@ function initializeNavigation() {
                 // Fechar menu mobile se estiver aberto
                 const mobileMenu = document.getElementById('navMenu');
                 const mobileToggle = document.getElementById('mobileToggle');
-                if (mobileMenu.classList.contains('active')) {
+                if (mobileMenu && mobileToggle && mobileMenu.classList.contains('active')) {
                     mobileMenu.classList.remove('active');
                     mobileToggle.classList.remove('active');
                 }
