@@ -49,11 +49,27 @@
             </div>
         </div>
         <div class="hero-image">
-            <div class="nature-scene">
-                <div class="mountain"></div>
-                <div class="trees"></div>
-                <div class="sun"></div>
-                <div class="clouds"></div>
+            <div class="carousel-container">
+                <div class="carousel-slides" id="heroCarousel">
+                    <div class="carousel-slide active">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=800" alt="Hotel Serra do Roncador - Vista Externa" class="carousel-image">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=800" alt="Hotel Serra do Roncador - Área da Piscina" class="carousel-image">
+                    </div>
+                </div>
+                <div class="carousel-navigation">
+                    <button class="carousel-btn prev" onclick="previousSlide()">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-btn next" onclick="nextSlide()">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="carousel-indicators">
+                    <span class="indicator active" onclick="currentSlide(1)"></span>
+                    <span class="indicator" onclick="currentSlide(2)"></span>
+                </div>
             </div>
         </div>
     </section>
