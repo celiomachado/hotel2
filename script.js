@@ -153,8 +153,10 @@ function showHeroSlide(index) {
 }
 
 function nextHeroSlide() {
-    const next = (currentHeroSlide + 1) % heroSlides.length;
-    showHeroSlide(next);
+    if (heroSlides && heroSlides.length > 0) {
+        const next = (currentHeroSlide + 1) % heroSlides.length;
+        showHeroSlide(next);
+    }
 }
 
 function previousHeroSlide() {
