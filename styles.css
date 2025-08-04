@@ -241,6 +241,7 @@ p {
     flex: 1;
     height: 500px;
     position: relative;
+    min-width: 300px;
 }
 
 /* Hero Carousel */
