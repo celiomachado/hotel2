@@ -36,15 +36,21 @@ const galleryImages = [
 
 // Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
-    initializeNavigation();
-    initializeHeroSlider();
-    initializeScrollAnimations();
-    initializeForms();
-    initializeMobileMenu();
-    setMinDate();
-    
-    // Inicia o slider automaticamente
-    startHeroSlider();
+    try {
+        initializeNavigation();
+        initializeHeroSlider();
+        initializeScrollAnimations();
+        initializeForms();
+        initializeMobileMenu();
+        setMinDate();
+
+        // Inicia o slider automaticamente apenas se há slides
+        if (heroSlides && heroSlides.length > 0) {
+            startHeroSlider();
+        }
+    } catch (error) {
+        console.error('Erro na inicialização:', error);
+    }
 });
 
 // ========== NAVEGAÇÃO ==========
