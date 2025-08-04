@@ -1199,16 +1199,22 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Guest area access
-    document.querySelector('.guest-access').addEventListener('click', function(e) {
-        e.preventDefault();
-        openGuestModal();
-    });
-    
+    const guestAccess = document.querySelector('.guest-access');
+    if (guestAccess) {
+        guestAccess.addEventListener('click', function(e) {
+            e.preventDefault();
+            openGuestModal();
+        });
+    }
+
     // Admin access
-    document.querySelector('.admin-access').addEventListener('click', function(e) {
-        e.preventDefault();
-        openAdminModal();
-    });
+    const adminAccess = document.querySelector('.admin-access');
+    if (adminAccess) {
+        adminAccess.addEventListener('click', function(e) {
+            e.preventDefault();
+            openAdminModal();
+        });
+    }
     
     // Booking form submission
     const bookingForm = document.getElementById('bookingForm');
