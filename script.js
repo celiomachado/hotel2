@@ -389,20 +389,34 @@ function selectRoom(roomId) {
 
 // Booking System
 function updateBookingSummary() {
-    const checkin = document.getElementById('modal-checkin').value;
-    const checkout = document.getElementById('modal-checkout').value;
-    const roomType = document.getElementById('room-type').value;
-    
+    const checkinInput = document.getElementById('modal-checkin');
+    const checkoutInput = document.getElementById('modal-checkout');
+    const roomTypeInput = document.getElementById('room-type');
+
+    if (!checkinInput || !checkoutInput || !roomTypeInput) return;
+
+    const checkin = checkinInput.value;
+    const checkout = checkoutInput.value;
+    const roomType = roomTypeInput.value;
+
     if (!checkin || !checkout || !roomType) return;
-    
+
     const nights = calculateNights(checkin, checkout);
     const room = hotelData.rooms.find(r => r.id === roomType);
+
+    if (!room) return;
+
     const total = nights * room.price;
-    
-    document.getElementById('summary-period').textContent = `${formatDate(checkin)} - ${formatDate(checkout)}`;
-    document.getElementById('summary-nights').textContent = `${nights} noite${nights > 1 ? 's' : ''}`;
-    document.getElementById('summary-room').textContent = room.name;
-    document.getElementById('summary-total').textContent = formatCurrency(total);
+
+    const summaryPeriod = document.getElementById('summary-period');
+    const summaryNights = document.getElementById('summary-nights');
+    const summaryRoom = document.getElementById('summary-room');
+    const summaryTotal = document.getElementById('summary-total');
+
+    if (summaryPeriod) summaryPeriod.textContent = `${formatDate(checkin)} - ${formatDate(checkout)}`;
+    if (summaryNights) summaryNights.textContent = `${nights} noite${nights > 1 ? 's' : ''}`;
+    if (summaryRoom) summaryRoom.textContent = room.name;
+    if (summaryTotal) summaryTotal.textContent = formatCurrency(total);
 }
 
 function processBooking(formData) {
