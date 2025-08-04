@@ -46,6 +46,17 @@ function stopCarousel() {
     clearInterval(carouselInterval);
 }
 
+// Initialize carousel elements
+function initCarousel() {
+    slides = document.querySelectorAll('.carousel-slide');
+    indicators = document.querySelectorAll('.indicator');
+    totalSlides = slides.length;
+
+    if (totalSlides > 0) {
+        showSlide(0);
+    }
+}
+
 // Pause on hover
 function initCarouselEvents() {
     const carouselContainer = document.querySelector('.carousel-container');
