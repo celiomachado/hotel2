@@ -481,44 +481,44 @@ function createParticle(container) {
 
 // ========== GALERIA ==========
 
-function openGalleryModal(index) {
+window.openGalleryModal = function(index) {
     currentGalleryImage = index;
     const modal = document.getElementById('galleryModal');
     const modalImage = document.getElementById('galleryModalImage');
-    
+
     if (modal && modalImage && galleryImages[index]) {
         modalImage.src = galleryImages[index].src;
         modalImage.alt = galleryImages[index].alt;
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
-}
+};
 
-function closeGalleryModal() {
+window.closeGalleryModal = function() {
     const modal = document.getElementById('galleryModal');
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-}
+};
 
-function nextGalleryImage() {
+window.nextGalleryImage = function() {
     currentGalleryImage = (currentGalleryImage + 1) % galleryImages.length;
     const modalImage = document.getElementById('galleryModalImage');
     if (modalImage && galleryImages[currentGalleryImage]) {
         modalImage.src = galleryImages[currentGalleryImage].src;
         modalImage.alt = galleryImages[currentGalleryImage].alt;
     }
-}
+};
 
-function prevGalleryImage() {
+window.prevGalleryImage = function() {
     currentGalleryImage = (currentGalleryImage - 1 + galleryImages.length) % galleryImages.length;
     const modalImage = document.getElementById('galleryModalImage');
     if (modalImage && galleryImages[currentGalleryImage]) {
         modalImage.src = galleryImages[currentGalleryImage].src;
         modalImage.alt = galleryImages[currentGalleryImage].alt;
     }
-}
+};
 
 // ========== RESERVAS ==========
 
