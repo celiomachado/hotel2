@@ -460,6 +460,82 @@ function selectRoom(roomId) {
     }
 }
 
+// Image Gallery Functions
+let currentGalleryRoom = null;
+let currentGalleryIndex = 0;
+
+function openImageGallery(roomId) {
+    const room = hotelData.rooms.find(r => r.id === roomId);
+    if (!room || !room.images || room.images.length === 0) return;
+
+    currentGalleryRoom = room;
+    currentGalleryIndex = 0;
+
+    const modal = document.getElementById('imageGalleryModal');
+    const mainImage = document.getElementById('galleryMainImage');
+    const imageTitle = document.getElementById('galleryImageTitle');
+    const imageDescription = document.getElementById('galleryImageDescription');
+    const thumbnailsContainer = document.getElementById('galleryThumbnails');
+
+    // Set main image
+    showGalleryImage(0);
+
+    // Create thumbnails
+    thumbnailsContainer.innerHTML = room.images.map((image, index) => `
+        <div class="gallery-thumbnail ${index === 0 ? 'active' : ''}" onclick="showGalleryImage(${index})">
+            <img src="${image.src}" alt="${image.alt}">
+        </div>
+    `).join('');
+
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageGallery() {
+    const modal = document.getElementById('imageGalleryModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    currentGalleryRoom = null;
+    currentGalleryIndex = 0;
+}
+
+function showGalleryImage(index) {
+    if (!currentGalleryRoom || !currentGalleryRoom.images) return;
+
+    const images = currentGalleryRoom.images;
+    if (index < 0 || index >= images.length) return;
+
+    currentGalleryIndex = index;
+    const image = images[index];
+
+    const mainImage = document.getElementById('galleryMainImage');
+    const imageTitle = document.getElementById('galleryImageTitle');
+    const imageDescription = document.getElementById('galleryImageDescription');
+
+    mainImage.src = image.src;
+    mainImage.alt = image.alt;
+    imageTitle.textContent = currentGalleryRoom.name;
+    imageDescription.textContent = image.description;
+
+    // Update thumbnail active state
+    const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+    thumbnails.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+    });
+}
+
+function nextGalleryImage() {
+    if (!currentGalleryRoom) return;
+    const nextIndex = (currentGalleryIndex + 1) % currentGalleryRoom.images.length;
+    showGalleryImage(nextIndex);
+}
+
+function previousGalleryImage() {
+    if (!currentGalleryRoom) return;
+    const prevIndex = (currentGalleryIndex - 1 + currentGalleryRoom.images.length) % currentGalleryRoom.images.length;
+    showGalleryImage(prevIndex);
+}
+
 // Booking System
 function updateBookingSummary() {
     const checkinInput = document.getElementById('modal-checkin');
@@ -894,7 +970,7 @@ function renderAdminContentTab() {
                 </div>
 
                 <div class="editor-section">
-                    <h4>Preços dos Quartos</h4>
+                    <h4>Pre��os dos Quartos</h4>
                     <div class="room-prices">
                         <div class="price-item">
                             <label>Standard</label>
