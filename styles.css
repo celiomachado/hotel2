@@ -297,7 +297,7 @@ p {
 }
 
 .carousel-btn {
-    background: rgba(45, 80, 22, 0.7);
+    background: rgba(45, 80, 22, 0.8);
     color: var(--branco);
     border: none;
     width: 50px;
@@ -309,15 +309,19 @@ p {
     cursor: pointer;
     transition: var(--transition);
     backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    touch-action: manipulation;
 }
 
-.carousel-btn:hover {
-    background: rgba(45, 80, 22, 0.9);
-    transform: scale(1.1);
+.carousel-btn:hover,
+.carousel-btn:active {
+    background: rgba(45, 80, 22, 0.95);
+    transform: scale(1.05);
 }
 
 .carousel-btn i {
     font-size: 1.2rem;
+    pointer-events: none;
 }
 
 .carousel-indicators {
