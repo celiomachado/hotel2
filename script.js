@@ -79,7 +79,7 @@ let hotelData = {
         {
             id: 'suite',
             name: 'Suíte Premium',
-            description: 'Nossa su��te mais luxuosa com amplo espaço e vista privilegiada.',
+            description: 'Nossa suíte mais luxuosa com amplo espaço e vista privilegiada.',
             price: 580,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Banheira', 'Sala de Estar', 'Serviço de Quarto'],
             capacity: 4
@@ -570,6 +570,10 @@ function clearOldData() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize carousel
+    initCarouselEvents();
+    startCarousel();
+
     // Render initial content
     setTimeout(() => {
         renderRooms();
