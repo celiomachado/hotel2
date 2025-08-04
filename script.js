@@ -382,9 +382,11 @@ function renderRooms() {
 
 function selectRoom(roomId) {
     const roomSelect = document.getElementById('room-type');
-    roomSelect.value = roomId;
-    openBookingModal();
-    updateBookingSummary();
+    if (roomSelect) {
+        roomSelect.value = roomId;
+        openBookingModal();
+        updateBookingSummary();
+    }
 }
 
 // Booking System
