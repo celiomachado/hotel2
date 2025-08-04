@@ -1358,14 +1358,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Admin access
-    const adminAccess = document.querySelector('.admin-access');
-    if (adminAccess) {
-        adminAccess.addEventListener('click', function(e) {
-            e.preventDefault();
-            openAdminModal();
-        });
-    }
+    // Admin access - now redirects to admin.html page
+    // No need for event listener as it's a direct link
     
     // Booking form submission
     const bookingForm = document.getElementById('bookingForm');
