@@ -145,9 +145,10 @@ p {
     color: var(--primary-color);
 }
 
-.nav-logo i {
-    font-size: 1.8rem;
-    color: var(--terra);
+.nav-logo-image {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
 
 .nav-menu {
