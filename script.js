@@ -1,5 +1,62 @@
 // Hotel Serra do Roncador - JavaScript Functionality
 
+// Carousel functionality
+let currentSlideIndex = 0;
+const slides = document.querySelectorAll('.carousel-slide');
+const indicators = document.querySelectorAll('.indicator');
+const totalSlides = slides.length;
+
+function showSlide(index) {
+    // Remove active class from all slides and indicators
+    slides.forEach(slide => slide.classList.remove('active'));
+    indicators.forEach(indicator => indicator.classList.remove('active'));
+
+    // Add active class to current slide and indicator
+    if (slides[index]) {
+        slides[index].classList.add('active');
+    }
+    if (indicators[index]) {
+        indicators[index].classList.add('active');
+    }
+}
+
+function nextSlide() {
+    currentSlideIndex = (currentSlideIndex + 1) % totalSlides;
+    showSlide(currentSlideIndex);
+}
+
+function previousSlide() {
+    currentSlideIndex = (currentSlideIndex - 1 + totalSlides) % totalSlides;
+    showSlide(currentSlideIndex);
+}
+
+function currentSlide(index) {
+    currentSlideIndex = index - 1;
+    showSlide(currentSlideIndex);
+}
+
+// Auto-play carousel
+let carouselInterval;
+
+function startCarousel() {
+    carouselInterval = setInterval(nextSlide, 5000); // Change slide every 5 seconds
+}
+
+function stopCarousel() {
+    clearInterval(carouselInterval);
+}
+
+// Pause on hover
+function initCarouselEvents() {
+    const carouselContainer = document.querySelector('.carousel-container');
+    if (carouselContainer) {
+        carouselContainer.addEventListener('mouseenter', stopCarousel);
+        carouselContainer.addEventListener('mouseleave', startCarousel);
+    }
+}
+
+// Hotel Serra do Roncador - Main JavaScript Functionality
+
 // Data Storage (In production, this would connect to a backend)
 let hotelData = {
     rooms: [
@@ -22,7 +79,7 @@ let hotelData = {
         {
             id: 'suite',
             name: 'Suíte Premium',
-            description: 'Nossa suíte mais luxuosa com amplo espaço e vista privilegiada.',
+            description: 'Nossa su��te mais luxuosa com amplo espaço e vista privilegiada.',
             price: 580,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Banheira', 'Sala de Estar', 'Serviço de Quarto'],
             capacity: 4
