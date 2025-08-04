@@ -589,10 +589,36 @@ document.addEventListener('DOMContentLoaded', function() {
         startCarousel();
     }
 
-    // Render initial content
-    setTimeout(() => {
-        renderRooms();
-    }, 100);
+    // Force update room data and render
+    hotelData.rooms = [
+        {
+            id: 'standard',
+            name: 'Apartamento Standard',
+            description: 'Apartamento moderno e confortável equipado com todas as comodidades essenciais.',
+            price: 280,
+            features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Serviço de Quarto'],
+            capacity: 2
+        },
+        {
+            id: 'deluxe',
+            name: 'Apartamento Deluxe',
+            description: 'Apartamento espaçoso com comodidades premium e ambiente sofisticado.',
+            price: 380,
+            features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Serviço de Quarto'],
+            capacity: 3
+        },
+        {
+            id: 'suite',
+            name: 'Suíte Premium',
+            description: 'Nossa suíte mais luxuosa com amplo espaço e vista privilegiada.',
+            price: 580,
+            features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Banheira', 'Sala de Estar', 'Serviço de Quarto'],
+            capacity: 4
+        }
+    ];
+
+    // Render rooms immediately
+    renderRooms();
     
     // Navigation
     document.querySelector('.nav-toggle').addEventListener('click', function() {
