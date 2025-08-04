@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeNavigation();
         initializeHeroSlider();
         initializeScrollAnimations();
+        initializeParallax();
+        initializeMicroInteractions();
         initializeForms();
         initializeMobileMenu();
         setMinDate();
