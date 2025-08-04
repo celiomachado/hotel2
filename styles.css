@@ -438,13 +438,59 @@ p {
     transform: scale(1.2);
 }
 
-/* Seções gerais */
+/* Seções gerais com animações */
 .section-header {
     text-align: center;
     margin-bottom: 4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    animation: sectionFadeInScale 1s ease-out;
+}
+
+/* Animação contínua para elementos especiais */
+section {
+    animation: sectionSlideUp 0.8s ease-out;
+}
+
+.about-section,
+.accommodations-section,
+.facilities-section,
+.gallery-section,
+.contact-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.about-section::before,
+.accommodations-section::before,
+.facilities-section::before,
+.gallery-section::before,
+.contact-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(184, 52, 28, 0.03) 0%, transparent 70%);
+    animation: sectionGlow 20s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.about-section > .container,
+.accommodations-section > .container,
+.facilities-section > .container,
+.gallery-section > .container,
+.contact-section > .container {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes sectionGlow {
+    0%, 100% { transform: rotate(0deg) scale(1); opacity: 0.5; }
+    50% { transform: rotate(180deg) scale(1.1); opacity: 0.8; }
 }
 
 .section-title {
