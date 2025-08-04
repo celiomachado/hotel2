@@ -488,21 +488,35 @@ p {
 .placeholder-image {
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
     border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--branco);
+    font-weight: 600;
+    gap: 0.5rem;
 }
 
 .placeholder-image.landscape {
-    background-image: url('https://images.pexels.com/photos/32788371/pexels-photo-32788371.jpeg') !important;
+    background: linear-gradient(135deg, var(--verde-claro), var(--azul-ceu));
 }
 
 .placeholder-image.room {
-    background-image: url('https://images.pexels.com/photos/6466492/pexels-photo-6466492.jpeg') !important;
+    background: linear-gradient(135deg, var(--terra), var(--terra-clara));
 }
 
 .placeholder-image.pool {
-    background-image: url('https://images.pexels.com/photos/9119737/pexels-photo-9119737.jpeg') !important;
+    background: linear-gradient(135deg, var(--azul-ceu), var(--azul-escuro));
+}
+
+.placeholder-image i {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.placeholder-image span {
+    font-size: 1rem;
 }
 
 /* Rooms Section */
