@@ -552,6 +552,17 @@ p {
     position: relative;
 }
 
+.room-image.standard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(45, 80, 22, 0.7);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
 .room-image.deluxe {
     background-image: url('https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2Fe7b58cf3f12c45ec90b7e7626c5a101e?format=webp&width=800');
     background-size: cover;
@@ -560,12 +571,34 @@ p {
     position: relative;
 }
 
+.room-image.deluxe::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(139, 69, 19, 0.7);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
 .room-image.suite {
     background-image: url('https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F84b98a812b3e463c9a7b303544089fbf?format=webp&width=800');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
+}
+
+.room-image.suite::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(70, 130, 180, 0.7);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .room-image i {
