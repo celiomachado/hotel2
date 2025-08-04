@@ -40,14 +40,18 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeNavigation();
         initializeHeroSlider();
         initializeScrollAnimations();
+        initializeParallax();
+        initializeMicroInteractions();
         initializeForms();
         initializeMobileMenu();
         setMinDate();
 
-        // Inicia o slider automaticamente apenas se há slides
-        if (heroSlides && heroSlides.length > 0) {
-            startHeroSlider();
-        }
+        // Inicia o slider automaticamente após breve delay
+        setTimeout(() => {
+            if (heroSlides && heroSlides.length > 1) {
+                startHeroSlider();
+            }
+        }, 1000);
     } catch (error) {
         console.error('Erro na inicialização:', error);
     }
@@ -118,8 +122,16 @@ function initializeMobileMenu() {
 
 function initializeHeroSlider() {
     heroSlides = document.querySelectorAll('.hero-slide');
+    console.log('Hero slides encontrados:', heroSlides.length);
     if (heroSlides.length > 0) {
         showHeroSlide(0);
+        // Garantir que todas as imagens tenham a animação
+        heroSlides.forEach((slide, index) => {
+            const img = slide.querySelector('img');
+            if (img) {
+                img.style.animation = index === 0 ? 'heroImageZoom 4s ease-out forwards' : 'none';
+            }
+        });
     }
 }
 
@@ -137,13 +149,24 @@ function showHeroSlide(index) {
                 indicators[index].classList.add('active');
             }
             currentHeroSlide = index;
+
+            // Reiniciar animação da imagem
+            const activeImg = heroSlides[index].querySelector('img');
+            if (activeImg) {
+                activeImg.style.animation = 'none';
+                setTimeout(() => {
+                    activeImg.style.animation = 'heroImageZoom 4s ease-out forwards';
+                }, 10);
+            }
         }
     }
 }
 
 function nextHeroSlide() {
-    const next = (currentHeroSlide + 1) % heroSlides.length;
-    showHeroSlide(next);
+    if (heroSlides && heroSlides.length > 0) {
+        const next = (currentHeroSlide + 1) % heroSlides.length;
+        showHeroSlide(next);
+    }
 }
 
 function previousHeroSlide() {
@@ -159,7 +182,14 @@ function currentHeroSlide(index) {
 
 function startHeroSlider() {
     if (heroSlides && heroSlides.length > 1) {
-        heroInterval = setInterval(nextHeroSlide, 5000);
+        console.log('Iniciando slider com', heroSlides.length, 'slides');
+        clearInterval(heroInterval); // Limpar intervalo anterior
+        heroInterval = setInterval(() => {
+            console.log('Trocando slide...');
+            nextHeroSlide();
+        }, 4500);
+    } else {
+        console.log('Slider não iniciado - slides:', heroSlides?.length);
     }
 }
 
@@ -171,36 +201,158 @@ function stopHeroSlider() {
 document.querySelector('.hero-section')?.addEventListener('mouseenter', stopHeroSlider);
 document.querySelector('.hero-section')?.addEventListener('mouseleave', startHeroSlider);
 
-// ========== ANIMAÇÕES DE SCROLL ==========
+// ========== SISTEMA AVANÇADO DE ANIMAÇÕES ==========
 
 function initializeScrollAnimations() {
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -100px 0px'
     };
-    
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+
+                // Animações em cascata para cards
+                if (entry.target.classList.contains('stagger-container')) {
+                    const items = entry.target.querySelectorAll('.stagger-item');
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 150);
+                    });
+                }
             }
         });
     }, observerOptions);
-    
-    // Adicionar classes de animação aos elementos
-    document.querySelectorAll('.feature-item, .room-card, .facility-item, .contact-item').forEach(el => {
-        el.classList.add('fade-in');
-        observer.observe(el);
-    });
-    
+
+    // Aplicar animações específicas para cada seção
+
+    // Seção Sobre - slide from sides
     document.querySelectorAll('.about-text').forEach(el => {
         el.classList.add('slide-in-left');
         observer.observe(el);
     });
-    
+
     document.querySelectorAll('.about-image').forEach(el => {
         el.classList.add('slide-in-right');
         observer.observe(el);
+    });
+
+    // Features - bounce in
+    document.querySelectorAll('.feature-item').forEach((el, index) => {
+        el.classList.add('bounce-in');
+        el.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(el);
+    });
+
+    // Quartos - scale in com stagger
+    const roomsGrid = document.querySelector('.rooms-grid');
+    if (roomsGrid) {
+        roomsGrid.classList.add('stagger-container');
+        document.querySelectorAll('.room-card').forEach(el => {
+            el.classList.add('stagger-item', 'scale-in');
+        });
+        observer.observe(roomsGrid);
+    }
+
+    // Estrutura - rotate in
+    document.querySelectorAll('.facility-item').forEach((el, index) => {
+        el.classList.add('rotate-in');
+        el.style.transitionDelay = `${index * 0.08}s`;
+        observer.observe(el);
+    });
+
+    // Galeria - flip in
+    document.querySelectorAll('.gallery-item').forEach((el, index) => {
+        el.classList.add('flip-in');
+        el.style.transitionDelay = `${index * 0.1}s`;
+        observer.observe(el);
+    });
+
+    // Contato - slide up
+    document.querySelectorAll('.contact-item, .contact-form').forEach(el => {
+        el.classList.add('slide-in-up');
+        observer.observe(el);
+    });
+
+    // Títulos das seções - fade in especial
+    document.querySelectorAll('.section-title').forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
+    });
+
+    // Subtítulos - fade in com delay
+    document.querySelectorAll('.section-subtitle').forEach(el => {
+        el.classList.add('fade-in', 'delay-200');
+        observer.observe(el);
+    });
+}
+
+// Parallax scrolling para elementos especiais
+function initializeParallax() {
+    const parallaxElements = document.querySelectorAll('.parallax-element');
+
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset;
+
+        parallaxElements.forEach(el => {
+            const speed = el.dataset.speed || 0.5;
+            const yPos = -(scrollTop * speed);
+            el.style.transform = `translateY(${yPos}px)`;
+        });
+    });
+}
+
+// Micro-interações para botões
+function initializeMicroInteractions() {
+    // Efeito ripple nos botões
+    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+        button.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.6);
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                width: ${size}px;
+                height: ${size}px;
+                left: ${x}px;
+                top: ${y}px;
+                pointer-events: none;
+            `;
+
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Hover effects para cards
+    document.querySelectorAll('.room-card, .facility-item').forEach(card => {
+        card.classList.add('hover-lift');
+
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-12px) rotateY(5deg)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) rotateY(0deg)';
+        });
+    });
+
+    // Efeito glow nos botões principais
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        btn.classList.add('hover-glow');
     });
 }
 
