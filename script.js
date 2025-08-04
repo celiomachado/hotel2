@@ -5,18 +5,18 @@ let hotelData = {
     rooms: [
         {
             id: 'standard',
-            name: 'Quarto Standard',
-            description: 'Confortável quarto com vista para o jardim, perfeito para relaxar após um dia de aventuras.',
+            name: 'Apartamento Standard',
+            description: 'Apartamento confortável com vista para o jardim, perfeito para relaxar após um dia de aventuras.',
             price: 280,
-            features: ['Wi-Fi Gratuito', 'Ar Condicionado', 'TV Smart', 'Frigobar'],
+            features: ['WiFi', 'Ar Condicionado', 'TV Smart', 'Frigobar', 'Serviço de Quarto'],
             capacity: 2
         },
         {
             id: 'deluxe',
-            name: 'Quarto Deluxe',
-            description: 'Espaçoso quarto com varanda privativa e vista parcial da serra.',
+            name: 'Apartamento Deluxe',
+            description: 'Espaçoso apartamento com varanda privativa e vista parcial da serra.',
             price: 380,
-            features: ['Wi-Fi Gratuito', 'Ar Condicionado', 'TV Smart', 'Frigobar', 'Varanda', 'Cofre'],
+            features: ['WiFi', 'Ar Condicionado', 'TV Smart', 'Frigobar', 'Varanda', 'Cofre', 'Serviço de Quarto'],
             capacity: 3
         },
         {
@@ -24,7 +24,7 @@ let hotelData = {
             name: 'Suíte Premium',
             description: 'Nossa suíte mais luxuosa com vista panorâmica da Serra do Roncador.',
             price: 580,
-            features: ['Wi-Fi Gratuito', 'Ar Condicionado', 'TV Smart', 'Frigobar', 'Varanda', 'Cofre', 'Banheira', 'Sala de Estar'],
+            features: ['WiFi', 'Ar Condicionado', 'TV Smart', 'Frigobar', 'Varanda', 'Cofre', 'Banheira', 'Sala de Estar', 'Serviço de Quarto'],
             capacity: 4
         }
     ],
