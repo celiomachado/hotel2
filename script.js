@@ -77,7 +77,24 @@ let hotelData = {
             description: 'Apartamento moderno e confortável equipado com todas as comodidades essenciais.',
             price: 280,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Serviço de Quarto'],
-            capacity: 2
+            capacity: 2,
+            images: [
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2Ff3d2ef19a657470183f2b6f40c843758?format=webp&width=1200',
+                    alt: 'Apartamento Standard - Vista Geral',
+                    description: 'Apartamento aconchegante com decoração moderna e todas as comodidades essenciais'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=1200',
+                    alt: 'Apartamento Standard - Área Externa',
+                    description: 'Vista da área externa e jardim do hotel'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=1200',
+                    alt: 'Apartamento Standard - Fachada',
+                    description: 'Fachada moderna do Hotel Serra do Roncador'
+                }
+            ]
         },
         {
             id: 'deluxe',
@@ -85,7 +102,24 @@ let hotelData = {
             description: 'Apartamento espaçoso com comodidades premium e ambiente sofisticado.',
             price: 380,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Serviço de Quarto'],
-            capacity: 3
+            capacity: 3,
+            images: [
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2Fe7b58cf3f12c45ec90b7e7626c5a101e?format=webp&width=1200',
+                    alt: 'Apartamento Deluxe - Vista Geral',
+                    description: 'Apartamento espaçoso com decoração elegante e comodidades premium'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=1200',
+                    alt: 'Apartamento Deluxe - Área da Piscina',
+                    description: 'Área de lazer com piscina e vista privilegiada'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=1200',
+                    alt: 'Apartamento Deluxe - Jardim',
+                    description: 'Bela vista do jardim e área verde do hotel'
+                }
+            ]
         },
         {
             id: 'suite',
@@ -93,7 +127,24 @@ let hotelData = {
             description: 'Nossa suíte mais luxuosa com amplo espaço e vista privilegiada.',
             price: 580,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Banheira', 'Sala de Estar', 'Serviço de Quarto'],
-            capacity: 4
+            capacity: 4,
+            images: [
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F84b98a812b3e463c9a7b303544089fbf?format=webp&width=1200',
+                    alt: 'Suíte Premium - Vista Geral',
+                    description: 'Suíte luxuosa com amplo espaço e decoração sofisticada'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=1200',
+                    alt: 'Suíte Premium - Vista Externa',
+                    description: 'Vista externa do hotel com arquitetura moderna'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=1200',
+                    alt: 'Suíte Premium - Área de Lazer',
+                    description: 'Área de lazer exclusiva com piscina e ambiente relaxante'
+                }
+            ]
         }
     ],
     
