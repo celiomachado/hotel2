@@ -203,7 +203,7 @@ p {
     min-height: 100vh;
     display: flex;
     align-items: center;
-    padding-top: 100px;
+    padding-top: 80px;
     background: linear-gradient(135deg, var(--areia-clara) 0%, var(--cinza-claro) 100%);
     position: relative;
     overflow: hidden;
