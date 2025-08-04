@@ -513,7 +513,9 @@ function clearOldData() {
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
     // Render initial content
-    renderRooms();
+    setTimeout(() => {
+        renderRooms();
+    }, 100);
     
     // Navigation
     document.querySelector('.nav-toggle').addEventListener('click', function() {
