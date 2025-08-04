@@ -195,7 +195,7 @@ function renderRooms() {
 
         roomCard.innerHTML = `
             <div class="room-image">
-                <img src="${roomImages[room.id]}" alt="${room.name}" class="room-img">
+                <img src="${roomImages[room.id]}" alt="${room.name}" class="room-img" loading="lazy" onerror="this.style.display='none'">
             </div>
             <div class="room-content">
                 <h3 class="room-title">${room.name}</h3>
