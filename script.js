@@ -582,8 +582,12 @@ function clearOldData() {
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize carousel
+    initCarousel();
     initCarouselEvents();
-    startCarousel();
+
+    if (totalSlides > 1) {
+        startCarousel();
+    }
 
     // Render initial content
     setTimeout(() => {
