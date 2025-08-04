@@ -186,7 +186,9 @@ function renderRooms() {
     hotelData.rooms.forEach(room => {
         const roomCard = document.createElement('div');
         roomCard.className = 'room-card';
-        
+
+        console.log('Rendering room:', room.id); // Debug log
+
         roomCard.innerHTML = `
             <div class="room-image ${room.id}">
             </div>
