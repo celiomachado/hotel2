@@ -814,6 +814,11 @@ p {
         flex-direction: column;
         text-align: center;
         padding: 120px 20px 50px;
+        background-attachment: scroll;
+    }
+
+    .exterior-image {
+        background-attachment: scroll;
     }
 
     .hero-title {
