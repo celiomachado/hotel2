@@ -13,8 +13,7 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <i class="fas fa-mountain"></i>
-                <span>Hotel Serra do Roncador</span>
+                <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F44db49e73e454cd0b8ec8d9f531cea86?format=webp&width=200" alt="Hotel Serra do Roncador" class="nav-logo-image">
             </div>
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link">Início</a></li>
@@ -22,7 +21,7 @@
                 <li><a href="#sobre" class="nav-link">Sobre</a></li>
                 <li><a href="#contato" class="nav-link">Contato</a></li>
                 <li><a href="#guest-area" class="nav-link guest-access">Área do Hóspede</a></li>
-                <li><a href="#admin" class="nav-link admin-access">Admin</a></li>
+                <li><a href="admin.html" class="nav-link admin-access">Admin</a></li>
             </ul>
             <div class="nav-toggle">
                 <span></span>
@@ -281,17 +280,9 @@
                 <h2>Área do Hóspede</h2>
                 <p class="demo-message">Demonstração - Acesso liberado para testes do sistema</p>
                 <form id="guestLoginForm">
-                    <div class="form-group">
-                        <label for="guest-login-email">E-mail (demo)</label>
-                        <input type="email" id="guest-login-email" placeholder="Qualquer e-mail para teste" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="guest-code">Código (demo)</label>
-                        <input type="text" id="guest-code" placeholder="Qualquer código para teste" required>
-                    </div>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-user"></i>
-                        Acessar Área do Hóspede
+                        Entrar na Área do Hóspede
                     </button>
                 </form>
                 <div class="demo-info">
@@ -329,6 +320,31 @@
         </div>
     </div>
 
+    <!-- Image Gallery Modal -->
+    <div id="imageGalleryModal" class="modal gallery-modal">
+        <div class="gallery-modal-content">
+            <span class="close gallery-close" onclick="closeImageGallery()">&times;</span>
+            <div class="gallery-container">
+                <button class="gallery-btn prev" onclick="previousGalleryImage()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="gallery-main-image">
+                    <img id="galleryMainImage" src="" alt="Imagem do quarto em alta qualidade">
+                    <div class="image-info">
+                        <h3 id="galleryImageTitle"></h3>
+                        <p id="galleryImageDescription"></p>
+                    </div>
+                </div>
+                <button class="gallery-btn next" onclick="nextGalleryImage()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="gallery-thumbnails" id="galleryThumbnails">
+                <!-- Thumbnails will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -361,6 +377,14 @@
             </div>
         </div>
     </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/5566346820014?text=Olá! Gostaria de fazer uma reserva no Hotel Serra do Roncador" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i>
+            <span class="whatsapp-text">Fale Conosco</span>
+        </a>
+    </div>
 
     <script src="script.js"></script>
 </body>

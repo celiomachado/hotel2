@@ -77,7 +77,24 @@ let hotelData = {
             description: 'Apartamento moderno e confortável equipado com todas as comodidades essenciais.',
             price: 280,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Serviço de Quarto'],
-            capacity: 2
+            capacity: 2,
+            images: [
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2Ff3d2ef19a657470183f2b6f40c843758?format=webp&width=1200',
+                    alt: 'Apartamento Standard - Vista Geral',
+                    description: 'Apartamento aconchegante com decoração moderna e todas as comodidades essenciais'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=1200',
+                    alt: 'Apartamento Standard - Área Externa',
+                    description: 'Vista da área externa e jardim do hotel'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=1200',
+                    alt: 'Apartamento Standard - Fachada',
+                    description: 'Fachada moderna do Hotel Serra do Roncador'
+                }
+            ]
         },
         {
             id: 'deluxe',
@@ -85,7 +102,24 @@ let hotelData = {
             description: 'Apartamento espaçoso com comodidades premium e ambiente sofisticado.',
             price: 380,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Serviço de Quarto'],
-            capacity: 3
+            capacity: 3,
+            images: [
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2Fe7b58cf3f12c45ec90b7e7626c5a101e?format=webp&width=1200',
+                    alt: 'Apartamento Deluxe - Vista Geral',
+                    description: 'Apartamento espaçoso com decoração elegante e comodidades premium'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=1200',
+                    alt: 'Apartamento Deluxe - Área da Piscina',
+                    description: 'Área de lazer com piscina e vista privilegiada'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=1200',
+                    alt: 'Apartamento Deluxe - Jardim',
+                    description: 'Bela vista do jardim e área verde do hotel'
+                }
+            ]
         },
         {
             id: 'suite',
@@ -93,7 +127,24 @@ let hotelData = {
             description: 'Nossa suíte mais luxuosa com amplo espaço e vista privilegiada.',
             price: 580,
             features: ['Frigobar', 'TV', 'Ar Condicionado', 'Mesa de Trabalho', 'Internet Banda Larga', 'Wi-Fi', 'Varanda', 'Cofre', 'Banheira', 'Sala de Estar', 'Serviço de Quarto'],
-            capacity: 4
+            capacity: 4,
+            images: [
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F84b98a812b3e463c9a7b303544089fbf?format=webp&width=1200',
+                    alt: 'Suíte Premium - Vista Geral',
+                    description: 'Suíte luxuosa com amplo espaço e decoração sofisticada'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F2527191ae3454c8f85288dd6459e6cd8?format=webp&width=1200',
+                    alt: 'Suíte Premium - Vista Externa',
+                    description: 'Vista externa do hotel com arquitetura moderna'
+                },
+                {
+                    src: 'https://cdn.builder.io/api/v1/image/assets%2F1762ab1c919245729991c11ce81cbf92%2F633454aca8f64200ad9a4ac796b01b8a?format=webp&width=1200',
+                    alt: 'Suíte Premium - Área de Lazer',
+                    description: 'Área de lazer exclusiva com piscina e ambiente relaxante'
+                }
+            ]
         }
     ],
     
@@ -370,9 +421,13 @@ function renderRooms() {
         };
 
         roomCard.innerHTML = `
-            <div class="room-image ${room.id}">
+            <div class="room-image ${room.id}" onclick="openImageGallery('${room.id}')">
                 <i class="${roomIcons[room.id]}"></i>
                 <span>${room.name}</span>
+                <div class="image-overlay">
+                    <i class="fas fa-search-plus"></i>
+                    <span>Ver fotos</span>
+                </div>
             </div>
             <div class="room-content">
                 <h3 class="room-title">${room.name}</h3>
@@ -403,6 +458,82 @@ function selectRoom(roomId) {
         openBookingModal();
         updateBookingSummary();
     }
+}
+
+// Image Gallery Functions
+let currentGalleryRoom = null;
+let currentGalleryIndex = 0;
+
+function openImageGallery(roomId) {
+    const room = hotelData.rooms.find(r => r.id === roomId);
+    if (!room || !room.images || room.images.length === 0) return;
+
+    currentGalleryRoom = room;
+    currentGalleryIndex = 0;
+
+    const modal = document.getElementById('imageGalleryModal');
+    const mainImage = document.getElementById('galleryMainImage');
+    const imageTitle = document.getElementById('galleryImageTitle');
+    const imageDescription = document.getElementById('galleryImageDescription');
+    const thumbnailsContainer = document.getElementById('galleryThumbnails');
+
+    // Set main image
+    showGalleryImage(0);
+
+    // Create thumbnails
+    thumbnailsContainer.innerHTML = room.images.map((image, index) => `
+        <div class="gallery-thumbnail ${index === 0 ? 'active' : ''}" onclick="showGalleryImage(${index})">
+            <img src="${image.src}" alt="${image.alt}">
+        </div>
+    `).join('');
+
+    modal.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeImageGallery() {
+    const modal = document.getElementById('imageGalleryModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+    currentGalleryRoom = null;
+    currentGalleryIndex = 0;
+}
+
+function showGalleryImage(index) {
+    if (!currentGalleryRoom || !currentGalleryRoom.images) return;
+
+    const images = currentGalleryRoom.images;
+    if (index < 0 || index >= images.length) return;
+
+    currentGalleryIndex = index;
+    const image = images[index];
+
+    const mainImage = document.getElementById('galleryMainImage');
+    const imageTitle = document.getElementById('galleryImageTitle');
+    const imageDescription = document.getElementById('galleryImageDescription');
+
+    mainImage.src = image.src;
+    mainImage.alt = image.alt;
+    imageTitle.textContent = currentGalleryRoom.name;
+    imageDescription.textContent = image.description;
+
+    // Update thumbnail active state
+    const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+    thumbnails.forEach((thumb, i) => {
+        thumb.classList.toggle('active', i === index);
+    });
+}
+
+function nextGalleryImage() {
+    if (!currentGalleryRoom) return;
+    const nextIndex = (currentGalleryIndex + 1) % currentGalleryRoom.images.length;
+    showGalleryImage(nextIndex);
+}
+
+function previousGalleryImage() {
+    if (!currentGalleryRoom) return;
+    const prevIndex = (currentGalleryIndex - 1 + currentGalleryRoom.images.length) % currentGalleryRoom.images.length;
+    showGalleryImage(prevIndex);
 }
 
 // Booking System
@@ -1227,14 +1358,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Admin access
-    const adminAccess = document.querySelector('.admin-access');
-    if (adminAccess) {
-        adminAccess.addEventListener('click', function(e) {
-            e.preventDefault();
-            openAdminModal();
-        });
-    }
+    // Admin access - now redirects to admin.html page
+    // No need for event listener as it's a direct link
     
     // Booking form submission
     const bookingForm = document.getElementById('bookingForm');
@@ -1277,52 +1402,32 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Guest login
+    // Guest login - Simplified mock version
     const guestLoginForm = document.getElementById('guestLoginForm');
     if (guestLoginForm) {
         guestLoginForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const emailInput = document.getElementById('guest-login-email');
-            const codeInput = document.getElementById('guest-code');
+            // Mock guest data - no authentication required
+            const reservation = {
+                id: 'DEMO-001',
+                guestName: 'João Silva',
+                guestEmail: 'joao@exemplo.com',
+                checkin: new Date().toISOString().split('T')[0],
+                checkout: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                roomType: 'deluxe',
+                status: 'confirmed',
+                total: 1140
+            };
 
-            if (!emailInput || !codeInput) {
-                showNotification('Erro no formulário', 'error');
-                return;
-            }
-
-            const email = emailInput.value;
-            const code = codeInput.value;
-
-            const reservation = authenticateGuest(email, code);
-            if (reservation) {
-                document.getElementById('guestLoginView').style.display = 'none';
-                document.getElementById('guestDashboard').style.display = 'block';
-                renderGuestDashboard(reservation);
-            } else {
-                showNotification('Dados de acesso inválidos', 'error');
-            }
+            document.getElementById('guestLoginView').style.display = 'none';
+            document.getElementById('guestDashboard').style.display = 'block';
+            renderGuestDashboard(reservation);
+            showNotification('Acesso liberado! (Modo Demo)', 'success');
         });
     }
     
-    // Admin login - Modo demo simplificado
-    const adminLoginForm = document.getElementById('adminLoginForm');
-    if (adminLoginForm) {
-        adminLoginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Modo demo - aceita qualquer senha para demonstração
-            const adminLoginView = document.getElementById('adminLoginView');
-            const adminDashboard = document.getElementById('adminDashboard');
-
-            if (adminLoginView && adminDashboard) {
-                adminLoginView.style.display = 'none';
-                adminDashboard.style.display = 'block';
-                renderAdminDashboard();
-                showNotification('Acesso administrativo liberado! (Modo Demo)', 'success');
-            }
-        });
-    }
+    // Admin functionality moved to separate admin.html page
     
     // Booking form updates
     ['modal-checkin', 'modal-checkout', 'room-type'].forEach(id => {
@@ -1338,8 +1443,32 @@ document.addEventListener('DOMContentLoaded', function() {
         modals.forEach(modal => {
             if (e.target === modal) {
                 modal.style.display = 'none';
+                if (modal.id === 'imageGalleryModal') {
+                    document.body.style.overflow = 'auto';
+                }
             }
         });
+    });
+
+    // Keyboard navigation for image gallery
+    document.addEventListener('keydown', function(e) {
+        const galleryModal = document.getElementById('imageGalleryModal');
+        if (galleryModal && galleryModal.style.display === 'block') {
+            switch(e.key) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    previousGalleryImage();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    nextGalleryImage();
+                    break;
+                case 'Escape':
+                    e.preventDefault();
+                    closeImageGallery();
+                    break;
+            }
+        }
     });
     
     // Set minimum dates for booking
