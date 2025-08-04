@@ -329,6 +329,31 @@
         </div>
     </div>
 
+    <!-- Image Gallery Modal -->
+    <div id="imageGalleryModal" class="modal gallery-modal">
+        <div class="gallery-modal-content">
+            <span class="close gallery-close" onclick="closeImageGallery()">&times;</span>
+            <div class="gallery-container">
+                <button class="gallery-btn prev" onclick="previousGalleryImage()">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="gallery-main-image">
+                    <img id="galleryMainImage" src="" alt="Imagem do quarto em alta qualidade">
+                    <div class="image-info">
+                        <h3 id="galleryImageTitle"></h3>
+                        <p id="galleryImageDescription"></p>
+                    </div>
+                </div>
+                <button class="gallery-btn next" onclick="nextGalleryImage()">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            <div class="gallery-thumbnails" id="galleryThumbnails">
+                <!-- Thumbnails will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
