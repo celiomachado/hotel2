@@ -187,10 +187,15 @@ function renderRooms() {
         const roomCard = document.createElement('div');
         roomCard.className = 'room-card';
 
-        console.log('Rendering room:', room.id); // Debug log
+        const roomImages = {
+            'standard': 'https://images.pexels.com/photos/33259653/pexels-photo-33259653.jpeg',
+            'deluxe': 'https://images.pexels.com/photos/6466492/pexels-photo-6466492.jpeg',
+            'suite': 'https://images.pexels.com/photos/6466496/pexels-photo-6466496.jpeg'
+        };
 
         roomCard.innerHTML = `
-            <div class="room-image ${room.id}">
+            <div class="room-image">
+                <img src="${roomImages[room.id]}" alt="${room.name}" class="room-img">
             </div>
             <div class="room-content">
                 <h3 class="room-title">${room.name}</h3>
