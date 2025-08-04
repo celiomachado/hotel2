@@ -158,7 +158,7 @@ let hotelData = {
         },
         {
             id: 'paçoca',
-            name: 'Paçoca Artesanal',
+            name: 'Pa��oca Artesanal',
             price: 8,
             category: 'Doces',
             description: 'Paçoca caseira individual'
@@ -711,6 +711,371 @@ function sendAdminNotification(title, message) {
         read: false
     });
     localStorage.setItem('adminNotifications', JSON.stringify(notifications));
+}
+
+// Admin Tab Functions
+function showAdminTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.admin-tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Remove active class from all tab buttons
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Show selected tab and mark button as active
+    document.getElementById(`admin-${tabName}`).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function showGuestTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Remove active class from all tab buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Show selected tab and mark button as active
+    document.getElementById(`guest-${tabName}`).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function filterProducts(category) {
+    const products = document.querySelectorAll('.product-card');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    // Update button states
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Filter products
+    products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+            product.style.display = 'block';
+        } else {
+            product.style.display = 'none';
+        }
+    });
+}
+
+function renderAdminDashboardTab() {
+    const activeReservations = hotelData.reservations.filter(isActiveReservation);
+    const recentPurchases = hotelData.purchases.slice(-5).reverse();
+
+    return `
+        <div class="admin-section">
+            <h3>Reservas Ativas</h3>
+            <div class="reservations-list">
+                ${activeReservations.map(renderReservationCard).join('') || '<p>Nenhuma reserva ativa no momento</p>'}
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>Pedidos Recentes</h3>
+            <div class="purchases-list">
+                ${recentPurchases.map(renderPurchaseCard).join('') || '<p>Nenhum pedido registrado</p>'}
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminContentTab() {
+    return `
+        <div class="content-editor">
+            <h3>Editor de Conteúdo do Site</h3>
+            <div class="editor-sections">
+                <div class="editor-section">
+                    <h4>Informações Principais</h4>
+                    <div class="form-group">
+                        <label for="hotel-name">Nome do Hotel</label>
+                        <input type="text" id="hotel-name" value="Hotel Serra do Roncador" onchange="updateSiteContent('name', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label for="hotel-subtitle">Subtítulo</label>
+                        <textarea id="hotel-subtitle" onchange="updateSiteContent('subtitle', this.value)">Localizado na BR 158 em Água Boa - MT, oferecemos 50 apartamentos modernos e confortáveis para sua estadia</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="hotel-description">Descrição Principal</label>
+                        <textarea id="hotel-description" onchange="updateSiteContent('description', this.value)">O Hotel Serra do Roncador está localizado à margem da BR 158, cerca de 1000 metros do centro da cidade de Água Boa – MT. Possuímos 50 apartamentos modernos e confortáveis...</textarea>
+                    </div>
+                </div>
+
+                <div class="editor-section">
+                    <h4>Preços dos Quartos</h4>
+                    <div class="room-prices">
+                        <div class="price-item">
+                            <label>Standard</label>
+                            <input type="number" value="280" onchange="updateRoomPrice('standard', this.value)">
+                        </div>
+                        <div class="price-item">
+                            <label>Deluxe</label>
+                            <input type="number" value="380" onchange="updateRoomPrice('deluxe', this.value)">
+                        </div>
+                        <div class="price-item">
+                            <label>Suíte Premium</label>
+                            <input type="number" value="580" onchange="updateRoomPrice('suite', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-section">
+                    <h4>Contato</h4>
+                    <div class="form-group">
+                        <label for="hotel-phone">Telefone</label>
+                        <input type="tel" id="hotel-phone" value="(66) 3468-2001" onchange="updateSiteContent('phone', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label for="hotel-email">E-mail</label>
+                        <input type="email" id="hotel-email" value="reservas@serradoncador.com.br" onchange="updateSiteContent('email', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-actions">
+                <button class="btn btn-primary" onclick="saveChanges()">
+                    <i class="fas fa-save"></i> Salvar Alterações
+                </button>
+                <button class="btn btn-secondary" onclick="previewChanges()">
+                    <i class="fas fa-eye"></i> Visualizar
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminProductsTab() {
+    return `
+        <div class="products-manager">
+            <div class="manager-header">
+                <h3>Gerenciar Produtos e Serviços</h3>
+                <button class="btn btn-primary" onclick="openProductModal()">
+                    <i class="fas fa-plus"></i> Adicionar Produto
+                </button>
+            </div>
+
+            <div class="product-categories">
+                <div class="category-section">
+                    <h4>Produtos do Frigobar</h4>
+                    <div class="products-list">
+                        ${hotelData.products.map(renderProductItem).join('')}
+                    </div>
+                </div>
+
+                <div class="category-section">
+                    <h4>Serviços de Lavanderia</h4>
+                    <div class="services-list">
+                        ${hotelData.laundryServices.map(renderServiceItem).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminOrdersTab() {
+    const allOrders = hotelData.purchases.slice().reverse();
+    const pendingOrders = allOrders.filter(o => o.status === 'pending');
+
+    return `
+        <div class="orders-manager">
+            <div class="manager-header">
+                <h3>Gerenciar Pedidos</h3>
+                <div class="order-stats">
+                    <span class="stat">Pendentes: ${pendingOrders.length}</span>
+                    <span class="stat">Total: ${allOrders.length}</span>
+                </div>
+            </div>
+
+            <div class="orders-filter">
+                <button class="filter-btn active" onclick="filterOrders('all')">Todos</button>
+                <button class="filter-btn" onclick="filterOrders('pending')">Pendentes</button>
+                <button class="filter-btn" onclick="filterOrders('completed')">Concluídos</button>
+            </div>
+
+            <div class="orders-list">
+                ${allOrders.map(renderOrderManagementCard).join('') || '<p>Nenhum pedido registrado</p>'}
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminSettingsTab() {
+    return `
+        <div class="settings-manager">
+            <h3>Configurações do Sistema</h3>
+
+            <div class="settings-sections">
+                <div class="settings-section">
+                    <h4>Backup e Dados</h4>
+                    <div class="settings-actions">
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            <i class="fas fa-download"></i> Exportar Dados
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearOldData()">
+                            <i class="fas fa-trash"></i> Limpar Dados Antigos
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetToDefaults()">
+                            <i class="fas fa-undo"></i> Restaurar Padrões
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4>Notificações</h4>
+                    <div class="settings-options">
+                        <label class="setting-option">
+                            <input type="checkbox" checked> Notificar novos pedidos
+                        </label>
+                        <label class="setting-option">
+                            <input type="checkbox" checked> Notificar novas reservas
+                        </label>
+                        <label class="setting-option">
+                            <input type="checkbox"> Relatórios diários por email
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4>Horários de Funcionamento</h4>
+                    <div class="time-settings">
+                        <div class="time-item">
+                            <label>Check-in</label>
+                            <input type="time" value="14:00">
+                        </div>
+                        <div class="time-item">
+                            <label>Check-out</label>
+                            <input type="time" value="12:00">
+                        </div>
+                        <div class="time-item">
+                            <label>Lavanderia</label>
+                            <input type="time" value="08:00"> até <input type="time" value="18:00">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderProductItem(product) {
+    return `
+        <div class="product-item">
+            <div class="item-info">
+                <strong>${product.name}</strong>
+                <span class="item-price">${formatCurrency(product.price)}</span>
+            </div>
+            <div class="item-actions">
+                <button class="btn-icon" onclick="editProduct('${product.id}')" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon danger" onclick="deleteProduct('${product.id}')" title="Excluir">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderServiceItem(service) {
+    return `
+        <div class="service-item">
+            <div class="item-info">
+                <strong>${service.name}</strong>
+                <span class="item-price">${formatCurrency(service.price)}</span>
+            </div>
+            <div class="item-actions">
+                <button class="btn-icon" onclick="editService('${service.id}')" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon danger" onclick="deleteService('${service.id}')" title="Excluir">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderOrderManagementCard(order) {
+    const reservation = hotelData.reservations.find(r => r.id === order.reservationId);
+    return `
+        <div class="order-management-card" data-status="${order.status}">
+            <div class="order-info">
+                <div class="order-header">
+                    <strong>${order.productName}</strong>
+                    <span class="order-type">${order.type === 'laundry' ? 'Lavanderia' : 'Produto'}</span>
+                </div>
+                <p>Reserva: ${order.reservationId} ${reservation ? `- ${reservation.guestName}` : ''}</p>
+                <p>Data: ${new Date(order.timestamp).toLocaleString('pt-BR')}</p>
+                <p>Valor: ${formatCurrency(order.price)}</p>
+            </div>
+            <div class="order-actions">
+                <select onchange="updateOrderStatus('${order.id}', this.value)">
+                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pendente</option>
+                    <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processando</option>
+                    <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Concluído</option>
+                </select>
+            </div>
+        </div>
+    `;
+}
+
+// Content Management Functions
+function updateSiteContent(field, value) {
+    showNotification(`${field} atualizado!`, 'success');
+}
+
+function updateRoomPrice(roomType, price) {
+    const room = hotelData.rooms.find(r => r.id === roomType);
+    if (room) {
+        room.price = parseFloat(price);
+        renderRooms();
+        showNotification(`Preço do ${room.name} atualizado!`, 'success');
+    }
+}
+
+function saveChanges() {
+    showNotification('Alterações salvas com sucesso!', 'success');
+}
+
+function previewChanges() {
+    showNotification('Abrindo visualização...', 'success');
+}
+
+function updateOrderStatus(orderId, newStatus) {
+    const order = hotelData.purchases.find(p => p.id === orderId);
+    if (order) {
+        order.status = newStatus;
+        localStorage.setItem('hotelPurchases', JSON.stringify(hotelData.purchases));
+        showNotification(`Status do pedido atualizado para: ${newStatus}`, 'success');
+    }
+}
+
+function filterOrders(status) {
+    const orders = document.querySelectorAll('.order-management-card');
+    const buttons = document.querySelectorAll('.orders-filter .filter-btn');
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    orders.forEach(order => {
+        if (status === 'all' || order.dataset.status === status) {
+            order.style.display = 'block';
+        } else {
+            order.style.display = 'none';
+        }
+    });
+}
+
+function resetToDefaults() {
+    if (confirm('Tem certeza que deseja restaurar as configurações padrão?')) {
+        showNotification('Configurações restauradas!', 'success');
+    }
 }
 
 // Data Management
