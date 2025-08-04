@@ -98,40 +98,49 @@ let hotelData = {
     ],
     
     products: [
+        // Bebidas
         {
             id: 'agua',
             name: 'Água Mineral 500ml',
             price: 8,
             category: 'Bebidas',
-            description: 'Água mineral natural'
+            description: 'Água mineral natural gelada'
         },
         {
             id: 'refrigerante',
             name: 'Refrigerante Lata 350ml',
             price: 12,
             category: 'Bebidas',
-            description: 'Coca-Cola, Pepsi, Guaraná'
+            description: 'Coca-Cola, Pepsi, Guaraná Antarctica'
         },
         {
             id: 'cerveja',
             name: 'Cerveja Long Neck',
             price: 18,
             category: 'Bebidas',
-            description: 'Cervejas nacionais e importadas'
+            description: 'Skol, Brahma, Heineken'
         },
         {
-            id: 'snack',
-            name: 'Mix de Castanhas',
-            price: 25,
-            category: 'Snacks',
-            description: 'Mix gourmet de castanhas do cerrado'
+            id: 'suco',
+            name: 'Suco Natural 300ml',
+            price: 15,
+            category: 'Bebidas',
+            description: 'Laranja, maracujá, abacaxi'
         },
+        {
+            id: 'energetico',
+            name: 'Energético Red Bull',
+            price: 22,
+            category: 'Bebidas',
+            description: 'Energético 250ml gelado'
+        },
+        // Snacks e Doces
         {
             id: 'chocolate',
             name: 'Chocolate Artesanal',
             price: 35,
             category: 'Doces',
-            description: 'Chocolate artesanal local'
+            description: 'Chocolate local com castanha do cerrado'
         },
         {
             id: 'biscoito',
@@ -139,6 +148,87 @@ let hotelData = {
             price: 22,
             category: 'Snacks',
             description: 'Biscoitos artesanais da região'
+        },
+        {
+            id: 'amendoim',
+            name: 'Amendoim Doce',
+            price: 12,
+            category: 'Snacks',
+            description: 'Amendoim doce caseiro'
+        },
+        {
+            id: 'paçoca',
+            name: 'Paçoca Artesanal',
+            price: 8,
+            category: 'Doces',
+            description: 'Paçoca caseira individual'
+        },
+        // Produtos de Higiene
+        {
+            id: 'kit_higiene',
+            name: 'Kit Higiene Completo',
+            price: 45,
+            category: 'Higiene',
+            description: 'Shampoo, condicionador, sabonete'
+        },
+        {
+            id: 'escova_dental',
+            name: 'Kit Dental',
+            price: 25,
+            category: 'Higiene',
+            description: 'Escova, pasta de dente, fio dental'
+        }
+    ],
+
+    laundryServices: [
+        {
+            id: 'camisa',
+            name: 'Camisa Social',
+            price: 10,
+            category: 'Roupas',
+            description: 'Lavagem e passagem profissional'
+        },
+        {
+            id: 'calca',
+            name: 'Calça',
+            price: 15,
+            category: 'Roupas',
+            description: 'Lavagem e passagem'
+        },
+        {
+            id: 'terno',
+            name: 'Terno Completo',
+            price: 30,
+            category: 'Roupas',
+            description: 'Lavagem a seco e passagem'
+        },
+        {
+            id: 'vestido',
+            name: 'Vestido',
+            price: 20,
+            category: 'Roupas',
+            description: 'Lavagem delicada e passagem'
+        },
+        {
+            id: 'roupa_intima',
+            name: 'Roupas Íntimas (5 peças)',
+            price: 12,
+            category: 'Roupas',
+            description: 'Lavagem sanitária'
+        },
+        {
+            id: 'sapato',
+            name: 'Limpeza de Sapatos',
+            price: 18,
+            category: 'Calçados',
+            description: 'Limpeza e lustração profissional'
+        },
+        {
+            id: 'lavagem_expressa',
+            name: 'Lavagem Expressa (2h)',
+            price: 25,
+            category: 'Serviços',
+            description: 'Lavagem rápida até 3 peças'
         }
     ],
     
@@ -147,7 +237,9 @@ let hotelData = {
 };
 
 // Admin Configuration
-const ADMIN_PASSWORD = 'serra2024';
+const ADMIN_PASSWORD = 'admin123';
+let adminMode = false;
+let guestMode = false;
 
 // Utility Functions
 function generateReservationCode() {
@@ -335,18 +427,28 @@ function processBooking(formData) {
     return reservation;
 }
 
-// Guest Area
+// Guest Area - Mock mode (sem login real)
 function authenticateGuest(email, reservationCode) {
-    return hotelData.reservations.find(r => 
-        r.guestEmail.toLowerCase() === email.toLowerCase() && 
-        r.id === reservationCode
-    );
+    // Modo demo - aceita qualquer email/código para demonstração
+    if (email && reservationCode) {
+        return {
+            id: 'DEMO-001',
+            guestName: 'João Silva',
+            guestEmail: email,
+            checkin: new Date().toISOString().split('T')[0],
+            checkout: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            roomType: 'deluxe',
+            status: 'confirmed',
+            total: 1140
+        };
+    }
+    return null;
 }
 
 function renderGuestDashboard(reservation) {
     const dashboard = document.getElementById('guestDashboard');
-    const isActive = isActiveReservation(reservation);
-    
+    guestMode = true;
+
     dashboard.innerHTML = `
         <h2>Bem-vindo, ${reservation.guestName.split(' ')[0]}!</h2>
         <div class="guest-info">
@@ -354,47 +456,61 @@ function renderGuestDashboard(reservation) {
                 <h3>Sua Reserva</h3>
                 <p><strong>Código:</strong> ${reservation.id}</p>
                 <p><strong>Período:</strong> ${formatDate(reservation.checkin)} - ${formatDate(reservation.checkout)}</p>
-                <p><strong>Quarto:</strong> ${hotelData.rooms.find(r => r.id === reservation.roomType).name}</p>
-                <p><strong>Status:</strong> <span class="status ${reservation.status}">${reservation.status === 'confirmed' ? 'Confirmada' : reservation.status}</span></p>
+                <p><strong>Quarto:</strong> ${hotelData.rooms.find(r => r.id === reservation.roomType)?.name || 'Apartamento Deluxe'}</p>
+                <p><strong>Status:</strong> <span class="status confirmed">Ativa</span></p>
             </div>
-            
-            ${isActive ? `
-                <div class="qr-section">
-                    <h3><i class="fas fa-qrcode"></i> Seu QR Code</h3>
-                    <div class="qr-code" data-reservation="${reservation.id}">
-                        <div class="qr-placeholder">
-                            <i class="fas fa-qrcode"></i>
-                            <p>QR Code do Quarto</p>
-                            <small>${reservation.id}</small>
-                        </div>
-                    </div>
-                    <p>Use este QR Code para comprar produtos e serviços</p>
+
+            <div class="guest-services">
+                <div class="service-tabs">
+                    <button class="tab-btn active" onclick="showGuestTab('products')">Produtos</button>
+                    <button class="tab-btn" onclick="showGuestTab('laundry')">Lavanderia</button>
+                    <button class="tab-btn" onclick="showGuestTab('orders')">Meus Pedidos</button>
                 </div>
-                
-                <div class="products-section">
+
+                <div id="guest-products" class="tab-content active">
                     <h3><i class="fas fa-shopping-cart"></i> Produtos Disponíveis</h3>
+                    <div class="category-filter">
+                        <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
+                        <button class="filter-btn" onclick="filterProducts('Bebidas')">Bebidas</button>
+                        <button class="filter-btn" onclick="filterProducts('Snacks')">Snacks</button>
+                        <button class="filter-btn" onclick="filterProducts('Doces')">Doces</button>
+                        <button class="filter-btn" onclick="filterProducts('Higiene')">Higiene</button>
+                    </div>
                     <div class="products-grid">
                         ${renderGuestProducts(reservation.id)}
                     </div>
                 </div>
-            ` : `
-                <div class="inactive-message">
-                    <i class="fas fa-info-circle"></i>
-                    <p>Os produtos estarão disponíveis durante sua estadia (${formatDate(reservation.checkin)} - ${formatDate(reservation.checkout)})</p>
+
+                <div id="guest-laundry" class="tab-content">
+                    <h3><i class="fas fa-tshirt"></i> Serviços de Lavanderia</h3>
+                    <p class="service-info">Horário de coleta: 08:00 às 18:00 | Entrega em 24h</p>
+                    <div class="laundry-grid">
+                        ${renderLaundryServices(reservation.id)}
+                    </div>
                 </div>
-            `}
+
+                <div id="guest-orders" class="tab-content">
+                    <h3><i class="fas fa-list"></i> Meus Pedidos</h3>
+                    <div class="orders-list">
+                        ${renderGuestOrders(reservation.id)}
+                    </div>
+                </div>
+            </div>
         </div>
     `;
 }
 
 function renderGuestProducts(reservationId) {
     return hotelData.products.map(product => `
-        <div class="product-card">
-            <h4>${product.name}</h4>
+        <div class="product-card" data-category="${product.category}">
+            <div class="product-header">
+                <h4>${product.name}</h4>
+                <span class="product-category">${product.category}</span>
+            </div>
             <p class="product-description">${product.description}</p>
             <div class="product-footer">
                 <span class="product-price">${formatCurrency(product.price)}</span>
-                <button class="btn btn-primary btn-small" onclick="addToCart('${product.id}', '${reservationId}')">
+                <button class="btn btn-primary btn-small" onclick="addToCart('${product.id}', '${reservationId}', 'product')">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
@@ -402,25 +518,82 @@ function renderGuestProducts(reservationId) {
     `).join('');
 }
 
-function addToCart(productId, reservationId) {
-    const product = hotelData.products.find(p => p.id === productId);
+function renderLaundryServices(reservationId) {
+    return hotelData.laundryServices.map(service => `
+        <div class="service-card">
+            <div class="service-header">
+                <h4>${service.name}</h4>
+                <span class="service-category">${service.category}</span>
+            </div>
+            <p class="service-description">${service.description}</p>
+            <div class="service-footer">
+                <span class="service-price">${formatCurrency(service.price)}</span>
+                <button class="btn btn-primary btn-small" onclick="addToCart('${service.id}', '${reservationId}', 'laundry')">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderGuestOrders(reservationId) {
+    const userOrders = hotelData.purchases.filter(p => p.reservationId === reservationId);
+    if (userOrders.length === 0) {
+        return '<p class="no-orders">Nenhum pedido realizado ainda.</p>';
+    }
+
+    return userOrders.reverse().map(order => `
+        <div class="order-card">
+            <div class="order-header">
+                <strong>${order.productName}</strong>
+                <span class="order-price">${formatCurrency(order.price)}</span>
+            </div>
+            <p class="order-time">${new Date(order.timestamp).toLocaleString('pt-BR')}</p>
+            <span class="order-status ${order.status}">${order.status === 'pending' ? 'Processando' : 'Entregue'}</span>
+        </div>
+    `).join('');
+}
+
+function addToCart(itemId, reservationId, type = 'product') {
+    let item;
+    if (type === 'product') {
+        item = hotelData.products.find(p => p.id === itemId);
+    } else {
+        item = hotelData.laundryServices.find(s => s.id === itemId);
+    }
+
+    if (!item) return;
+
     const purchase = {
         id: Date.now().toString(),
         reservationId,
-        productId,
-        productName: product.name,
-        price: product.price,
+        productId: itemId,
+        productName: item.name,
+        price: item.price,
+        type: type,
         timestamp: new Date().toISOString(),
         status: 'pending'
     };
-    
+
     hotelData.purchases.push(purchase);
     localStorage.setItem('hotelPurchases', JSON.stringify(hotelData.purchases));
-    
+
     // Send admin notification
-    sendAdminNotification('Nova Compra', `Produto: ${product.name} - Reserva: ${reservationId}`);
-    
-    showNotification(`${product.name} adicionado ao seu consumo!`);
+    sendAdminNotification('Novo Pedido', `${type === 'product' ? 'Produto' : 'Serviço'}: ${item.name} - Reserva: ${reservationId}`);
+
+    showNotification(`${item.name} adicionado aos seus pedidos!`);
+
+    // Refresh orders tab if it's active
+    if (document.getElementById('guest-orders').classList.contains('active')) {
+        setTimeout(() => {
+            document.getElementById('guest-orders').innerHTML = `
+                <h3><i class="fas fa-list"></i> Meus Pedidos</h3>
+                <div class="orders-list">
+                    ${renderGuestOrders(reservationId)}
+                </div>
+            `;
+        }, 500);
+    }
 }
 
 // Admin Panel
@@ -430,17 +603,19 @@ function authenticateAdmin(password) {
 
 function renderAdminDashboard() {
     const dashboard = document.getElementById('adminDashboard');
-    
+    adminMode = true;
+
     const activeReservations = hotelData.reservations.filter(isActiveReservation);
     const todayPurchases = hotelData.purchases.filter(p => {
         const today = new Date().toDateString();
         const purchaseDate = new Date(p.timestamp).toDateString();
         return today === purchaseDate;
     });
-    
+
     dashboard.innerHTML = `
         <div class="admin-header">
             <h2>Painel Administrativo</h2>
+            <p class="admin-welcome">Sistema de gestão completa do Hotel Serra do Roncador</p>
             <div class="admin-stats">
                 <div class="stat-card">
                     <h3>${hotelData.reservations.length}</h3>
@@ -452,36 +627,42 @@ function renderAdminDashboard() {
                 </div>
                 <div class="stat-card">
                     <h3>${todayPurchases.length}</h3>
-                    <p>Compras Hoje</p>
+                    <p>Pedidos Hoje</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${formatCurrency(todayPurchases.reduce((sum, p) => sum + p.price, 0))}</h3>
+                    <p>Faturamento Hoje</p>
                 </div>
             </div>
         </div>
-        
-        <div class="admin-sections">
-            <div class="admin-section">
-                <h3>Reservas Ativas</h3>
-                <div class="reservations-list">
-                    ${activeReservations.map(renderReservationCard).join('') || '<p>Nenhuma reserva ativa</p>'}
-                </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="showAdminTab('dashboard')">Dashboard</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('content')">Editar Site</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('products')">Produtos</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('orders')">Pedidos</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('settings')">Configurações</button>
+        </div>
+
+        <div class="admin-content">
+            <div id="admin-dashboard" class="admin-tab-content active">
+                ${renderAdminDashboardTab()}
             </div>
-            
-            <div class="admin-section">
-                <h3>Compras Recentes</h3>
-                <div class="purchases-list">
-                    ${hotelData.purchases.slice(-10).reverse().map(renderPurchaseCard).join('') || '<p>Nenhuma compra registrada</p>'}
-                </div>
+
+            <div id="admin-content" class="admin-tab-content">
+                ${renderAdminContentTab()}
             </div>
-            
-            <div class="admin-section">
-                <h3>Gestão</h3>
-                <div class="admin-actions">
-                    <button class="btn btn-secondary" onclick="exportData()">
-                        <i class="fas fa-download"></i> Exportar Dados
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearOldData()">
-                        <i class="fas fa-trash"></i> Limpar Dados Antigos
-                    </button>
-                </div>
+
+            <div id="admin-products" class="admin-tab-content">
+                ${renderAdminProductsTab()}
+            </div>
+
+            <div id="admin-orders" class="admin-tab-content">
+                ${renderAdminOrdersTab()}
+            </div>
+
+            <div id="admin-settings" class="admin-tab-content">
+                ${renderAdminSettingsTab()}
             </div>
         </div>
     `;
