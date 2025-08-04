@@ -2,9 +2,9 @@
 
 // Carousel functionality
 let currentSlideIndex = 0;
-const slides = document.querySelectorAll('.carousel-slide');
-const indicators = document.querySelectorAll('.indicator');
-const totalSlides = slides.length;
+let slides = [];
+let indicators = [];
+let totalSlides = 0;
 
 function showSlide(index) {
     // Remove active class from all slides and indicators
