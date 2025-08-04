@@ -203,12 +203,9 @@ p {
     display: flex;
     align-items: center;
     padding-top: 100px;
-    background:
-        linear-gradient(135deg, rgba(232, 220, 192, 0.85) 0%, rgba(245, 245, 245, 0.85) 100%),
-        url('https://images.pexels.com/photos/2329655/pexels-photo-2329655.jpeg') center/cover;
+    background: linear-gradient(135deg, var(--areia-clara) 0%, var(--cinza-claro) 100%);
     position: relative;
     overflow: hidden;
-    background-attachment: fixed;
 }
 
 .hero-content {
