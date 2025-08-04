@@ -1342,3 +1342,10 @@ p {
     0% { box-shadow: 0 0 0 0 rgba(184, 52, 28, 0.4); }
     100% { box-shadow: 0 0 0 20px rgba(184, 52, 28, 0); }
 }
+
+@keyframes ripple {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
