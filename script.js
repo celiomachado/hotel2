@@ -306,12 +306,17 @@ function showNotification(message, type = 'success') {
 // Modal Functions
 function openBookingModal() {
     const modal = document.getElementById('bookingModal');
+    if (!modal) return;
+
     modal.style.display = 'block';
-    
+
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('modal-checkin').min = today;
-    document.getElementById('modal-checkout').min = today;
+    const checkinInput = document.getElementById('modal-checkin');
+    const checkoutInput = document.getElementById('modal-checkout');
+
+    if (checkinInput) checkinInput.min = today;
+    if (checkoutInput) checkoutInput.min = today;
 }
 
 function closeBookingModal() {
