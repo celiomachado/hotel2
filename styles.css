@@ -36,6 +36,16 @@
     box-sizing: border-box;
 }
 
+/* Ensure images load properly */
+.placeholder-image,
+.room-image,
+.exterior-image {
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center !important;
+    min-height: 200px;
+}
+
 body {
     font-family: var(--font-primary);
     line-height: 1.6;
