@@ -801,6 +801,19 @@ p {
         margin-top: 2rem;
     }
 
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+    }
+
+    .carousel-btn i {
+        font-size: 1rem;
+    }
+
+    .carousel-navigation {
+        padding: 0 10px;
+    }
+
     .about-content {
         grid-template-columns: 1fr;
         gap: 2rem;
