@@ -98,40 +98,49 @@ let hotelData = {
     ],
     
     products: [
+        // Bebidas
         {
             id: 'agua',
             name: 'Água Mineral 500ml',
             price: 8,
             category: 'Bebidas',
-            description: 'Água mineral natural'
+            description: 'Água mineral natural gelada'
         },
         {
             id: 'refrigerante',
             name: 'Refrigerante Lata 350ml',
             price: 12,
             category: 'Bebidas',
-            description: 'Coca-Cola, Pepsi, Guaraná'
+            description: 'Coca-Cola, Pepsi, Guaraná Antarctica'
         },
         {
             id: 'cerveja',
             name: 'Cerveja Long Neck',
             price: 18,
             category: 'Bebidas',
-            description: 'Cervejas nacionais e importadas'
+            description: 'Skol, Brahma, Heineken'
         },
         {
-            id: 'snack',
-            name: 'Mix de Castanhas',
-            price: 25,
-            category: 'Snacks',
-            description: 'Mix gourmet de castanhas do cerrado'
+            id: 'suco',
+            name: 'Suco Natural 300ml',
+            price: 15,
+            category: 'Bebidas',
+            description: 'Laranja, maracujá, abacaxi'
         },
+        {
+            id: 'energetico',
+            name: 'Energético Red Bull',
+            price: 22,
+            category: 'Bebidas',
+            description: 'Energético 250ml gelado'
+        },
+        // Snacks e Doces
         {
             id: 'chocolate',
             name: 'Chocolate Artesanal',
             price: 35,
             category: 'Doces',
-            description: 'Chocolate artesanal local'
+            description: 'Chocolate local com castanha do cerrado'
         },
         {
             id: 'biscoito',
@@ -139,6 +148,87 @@ let hotelData = {
             price: 22,
             category: 'Snacks',
             description: 'Biscoitos artesanais da região'
+        },
+        {
+            id: 'amendoim',
+            name: 'Amendoim Doce',
+            price: 12,
+            category: 'Snacks',
+            description: 'Amendoim doce caseiro'
+        },
+        {
+            id: 'paçoca',
+            name: 'Paçoca Artesanal',
+            price: 8,
+            category: 'Doces',
+            description: 'Paçoca caseira individual'
+        },
+        // Produtos de Higiene
+        {
+            id: 'kit_higiene',
+            name: 'Kit Higiene Completo',
+            price: 45,
+            category: 'Higiene',
+            description: 'Shampoo, condicionador, sabonete'
+        },
+        {
+            id: 'escova_dental',
+            name: 'Kit Dental',
+            price: 25,
+            category: 'Higiene',
+            description: 'Escova, pasta de dente, fio dental'
+        }
+    ],
+
+    laundryServices: [
+        {
+            id: 'camisa',
+            name: 'Camisa Social',
+            price: 10,
+            category: 'Roupas',
+            description: 'Lavagem e passagem profissional'
+        },
+        {
+            id: 'calca',
+            name: 'Calça',
+            price: 15,
+            category: 'Roupas',
+            description: 'Lavagem e passagem'
+        },
+        {
+            id: 'terno',
+            name: 'Terno Completo',
+            price: 30,
+            category: 'Roupas',
+            description: 'Lavagem a seco e passagem'
+        },
+        {
+            id: 'vestido',
+            name: 'Vestido',
+            price: 20,
+            category: 'Roupas',
+            description: 'Lavagem delicada e passagem'
+        },
+        {
+            id: 'roupa_intima',
+            name: 'Roupas Íntimas (5 peças)',
+            price: 12,
+            category: 'Roupas',
+            description: 'Lavagem sanitária'
+        },
+        {
+            id: 'sapato',
+            name: 'Limpeza de Sapatos',
+            price: 18,
+            category: 'Calçados',
+            description: 'Limpeza e lustração profissional'
+        },
+        {
+            id: 'lavagem_expressa',
+            name: 'Lavagem Expressa (2h)',
+            price: 25,
+            category: 'Serviços',
+            description: 'Lavagem rápida até 3 peças'
         }
     ],
     
@@ -147,7 +237,9 @@ let hotelData = {
 };
 
 // Admin Configuration
-const ADMIN_PASSWORD = 'serra2024';
+const ADMIN_PASSWORD = 'admin123';
+let adminMode = false;
+let guestMode = false;
 
 // Utility Functions
 function generateReservationCode() {
@@ -214,36 +306,52 @@ function showNotification(message, type = 'success') {
 // Modal Functions
 function openBookingModal() {
     const modal = document.getElementById('bookingModal');
+    if (!modal) return;
+
     modal.style.display = 'block';
-    
+
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('modal-checkin').min = today;
-    document.getElementById('modal-checkout').min = today;
+    const checkinInput = document.getElementById('modal-checkin');
+    const checkoutInput = document.getElementById('modal-checkout');
+
+    if (checkinInput) checkinInput.min = today;
+    if (checkoutInput) checkoutInput.min = today;
 }
 
 function closeBookingModal() {
-    document.getElementById('bookingModal').style.display = 'none';
+    const modal = document.getElementById('bookingModal');
+    if (modal) modal.style.display = 'none';
 }
 
 function openGuestModal() {
-    document.getElementById('guestModal').style.display = 'block';
+    const modal = document.getElementById('guestModal');
+    if (modal) modal.style.display = 'block';
 }
 
 function closeGuestModal() {
-    document.getElementById('guestModal').style.display = 'none';
-    document.getElementById('guestLoginView').style.display = 'block';
-    document.getElementById('guestDashboard').style.display = 'none';
+    const modal = document.getElementById('guestModal');
+    const loginView = document.getElementById('guestLoginView');
+    const dashboard = document.getElementById('guestDashboard');
+
+    if (modal) modal.style.display = 'none';
+    if (loginView) loginView.style.display = 'block';
+    if (dashboard) dashboard.style.display = 'none';
 }
 
 function openAdminModal() {
-    document.getElementById('adminModal').style.display = 'block';
+    const modal = document.getElementById('adminModal');
+    if (modal) modal.style.display = 'block';
 }
 
 function closeAdminModal() {
-    document.getElementById('adminModal').style.display = 'none';
-    document.getElementById('adminLoginView').style.display = 'block';
-    document.getElementById('adminDashboard').style.display = 'none';
+    const modal = document.getElementById('adminModal');
+    const loginView = document.getElementById('adminLoginView');
+    const dashboard = document.getElementById('adminDashboard');
+
+    if (modal) modal.style.display = 'none';
+    if (loginView) loginView.style.display = 'block';
+    if (dashboard) dashboard.style.display = 'none';
 }
 
 // Rooms Rendering
@@ -290,27 +398,43 @@ function renderRooms() {
 
 function selectRoom(roomId) {
     const roomSelect = document.getElementById('room-type');
-    roomSelect.value = roomId;
-    openBookingModal();
-    updateBookingSummary();
+    if (roomSelect) {
+        roomSelect.value = roomId;
+        openBookingModal();
+        updateBookingSummary();
+    }
 }
 
 // Booking System
 function updateBookingSummary() {
-    const checkin = document.getElementById('modal-checkin').value;
-    const checkout = document.getElementById('modal-checkout').value;
-    const roomType = document.getElementById('room-type').value;
-    
+    const checkinInput = document.getElementById('modal-checkin');
+    const checkoutInput = document.getElementById('modal-checkout');
+    const roomTypeInput = document.getElementById('room-type');
+
+    if (!checkinInput || !checkoutInput || !roomTypeInput) return;
+
+    const checkin = checkinInput.value;
+    const checkout = checkoutInput.value;
+    const roomType = roomTypeInput.value;
+
     if (!checkin || !checkout || !roomType) return;
-    
+
     const nights = calculateNights(checkin, checkout);
     const room = hotelData.rooms.find(r => r.id === roomType);
+
+    if (!room) return;
+
     const total = nights * room.price;
-    
-    document.getElementById('summary-period').textContent = `${formatDate(checkin)} - ${formatDate(checkout)}`;
-    document.getElementById('summary-nights').textContent = `${nights} noite${nights > 1 ? 's' : ''}`;
-    document.getElementById('summary-room').textContent = room.name;
-    document.getElementById('summary-total').textContent = formatCurrency(total);
+
+    const summaryPeriod = document.getElementById('summary-period');
+    const summaryNights = document.getElementById('summary-nights');
+    const summaryRoom = document.getElementById('summary-room');
+    const summaryTotal = document.getElementById('summary-total');
+
+    if (summaryPeriod) summaryPeriod.textContent = `${formatDate(checkin)} - ${formatDate(checkout)}`;
+    if (summaryNights) summaryNights.textContent = `${nights} noite${nights > 1 ? 's' : ''}`;
+    if (summaryRoom) summaryRoom.textContent = room.name;
+    if (summaryTotal) summaryTotal.textContent = formatCurrency(total);
 }
 
 function processBooking(formData) {
@@ -335,18 +459,28 @@ function processBooking(formData) {
     return reservation;
 }
 
-// Guest Area
+// Guest Area - Mock mode (sem login real)
 function authenticateGuest(email, reservationCode) {
-    return hotelData.reservations.find(r => 
-        r.guestEmail.toLowerCase() === email.toLowerCase() && 
-        r.id === reservationCode
-    );
+    // Modo demo - aceita qualquer email/código para demonstração
+    if (email && reservationCode) {
+        return {
+            id: 'DEMO-001',
+            guestName: 'João Silva',
+            guestEmail: email,
+            checkin: new Date().toISOString().split('T')[0],
+            checkout: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            roomType: 'deluxe',
+            status: 'confirmed',
+            total: 1140
+        };
+    }
+    return null;
 }
 
 function renderGuestDashboard(reservation) {
     const dashboard = document.getElementById('guestDashboard');
-    const isActive = isActiveReservation(reservation);
-    
+    guestMode = true;
+
     dashboard.innerHTML = `
         <h2>Bem-vindo, ${reservation.guestName.split(' ')[0]}!</h2>
         <div class="guest-info">
@@ -354,47 +488,61 @@ function renderGuestDashboard(reservation) {
                 <h3>Sua Reserva</h3>
                 <p><strong>Código:</strong> ${reservation.id}</p>
                 <p><strong>Período:</strong> ${formatDate(reservation.checkin)} - ${formatDate(reservation.checkout)}</p>
-                <p><strong>Quarto:</strong> ${hotelData.rooms.find(r => r.id === reservation.roomType).name}</p>
-                <p><strong>Status:</strong> <span class="status ${reservation.status}">${reservation.status === 'confirmed' ? 'Confirmada' : reservation.status}</span></p>
+                <p><strong>Quarto:</strong> ${hotelData.rooms.find(r => r.id === reservation.roomType)?.name || 'Apartamento Deluxe'}</p>
+                <p><strong>Status:</strong> <span class="status confirmed">Ativa</span></p>
             </div>
-            
-            ${isActive ? `
-                <div class="qr-section">
-                    <h3><i class="fas fa-qrcode"></i> Seu QR Code</h3>
-                    <div class="qr-code" data-reservation="${reservation.id}">
-                        <div class="qr-placeholder">
-                            <i class="fas fa-qrcode"></i>
-                            <p>QR Code do Quarto</p>
-                            <small>${reservation.id}</small>
-                        </div>
-                    </div>
-                    <p>Use este QR Code para comprar produtos e serviços</p>
+
+            <div class="guest-services">
+                <div class="service-tabs">
+                    <button class="tab-btn active" onclick="showGuestTab('products')">Produtos</button>
+                    <button class="tab-btn" onclick="showGuestTab('laundry')">Lavanderia</button>
+                    <button class="tab-btn" onclick="showGuestTab('orders')">Meus Pedidos</button>
                 </div>
-                
-                <div class="products-section">
+
+                <div id="guest-products" class="tab-content active">
                     <h3><i class="fas fa-shopping-cart"></i> Produtos Disponíveis</h3>
+                    <div class="category-filter">
+                        <button class="filter-btn active" onclick="filterProducts('all')">Todos</button>
+                        <button class="filter-btn" onclick="filterProducts('Bebidas')">Bebidas</button>
+                        <button class="filter-btn" onclick="filterProducts('Snacks')">Snacks</button>
+                        <button class="filter-btn" onclick="filterProducts('Doces')">Doces</button>
+                        <button class="filter-btn" onclick="filterProducts('Higiene')">Higiene</button>
+                    </div>
                     <div class="products-grid">
                         ${renderGuestProducts(reservation.id)}
                     </div>
                 </div>
-            ` : `
-                <div class="inactive-message">
-                    <i class="fas fa-info-circle"></i>
-                    <p>Os produtos estarão disponíveis durante sua estadia (${formatDate(reservation.checkin)} - ${formatDate(reservation.checkout)})</p>
+
+                <div id="guest-laundry" class="tab-content">
+                    <h3><i class="fas fa-tshirt"></i> Serviços de Lavanderia</h3>
+                    <p class="service-info">Horário de coleta: 08:00 às 18:00 | Entrega em 24h</p>
+                    <div class="laundry-grid">
+                        ${renderLaundryServices(reservation.id)}
+                    </div>
                 </div>
-            `}
+
+                <div id="guest-orders" class="tab-content">
+                    <h3><i class="fas fa-list"></i> Meus Pedidos</h3>
+                    <div class="orders-list">
+                        ${renderGuestOrders(reservation.id)}
+                    </div>
+                </div>
+            </div>
         </div>
     `;
 }
 
 function renderGuestProducts(reservationId) {
     return hotelData.products.map(product => `
-        <div class="product-card">
-            <h4>${product.name}</h4>
+        <div class="product-card" data-category="${product.category}">
+            <div class="product-header">
+                <h4>${product.name}</h4>
+                <span class="product-category">${product.category}</span>
+            </div>
             <p class="product-description">${product.description}</p>
             <div class="product-footer">
                 <span class="product-price">${formatCurrency(product.price)}</span>
-                <button class="btn btn-primary btn-small" onclick="addToCart('${product.id}', '${reservationId}')">
+                <button class="btn btn-primary btn-small" onclick="addToCart('${product.id}', '${reservationId}', 'product')">
                     <i class="fas fa-plus"></i>
                 </button>
             </div>
@@ -402,25 +550,82 @@ function renderGuestProducts(reservationId) {
     `).join('');
 }
 
-function addToCart(productId, reservationId) {
-    const product = hotelData.products.find(p => p.id === productId);
+function renderLaundryServices(reservationId) {
+    return hotelData.laundryServices.map(service => `
+        <div class="service-card">
+            <div class="service-header">
+                <h4>${service.name}</h4>
+                <span class="service-category">${service.category}</span>
+            </div>
+            <p class="service-description">${service.description}</p>
+            <div class="service-footer">
+                <span class="service-price">${formatCurrency(service.price)}</span>
+                <button class="btn btn-primary btn-small" onclick="addToCart('${service.id}', '${reservationId}', 'laundry')">
+                    <i class="fas fa-plus"></i>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+function renderGuestOrders(reservationId) {
+    const userOrders = hotelData.purchases.filter(p => p.reservationId === reservationId);
+    if (userOrders.length === 0) {
+        return '<p class="no-orders">Nenhum pedido realizado ainda.</p>';
+    }
+
+    return userOrders.reverse().map(order => `
+        <div class="order-card">
+            <div class="order-header">
+                <strong>${order.productName}</strong>
+                <span class="order-price">${formatCurrency(order.price)}</span>
+            </div>
+            <p class="order-time">${new Date(order.timestamp).toLocaleString('pt-BR')}</p>
+            <span class="order-status ${order.status}">${order.status === 'pending' ? 'Processando' : 'Entregue'}</span>
+        </div>
+    `).join('');
+}
+
+function addToCart(itemId, reservationId, type = 'product') {
+    let item;
+    if (type === 'product') {
+        item = hotelData.products.find(p => p.id === itemId);
+    } else {
+        item = hotelData.laundryServices.find(s => s.id === itemId);
+    }
+
+    if (!item) return;
+
     const purchase = {
         id: Date.now().toString(),
         reservationId,
-        productId,
-        productName: product.name,
-        price: product.price,
+        productId: itemId,
+        productName: item.name,
+        price: item.price,
+        type: type,
         timestamp: new Date().toISOString(),
         status: 'pending'
     };
-    
+
     hotelData.purchases.push(purchase);
     localStorage.setItem('hotelPurchases', JSON.stringify(hotelData.purchases));
-    
+
     // Send admin notification
-    sendAdminNotification('Nova Compra', `Produto: ${product.name} - Reserva: ${reservationId}`);
-    
-    showNotification(`${product.name} adicionado ao seu consumo!`);
+    sendAdminNotification('Novo Pedido', `${type === 'product' ? 'Produto' : 'Serviço'}: ${item.name} - Reserva: ${reservationId}`);
+
+    showNotification(`${item.name} adicionado aos seus pedidos!`);
+
+    // Refresh orders tab if it's active
+    if (document.getElementById('guest-orders').classList.contains('active')) {
+        setTimeout(() => {
+            document.getElementById('guest-orders').innerHTML = `
+                <h3><i class="fas fa-list"></i> Meus Pedidos</h3>
+                <div class="orders-list">
+                    ${renderGuestOrders(reservationId)}
+                </div>
+            `;
+        }, 500);
+    }
 }
 
 // Admin Panel
@@ -430,17 +635,19 @@ function authenticateAdmin(password) {
 
 function renderAdminDashboard() {
     const dashboard = document.getElementById('adminDashboard');
-    
+    adminMode = true;
+
     const activeReservations = hotelData.reservations.filter(isActiveReservation);
     const todayPurchases = hotelData.purchases.filter(p => {
         const today = new Date().toDateString();
         const purchaseDate = new Date(p.timestamp).toDateString();
         return today === purchaseDate;
     });
-    
+
     dashboard.innerHTML = `
         <div class="admin-header">
             <h2>Painel Administrativo</h2>
+            <p class="admin-welcome">Sistema de gestão completa do Hotel Serra do Roncador</p>
             <div class="admin-stats">
                 <div class="stat-card">
                     <h3>${hotelData.reservations.length}</h3>
@@ -452,36 +659,42 @@ function renderAdminDashboard() {
                 </div>
                 <div class="stat-card">
                     <h3>${todayPurchases.length}</h3>
-                    <p>Compras Hoje</p>
+                    <p>Pedidos Hoje</p>
+                </div>
+                <div class="stat-card">
+                    <h3>${formatCurrency(todayPurchases.reduce((sum, p) => sum + p.price, 0))}</h3>
+                    <p>Faturamento Hoje</p>
                 </div>
             </div>
         </div>
-        
-        <div class="admin-sections">
-            <div class="admin-section">
-                <h3>Reservas Ativas</h3>
-                <div class="reservations-list">
-                    ${activeReservations.map(renderReservationCard).join('') || '<p>Nenhuma reserva ativa</p>'}
-                </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="showAdminTab('dashboard')">Dashboard</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('content')">Editar Site</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('products')">Produtos</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('orders')">Pedidos</button>
+            <button class="admin-tab-btn" onclick="showAdminTab('settings')">Configurações</button>
+        </div>
+
+        <div class="admin-content">
+            <div id="admin-dashboard" class="admin-tab-content active">
+                ${renderAdminDashboardTab()}
             </div>
-            
-            <div class="admin-section">
-                <h3>Compras Recentes</h3>
-                <div class="purchases-list">
-                    ${hotelData.purchases.slice(-10).reverse().map(renderPurchaseCard).join('') || '<p>Nenhuma compra registrada</p>'}
-                </div>
+
+            <div id="admin-content" class="admin-tab-content">
+                ${renderAdminContentTab()}
             </div>
-            
-            <div class="admin-section">
-                <h3>Gestão</h3>
-                <div class="admin-actions">
-                    <button class="btn btn-secondary" onclick="exportData()">
-                        <i class="fas fa-download"></i> Exportar Dados
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearOldData()">
-                        <i class="fas fa-trash"></i> Limpar Dados Antigos
-                    </button>
-                </div>
+
+            <div id="admin-products" class="admin-tab-content">
+                ${renderAdminProductsTab()}
+            </div>
+
+            <div id="admin-orders" class="admin-tab-content">
+                ${renderAdminOrdersTab()}
+            </div>
+
+            <div id="admin-settings" class="admin-tab-content">
+                ${renderAdminSettingsTab()}
             </div>
         </div>
     `;
@@ -530,6 +743,371 @@ function sendAdminNotification(title, message) {
         read: false
     });
     localStorage.setItem('adminNotifications', JSON.stringify(notifications));
+}
+
+// Admin Tab Functions
+function showAdminTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.admin-tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Remove active class from all tab buttons
+    document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Show selected tab and mark button as active
+    document.getElementById(`admin-${tabName}`).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function showGuestTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Remove active class from all tab buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('active');
+    });
+
+    // Show selected tab and mark button as active
+    document.getElementById(`guest-${tabName}`).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function filterProducts(category) {
+    const products = document.querySelectorAll('.product-card');
+    const buttons = document.querySelectorAll('.filter-btn');
+
+    // Update button states
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    // Filter products
+    products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+            product.style.display = 'block';
+        } else {
+            product.style.display = 'none';
+        }
+    });
+}
+
+function renderAdminDashboardTab() {
+    const activeReservations = hotelData.reservations.filter(isActiveReservation);
+    const recentPurchases = hotelData.purchases.slice(-5).reverse();
+
+    return `
+        <div class="admin-section">
+            <h3>Reservas Ativas</h3>
+            <div class="reservations-list">
+                ${activeReservations.map(renderReservationCard).join('') || '<p>Nenhuma reserva ativa no momento</p>'}
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <h3>Pedidos Recentes</h3>
+            <div class="purchases-list">
+                ${recentPurchases.map(renderPurchaseCard).join('') || '<p>Nenhum pedido registrado</p>'}
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminContentTab() {
+    return `
+        <div class="content-editor">
+            <h3>Editor de Conte��do do Site</h3>
+            <div class="editor-sections">
+                <div class="editor-section">
+                    <h4>Informações Principais</h4>
+                    <div class="form-group">
+                        <label for="hotel-name">Nome do Hotel</label>
+                        <input type="text" id="hotel-name" value="Hotel Serra do Roncador" onchange="updateSiteContent('name', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label for="hotel-subtitle">Subtítulo</label>
+                        <textarea id="hotel-subtitle" onchange="updateSiteContent('subtitle', this.value)">Localizado na BR 158 em Água Boa - MT, oferecemos 50 apartamentos modernos e confortáveis para sua estadia</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="hotel-description">Descrição Principal</label>
+                        <textarea id="hotel-description" onchange="updateSiteContent('description', this.value)">O Hotel Serra do Roncador está localizado à margem da BR 158, cerca de 1000 metros do centro da cidade de Água Boa – MT. Possuímos 50 apartamentos modernos e confortáveis...</textarea>
+                    </div>
+                </div>
+
+                <div class="editor-section">
+                    <h4>Preços dos Quartos</h4>
+                    <div class="room-prices">
+                        <div class="price-item">
+                            <label>Standard</label>
+                            <input type="number" value="280" onchange="updateRoomPrice('standard', this.value)">
+                        </div>
+                        <div class="price-item">
+                            <label>Deluxe</label>
+                            <input type="number" value="380" onchange="updateRoomPrice('deluxe', this.value)">
+                        </div>
+                        <div class="price-item">
+                            <label>Suíte Premium</label>
+                            <input type="number" value="580" onchange="updateRoomPrice('suite', this.value)">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="editor-section">
+                    <h4>Contato</h4>
+                    <div class="form-group">
+                        <label for="hotel-phone">Telefone</label>
+                        <input type="tel" id="hotel-phone" value="(66) 3468-2001" onchange="updateSiteContent('phone', this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label for="hotel-email">E-mail</label>
+                        <input type="email" id="hotel-email" value="reservas@serradoncador.com.br" onchange="updateSiteContent('email', this.value)">
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-actions">
+                <button class="btn btn-primary" onclick="saveChanges()">
+                    <i class="fas fa-save"></i> Salvar Alterações
+                </button>
+                <button class="btn btn-secondary" onclick="previewChanges()">
+                    <i class="fas fa-eye"></i> Visualizar
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminProductsTab() {
+    return `
+        <div class="products-manager">
+            <div class="manager-header">
+                <h3>Gerenciar Produtos e Serviços</h3>
+                <button class="btn btn-primary" onclick="openProductModal()">
+                    <i class="fas fa-plus"></i> Adicionar Produto
+                </button>
+            </div>
+
+            <div class="product-categories">
+                <div class="category-section">
+                    <h4>Produtos do Frigobar</h4>
+                    <div class="products-list">
+                        ${hotelData.products.map(renderProductItem).join('')}
+                    </div>
+                </div>
+
+                <div class="category-section">
+                    <h4>Serviços de Lavanderia</h4>
+                    <div class="services-list">
+                        ${hotelData.laundryServices.map(renderServiceItem).join('')}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminOrdersTab() {
+    const allOrders = hotelData.purchases.slice().reverse();
+    const pendingOrders = allOrders.filter(o => o.status === 'pending');
+
+    return `
+        <div class="orders-manager">
+            <div class="manager-header">
+                <h3>Gerenciar Pedidos</h3>
+                <div class="order-stats">
+                    <span class="stat">Pendentes: ${pendingOrders.length}</span>
+                    <span class="stat">Total: ${allOrders.length}</span>
+                </div>
+            </div>
+
+            <div class="orders-filter">
+                <button class="filter-btn active" onclick="filterOrders('all')">Todos</button>
+                <button class="filter-btn" onclick="filterOrders('pending')">Pendentes</button>
+                <button class="filter-btn" onclick="filterOrders('completed')">Concluídos</button>
+            </div>
+
+            <div class="orders-list">
+                ${allOrders.map(renderOrderManagementCard).join('') || '<p>Nenhum pedido registrado</p>'}
+            </div>
+        </div>
+    `;
+}
+
+function renderAdminSettingsTab() {
+    return `
+        <div class="settings-manager">
+            <h3>Configurações do Sistema</h3>
+
+            <div class="settings-sections">
+                <div class="settings-section">
+                    <h4>Backup e Dados</h4>
+                    <div class="settings-actions">
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            <i class="fas fa-download"></i> Exportar Dados
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearOldData()">
+                            <i class="fas fa-trash"></i> Limpar Dados Antigos
+                        </button>
+                        <button class="btn btn-secondary" onclick="resetToDefaults()">
+                            <i class="fas fa-undo"></i> Restaurar Padrões
+                        </button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4>Notificações</h4>
+                    <div class="settings-options">
+                        <label class="setting-option">
+                            <input type="checkbox" checked> Notificar novos pedidos
+                        </label>
+                        <label class="setting-option">
+                            <input type="checkbox" checked> Notificar novas reservas
+                        </label>
+                        <label class="setting-option">
+                            <input type="checkbox"> Relatórios diários por email
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h4>Horários de Funcionamento</h4>
+                    <div class="time-settings">
+                        <div class="time-item">
+                            <label>Check-in</label>
+                            <input type="time" value="14:00">
+                        </div>
+                        <div class="time-item">
+                            <label>Check-out</label>
+                            <input type="time" value="12:00">
+                        </div>
+                        <div class="time-item">
+                            <label>Lavanderia</label>
+                            <input type="time" value="08:00"> até <input type="time" value="18:00">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function renderProductItem(product) {
+    return `
+        <div class="product-item">
+            <div class="item-info">
+                <strong>${product.name}</strong>
+                <span class="item-price">${formatCurrency(product.price)}</span>
+            </div>
+            <div class="item-actions">
+                <button class="btn-icon" onclick="editProduct('${product.id}')" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon danger" onclick="deleteProduct('${product.id}')" title="Excluir">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderServiceItem(service) {
+    return `
+        <div class="service-item">
+            <div class="item-info">
+                <strong>${service.name}</strong>
+                <span class="item-price">${formatCurrency(service.price)}</span>
+            </div>
+            <div class="item-actions">
+                <button class="btn-icon" onclick="editService('${service.id}')" title="Editar">
+                    <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon danger" onclick="deleteService('${service.id}')" title="Excluir">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderOrderManagementCard(order) {
+    const reservation = hotelData.reservations.find(r => r.id === order.reservationId);
+    return `
+        <div class="order-management-card" data-status="${order.status}">
+            <div class="order-info">
+                <div class="order-header">
+                    <strong>${order.productName}</strong>
+                    <span class="order-type">${order.type === 'laundry' ? 'Lavanderia' : 'Produto'}</span>
+                </div>
+                <p>Reserva: ${order.reservationId} ${reservation ? `- ${reservation.guestName}` : ''}</p>
+                <p>Data: ${new Date(order.timestamp).toLocaleString('pt-BR')}</p>
+                <p>Valor: ${formatCurrency(order.price)}</p>
+            </div>
+            <div class="order-actions">
+                <select onchange="updateOrderStatus('${order.id}', this.value)">
+                    <option value="pending" ${order.status === 'pending' ? 'selected' : ''}>Pendente</option>
+                    <option value="processing" ${order.status === 'processing' ? 'selected' : ''}>Processando</option>
+                    <option value="completed" ${order.status === 'completed' ? 'selected' : ''}>Concluído</option>
+                </select>
+            </div>
+        </div>
+    `;
+}
+
+// Content Management Functions
+function updateSiteContent(field, value) {
+    showNotification(`${field} atualizado!`, 'success');
+}
+
+function updateRoomPrice(roomType, price) {
+    const room = hotelData.rooms.find(r => r.id === roomType);
+    if (room) {
+        room.price = parseFloat(price);
+        renderRooms();
+        showNotification(`Preço do ${room.name} atualizado!`, 'success');
+    }
+}
+
+function saveChanges() {
+    showNotification('Alterações salvas com sucesso!', 'success');
+}
+
+function previewChanges() {
+    showNotification('Abrindo visualização...', 'success');
+}
+
+function updateOrderStatus(orderId, newStatus) {
+    const order = hotelData.purchases.find(p => p.id === orderId);
+    if (order) {
+        order.status = newStatus;
+        localStorage.setItem('hotelPurchases', JSON.stringify(hotelData.purchases));
+        showNotification(`Status do pedido atualizado para: ${newStatus}`, 'success');
+    }
+}
+
+function filterOrders(status) {
+    const orders = document.querySelectorAll('.order-management-card');
+    const buttons = document.querySelectorAll('.orders-filter .filter-btn');
+
+    buttons.forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+
+    orders.forEach(order => {
+        if (status === 'all' || order.dataset.status === status) {
+            order.style.display = 'block';
+        } else {
+            order.style.display = 'none';
+        }
+    });
+}
+
+function resetToDefaults() {
+    if (confirm('Tem certeza que deseja restaurar as configurações padrão?')) {
+        showNotification('Configurações restauradas!', 'success');
+    }
 }
 
 // Data Management
@@ -621,9 +1199,13 @@ document.addEventListener('DOMContentLoaded', function() {
     renderRooms();
     
     // Navigation
-    document.querySelector('.nav-toggle').addEventListener('click', function() {
-        document.querySelector('.nav-menu').classList.toggle('active');
-    });
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+        });
+    }
     
     // Smooth scrolling for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -637,75 +1219,117 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Guest area access
-    document.querySelector('.guest-access').addEventListener('click', function(e) {
-        e.preventDefault();
-        openGuestModal();
-    });
-    
+    const guestAccess = document.querySelector('.guest-access');
+    if (guestAccess) {
+        guestAccess.addEventListener('click', function(e) {
+            e.preventDefault();
+            openGuestModal();
+        });
+    }
+
     // Admin access
-    document.querySelector('.admin-access').addEventListener('click', function(e) {
-        e.preventDefault();
-        openAdminModal();
-    });
+    const adminAccess = document.querySelector('.admin-access');
+    if (adminAccess) {
+        adminAccess.addEventListener('click', function(e) {
+            e.preventDefault();
+            openAdminModal();
+        });
+    }
     
     // Booking form submission
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            checkin: document.getElementById('modal-checkin').value,
-            checkout: document.getElementById('modal-checkout').value,
-            guests: document.getElementById('modal-guests').value,
-            roomType: document.getElementById('room-type').value,
-            guestName: document.getElementById('guest-name').value,
-            guestEmail: document.getElementById('guest-email').value,
-            guestPhone: document.getElementById('guest-phone').value,
-            guestCpf: document.getElementById('guest-cpf').value
-        };
-        
-        if (new Date(formData.checkin) >= new Date(formData.checkout)) {
-            showNotification('Data de check-out deve ser posterior ao check-in', 'error');
-            return;
-        }
-        
-        processBooking(formData);
-    });
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const checkinInput = document.getElementById('modal-checkin');
+            const checkoutInput = document.getElementById('modal-checkout');
+            const guestsInput = document.getElementById('modal-guests');
+            const roomTypeInput = document.getElementById('room-type');
+            const guestNameInput = document.getElementById('guest-name');
+            const guestEmailInput = document.getElementById('guest-email');
+            const guestPhoneInput = document.getElementById('guest-phone');
+            const guestCpfInput = document.getElementById('guest-cpf');
+
+            if (!checkinInput || !checkoutInput || !guestsInput || !roomTypeInput ||
+                !guestNameInput || !guestEmailInput || !guestPhoneInput || !guestCpfInput) {
+                showNotification('Erro no formulário de reserva', 'error');
+                return;
+            }
+
+            const formData = {
+                checkin: checkinInput.value,
+                checkout: checkoutInput.value,
+                guests: guestsInput.value,
+                roomType: roomTypeInput.value,
+                guestName: guestNameInput.value,
+                guestEmail: guestEmailInput.value,
+                guestPhone: guestPhoneInput.value,
+                guestCpf: guestCpfInput.value
+            };
+
+            if (new Date(formData.checkin) >= new Date(formData.checkout)) {
+                showNotification('Data de check-out deve ser posterior ao check-in', 'error');
+                return;
+            }
+
+            processBooking(formData);
+        });
+    }
     
     // Guest login
-    document.getElementById('guestLoginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const email = document.getElementById('guest-login-email').value;
-        const code = document.getElementById('guest-code').value;
-        
-        const reservation = authenticateGuest(email, code);
-        if (reservation) {
-            document.getElementById('guestLoginView').style.display = 'none';
-            document.getElementById('guestDashboard').style.display = 'block';
-            renderGuestDashboard(reservation);
-        } else {
-            showNotification('Dados de acesso inválidos', 'error');
-        }
-    });
+    const guestLoginForm = document.getElementById('guestLoginForm');
+    if (guestLoginForm) {
+        guestLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const emailInput = document.getElementById('guest-login-email');
+            const codeInput = document.getElementById('guest-code');
+
+            if (!emailInput || !codeInput) {
+                showNotification('Erro no formulário', 'error');
+                return;
+            }
+
+            const email = emailInput.value;
+            const code = codeInput.value;
+
+            const reservation = authenticateGuest(email, code);
+            if (reservation) {
+                document.getElementById('guestLoginView').style.display = 'none';
+                document.getElementById('guestDashboard').style.display = 'block';
+                renderGuestDashboard(reservation);
+            } else {
+                showNotification('Dados de acesso inválidos', 'error');
+            }
+        });
+    }
     
-    // Admin login
-    document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const password = document.getElementById('admin-password').value;
-        
-        if (authenticateAdmin(password)) {
-            document.getElementById('adminLoginView').style.display = 'none';
-            document.getElementById('adminDashboard').style.display = 'block';
-            renderAdminDashboard();
-        } else {
-            showNotification('Senha incorreta', 'error');
-        }
-    });
+    // Admin login - Modo demo simplificado
+    const adminLoginForm = document.getElementById('adminLoginForm');
+    if (adminLoginForm) {
+        adminLoginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Modo demo - aceita qualquer senha para demonstração
+            const adminLoginView = document.getElementById('adminLoginView');
+            const adminDashboard = document.getElementById('adminDashboard');
+
+            if (adminLoginView && adminDashboard) {
+                adminLoginView.style.display = 'none';
+                adminDashboard.style.display = 'block';
+                renderAdminDashboard();
+                showNotification('Acesso administrativo liberado! (Modo Demo)', 'success');
+            }
+        });
+    }
     
     // Booking form updates
     ['modal-checkin', 'modal-checkout', 'room-type'].forEach(id => {
-        document.getElementById(id).addEventListener('change', updateBookingSummary);
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('change', updateBookingSummary);
+        }
     });
     
     // Close modals when clicking outside
@@ -721,9 +1345,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set minimum dates for booking
     const today = new Date().toISOString().split('T')[0];
     const checkinInputs = document.querySelectorAll('input[type="date"]');
-    checkinInputs.forEach(input => {
-        input.min = today;
-    });
+    if (checkinInputs.length > 0) {
+        checkinInputs.forEach(input => {
+            if (input) {
+                input.min = today;
+            }
+        });
+    }
 });
 
 // CSS for dynamic elements

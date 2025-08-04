@@ -159,10 +159,7 @@
                 <div class="about-images">
                     <div class="image-grid">
                         <div class="image-item large">
-                            <div class="placeholder-image landscape">
-                                <i class="fas fa-mountain"></i>
-                                <span>Serra do Roncador</span>
-                            </div>
+                            <img src="https://cdn.builder.io/api/v1/image/assets%2Fa53abce3361241f699f719346ad0e3df%2F316fe399b61a4428945622d3450b69a2?format=webp&width=800" alt="Hotel Serra do Roncador - Vista Externa" class="grid-image">
                         </div>
                         <div class="image-item">
                             <div class="placeholder-image room">
@@ -282,18 +279,25 @@
             <span class="close" onclick="closeGuestModal()">&times;</span>
             <div id="guestLoginView">
                 <h2>Área do Hóspede</h2>
-                <p>Digite seu e-mail e código de reserva para acessar sua área exclusiva</p>
+                <p class="demo-message">Demonstração - Acesso liberado para testes do sistema</p>
                 <form id="guestLoginForm">
                     <div class="form-group">
-                        <label for="guest-login-email">E-mail</label>
-                        <input type="email" id="guest-login-email" required>
+                        <label for="guest-login-email">E-mail (demo)</label>
+                        <input type="email" id="guest-login-email" placeholder="Qualquer e-mail para teste" required>
                     </div>
                     <div class="form-group">
-                        <label for="guest-code">Código da Reserva</label>
-                        <input type="text" id="guest-code" placeholder="Ex: RSR-001" required>
+                        <label for="guest-code">Código (demo)</label>
+                        <input type="text" id="guest-code" placeholder="Qualquer código para teste" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Acessar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user"></i>
+                        Acessar Área do Hóspede
+                    </button>
                 </form>
+                <div class="demo-info">
+                    <p><i class="fas fa-info-circle"></i> Modo demonstração ativo</p>
+                    <small>Produtos, serviços de lavanderia e pedidos disponíveis</small>
+                </div>
             </div>
             <div id="guestDashboard" style="display: none;">
                 <!-- Guest dashboard will be populated by JavaScript -->
@@ -307,13 +311,17 @@
             <span class="close" onclick="closeAdminModal()">&times;</span>
             <div id="adminLoginView">
                 <h2>Painel Administrativo</h2>
+                <p class="demo-message">Sistema de demonstração - Acesso liberado para testes</p>
                 <form id="adminLoginForm">
-                    <div class="form-group">
-                        <label for="admin-password">Senha do Administrador</label>
-                        <input type="password" id="admin-password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Entrar no Painel
+                    </button>
                 </form>
+                <div class="demo-info">
+                    <p><i class="fas fa-info-circle"></i> Modo demonstração ativo</p>
+                    <small>Todas as funcionalidades administrativas estão disponíveis</small>
+                </div>
             </div>
             <div id="adminDashboard" style="display: none;">
                 <!-- Admin dashboard will be populated by JavaScript -->
