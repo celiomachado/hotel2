@@ -522,25 +522,25 @@ window.prevGalleryImage = function() {
 
 // ========== RESERVAS ==========
 
-function openReservationModal(roomType) {
+window.openReservationModal = function(roomType) {
     const modal = document.getElementById('reservationModal');
     const roomSelect = document.getElementById('tipoQuarto');
-    
+
     if (modal && roomSelect) {
         // Pré-selecionar o tipo de quarto
         roomSelect.value = roomType;
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
-}
+};
 
-function closeReservationModal() {
+window.closeReservationModal = function() {
     const modal = document.getElementById('reservationModal');
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-}
+};
 
 // ========== FORMULÁRIOS ==========
 
