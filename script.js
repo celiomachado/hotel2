@@ -14,6 +14,14 @@ function showSlide(index) {
     // Add active class to current slide and indicator
     if (slides[index]) {
         slides[index].classList.add('active');
+
+        // Ensure image is loaded
+        const img = slides[index].querySelector('.carousel-image');
+        if (img && !img.complete) {
+            img.addEventListener('load', function() {
+                slides[index].style.opacity = '1';
+            });
+        }
     }
     if (indicators[index]) {
         indicators[index].classList.add('active');
@@ -57,12 +65,40 @@ function initCarousel() {
     }
 }
 
-// Pause on hover
+// Pause on hover and add touch support
 function initCarouselEvents() {
     const carouselContainer = document.querySelector('.carousel-container');
     if (carouselContainer) {
         carouselContainer.addEventListener('mouseenter', stopCarousel);
         carouselContainer.addEventListener('mouseleave', startCarousel);
+
+        // Add touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselContainer.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            stopCarousel();
+        });
+
+        carouselContainer.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startCarousel();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeDistance = touchEndX - touchStartX;
+
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    previousSlide();
+                } else {
+                    nextSlide();
+                }
+            }
+        }
     }
 }
 
@@ -1290,13 +1326,29 @@ function clearOldData() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize carousel
-    initCarousel();
-    initCarouselEvents();
+    // Initialize carousel with delay to ensure DOM is ready
+    setTimeout(() => {
+        initCarousel();
+        initCarouselEvents();
 
-    if (totalSlides > 1) {
-        startCarousel();
-    }
+        // Ensure carousel is visible and working
+        if (totalSlides > 1) {
+            startCarousel();
+        }
+
+        // Force first slide to be visible
+        const firstSlide = document.querySelector('.carousel-slide');
+        if (firstSlide && !firstSlide.classList.contains('active')) {
+            firstSlide.classList.add('active');
+        }
+
+        // Ensure carousel container is visible
+        const carouselContainer = document.querySelector('.carousel-container');
+        if (carouselContainer) {
+            carouselContainer.style.display = 'block';
+            carouselContainer.style.visibility = 'visible';
+        }
+    }, 100);
 
     // Force update room data and render
     hotelData.rooms = [
