@@ -120,8 +120,16 @@ function initializeMobileMenu() {
 
 function initializeHeroSlider() {
     heroSlides = document.querySelectorAll('.hero-slide');
+    console.log('Hero slides encontrados:', heroSlides.length);
     if (heroSlides.length > 0) {
         showHeroSlide(0);
+        // Garantir que todas as imagens tenham a animação
+        heroSlides.forEach((slide, index) => {
+            const img = slide.querySelector('img');
+            if (img) {
+                img.style.animation = index === 0 ? 'heroImageZoom 4s ease-out forwards' : 'none';
+            }
+        });
     }
 }
 
