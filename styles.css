@@ -1806,4 +1806,12 @@ p {
         padding: 0.4rem 0.8rem;
         font-size: 0.9rem;
     }
+
+    .nav-logo-image {
+        height: 30px;
+    }
+
+    .nav-logo span {
+        font-size: 1.2rem;
+    }
 }
