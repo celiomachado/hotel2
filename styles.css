@@ -542,6 +542,46 @@ p {
     color: var(--branco);
     font-weight: 600;
     gap: 1rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.room-image:hover {
+    transform: scale(1.02);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+    gap: 0.5rem;
+    z-index: 3;
+}
+
+.room-image:hover .image-overlay {
+    opacity: 1;
+}
+
+.image-overlay i {
+    font-size: 2rem;
+    color: var(--branco);
+}
+
+.image-overlay span {
+    font-size: 1rem;
+    color: var(--branco);
+    font-weight: 500;
 }
 
 .room-image.standard {
