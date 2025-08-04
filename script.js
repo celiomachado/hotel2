@@ -137,6 +137,15 @@ function showHeroSlide(index) {
                 indicators[index].classList.add('active');
             }
             currentHeroSlide = index;
+
+            // Reiniciar animação da imagem
+            const activeImg = heroSlides[index].querySelector('img');
+            if (activeImg) {
+                activeImg.style.animation = 'none';
+                setTimeout(() => {
+                    activeImg.style.animation = 'heroImageZoom 4s ease-out forwards';
+                }, 10);
+            }
         }
     }
 }
