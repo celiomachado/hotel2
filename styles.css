@@ -251,6 +251,7 @@ p {
     border-radius: var(--border-radius);
     overflow: hidden;
     box-shadow: var(--shadow-hover);
+    background: var(--cinza-claro);
 }
 
 .carousel-slides {
@@ -267,10 +268,12 @@ p {
     height: 100%;
     opacity: 0;
     transition: opacity 0.8s ease-in-out;
+    z-index: 1;
 }
 
 .carousel-slide.active {
     opacity: 1;
+    z-index: 2;
 }
 
 .carousel-image {
@@ -278,6 +281,7 @@ p {
     height: 100%;
     object-fit: cover;
     border-radius: var(--border-radius);
+    display: block;
 }
 
 .carousel-navigation {
