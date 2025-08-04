@@ -1318,13 +1318,29 @@ function clearOldData() {
 
 // Event Listeners
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize carousel
-    initCarousel();
-    initCarouselEvents();
+    // Initialize carousel with delay to ensure DOM is ready
+    setTimeout(() => {
+        initCarousel();
+        initCarouselEvents();
 
-    if (totalSlides > 1) {
-        startCarousel();
-    }
+        // Ensure carousel is visible and working
+        if (totalSlides > 1) {
+            startCarousel();
+        }
+
+        // Force first slide to be visible
+        const firstSlide = document.querySelector('.carousel-slide');
+        if (firstSlide && !firstSlide.classList.contains('active')) {
+            firstSlide.classList.add('active');
+        }
+
+        // Ensure carousel container is visible
+        const carouselContainer = document.querySelector('.carousel-container');
+        if (carouselContainer) {
+            carouselContainer.style.display = 'block';
+            carouselContainer.style.visibility = 'visible';
+        }
+    }, 100);
 
     // Force update room data and render
     hotelData.rooms = [
