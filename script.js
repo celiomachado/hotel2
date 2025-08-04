@@ -1329,9 +1329,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set minimum dates for booking
     const today = new Date().toISOString().split('T')[0];
     const checkinInputs = document.querySelectorAll('input[type="date"]');
-    checkinInputs.forEach(input => {
-        input.min = today;
-    });
+    if (checkinInputs.length > 0) {
+        checkinInputs.forEach(input => {
+            if (input) {
+                input.min = today;
+            }
+        });
+    }
 });
 
 // CSS for dynamic elements
