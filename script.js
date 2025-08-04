@@ -57,12 +57,40 @@ function initCarousel() {
     }
 }
 
-// Pause on hover
+// Pause on hover and add touch support
 function initCarouselEvents() {
     const carouselContainer = document.querySelector('.carousel-container');
     if (carouselContainer) {
         carouselContainer.addEventListener('mouseenter', stopCarousel);
         carouselContainer.addEventListener('mouseleave', startCarousel);
+
+        // Add touch support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        carouselContainer.addEventListener('touchstart', function(e) {
+            touchStartX = e.changedTouches[0].screenX;
+            stopCarousel();
+        });
+
+        carouselContainer.addEventListener('touchend', function(e) {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startCarousel();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const swipeDistance = touchEndX - touchStartX;
+
+            if (Math.abs(swipeDistance) > swipeThreshold) {
+                if (swipeDistance > 0) {
+                    previousSlide();
+                } else {
+                    nextSlide();
+                }
+            }
+        }
     }
 }
 
