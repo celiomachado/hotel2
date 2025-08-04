@@ -307,13 +307,17 @@
             <span class="close" onclick="closeAdminModal()">&times;</span>
             <div id="adminLoginView">
                 <h2>Painel Administrativo</h2>
+                <p class="demo-message">Sistema de demonstração - Acesso liberado para testes</p>
                 <form id="adminLoginForm">
-                    <div class="form-group">
-                        <label for="admin-password">Senha do Administrador</label>
-                        <input type="password" id="admin-password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Entrar</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Entrar no Painel
+                    </button>
                 </form>
+                <div class="demo-info">
+                    <p><i class="fas fa-info-circle"></i> Modo demonstração ativo</p>
+                    <small>Todas as funcionalidades administrativas estão disponíveis</small>
+                </div>
             </div>
             <div id="adminDashboard" style="display: none;">
                 <!-- Admin dashboard will be populated by JavaScript -->
