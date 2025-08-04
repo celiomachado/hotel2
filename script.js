@@ -1408,31 +1408,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Guest login
+    // Guest login - Simplified mock version
     const guestLoginForm = document.getElementById('guestLoginForm');
     if (guestLoginForm) {
         guestLoginForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            const emailInput = document.getElementById('guest-login-email');
-            const codeInput = document.getElementById('guest-code');
+            // Mock guest data - no authentication required
+            const reservation = {
+                id: 'DEMO-001',
+                guestName: 'João Silva',
+                guestEmail: 'joao@exemplo.com',
+                checkin: new Date().toISOString().split('T')[0],
+                checkout: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                roomType: 'deluxe',
+                status: 'confirmed',
+                total: 1140
+            };
 
-            if (!emailInput || !codeInput) {
-                showNotification('Erro no formulário', 'error');
-                return;
-            }
-
-            const email = emailInput.value;
-            const code = codeInput.value;
-
-            const reservation = authenticateGuest(email, code);
-            if (reservation) {
-                document.getElementById('guestLoginView').style.display = 'none';
-                document.getElementById('guestDashboard').style.display = 'block';
-                renderGuestDashboard(reservation);
-            } else {
-                showNotification('Dados de acesso inválidos', 'error');
-            }
+            document.getElementById('guestLoginView').style.display = 'none';
+            document.getElementById('guestDashboard').style.display = 'block';
+            renderGuestDashboard(reservation);
+            showNotification('Acesso liberado! (Modo Demo)', 'success');
         });
     }
     
