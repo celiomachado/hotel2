@@ -118,15 +118,20 @@ function initializeHeroSlider() {
 }
 
 function showHeroSlide(index) {
-    heroSlides.forEach(slide => slide.classList.remove('active'));
-    document.querySelectorAll('.hero-indicators .indicator').forEach(indicator => 
-        indicator.classList.remove('active')
-    );
-    
-    if (heroSlides[index]) {
-        heroSlides[index].classList.add('active');
-        document.querySelectorAll('.hero-indicators .indicator')[index]?.classList.add('active');
-        currentHeroSlide = index;
+    if (heroSlides && heroSlides.length > 0) {
+        heroSlides.forEach(slide => slide.classList.remove('active'));
+        document.querySelectorAll('.hero-indicators .indicator').forEach(indicator =>
+            indicator.classList.remove('active')
+        );
+
+        if (heroSlides[index]) {
+            heroSlides[index].classList.add('active');
+            const indicators = document.querySelectorAll('.hero-indicators .indicator');
+            if (indicators[index]) {
+                indicators[index].classList.add('active');
+            }
+            currentHeroSlide = index;
+        }
     }
 }
 
