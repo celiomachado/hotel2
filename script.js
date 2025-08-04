@@ -1300,7 +1300,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Booking form updates
     ['modal-checkin', 'modal-checkout', 'room-type'].forEach(id => {
-        document.getElementById(id).addEventListener('change', updateBookingSummary);
+        const element = document.getElementById(id);
+        if (element) {
+            element.addEventListener('change', updateBookingSummary);
+        }
     });
     
     // Close modals when clicking outside
