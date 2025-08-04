@@ -1,0 +1,13 @@
+{
+  "name": "code",
+  "version": "1.0.0",
+  "description": "A basic web application",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npx http-server . -p 8080",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
