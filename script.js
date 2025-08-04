@@ -188,8 +188,7 @@ function renderRooms() {
         roomCard.className = 'room-card';
         
         roomCard.innerHTML = `
-            <div class="room-image">
-                <i class="fas fa-bed"></i> ${room.name}
+            <div class="room-image ${room.id}">
             </div>
             <div class="room-content">
                 <h3 class="room-title">${room.name}</h3>
