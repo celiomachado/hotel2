@@ -776,6 +776,7 @@ p {
 .form-group textarea {
     resize: vertical;
     min-height: 120px;
+    text-align: left;
 }
 
 .form-row {
