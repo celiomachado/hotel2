@@ -159,7 +159,7 @@ function currentHeroSlide(index) {
 
 function startHeroSlider() {
     if (heroSlides && heroSlides.length > 1) {
-        heroInterval = setInterval(nextHeroSlide, 5000);
+        heroInterval = setInterval(nextHeroSlide, 4500);
     }
 }
 
