@@ -162,23 +162,24 @@ function showHeroSlide(index) {
     }
 }
 
-function nextHeroSlide() {
+// Garantir que as funções estejam no escopo global
+window.nextHeroSlide = function() {
     if (heroSlides && heroSlides.length > 0) {
         const next = (currentHeroSlide + 1) % heroSlides.length;
         showHeroSlide(next);
     }
-}
+};
 
-function previousHeroSlide() {
+window.previousHeroSlide = function() {
     const prev = (currentHeroSlide - 1 + heroSlides.length) % heroSlides.length;
     showHeroSlide(prev);
-}
+};
 
-function currentHeroSlide(index) {
+window.currentHeroSlide = function(index) {
     showHeroSlide(index);
     stopHeroSlider();
     startHeroSlider();
-}
+};
 
 function startHeroSlider() {
     if (heroSlides && heroSlides.length > 1) {
@@ -264,12 +265,36 @@ function initializeScrollAnimations() {
         observer.observe(el);
     });
 
-    // Galeria - flip in
-    document.querySelectorAll('.gallery-item').forEach((el, index) => {
-        el.classList.add('flip-in');
-        el.style.transitionDelay = `${index * 0.1}s`;
-        observer.observe(el);
-    });
+    // Galeria - animação em cascata avançada
+    const galleryGrid = document.querySelector('.gallery-grid');
+    if (galleryGrid) {
+        const galleryObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                    const items = entry.target.querySelectorAll('.gallery-item');
+
+                    items.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('animate-in');
+
+                            // Adicionar efeito de brilho após a animação
+                            setTimeout(() => {
+                                item.style.boxShadow = '0 0 30px rgba(184, 52, 28, 0.3)';
+                                setTimeout(() => {
+                                    item.style.boxShadow = '';
+                                }, 800);
+                            }, 300);
+                        }, index * 200); // Delay escalonado
+                    });
+
+                    galleryObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        galleryObserver.observe(galleryGrid);
+    }
 
     // Contato - slide up
     document.querySelectorAll('.contact-item, .contact-form').forEach(el => {
@@ -305,8 +330,16 @@ function initializeParallax() {
     });
 }
 
-// Micro-interações para botões
+// Sistema avançado de micro-interações
 function initializeMicroInteractions() {
+    // Animação dos botões do hero com delays
+    document.querySelectorAll('.hero-buttons .btn-primary').forEach((btn, index) => {
+        btn.style.setProperty('--delay-offset', index);
+    });
+
+    document.querySelectorAll('.hero-buttons .btn-secondary').forEach((btn, index) => {
+        btn.style.setProperty('--delay-offset', index + 1);
+    });
     // Efeito ripple nos botões
     document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
         button.addEventListener('click', function(e) {
@@ -337,87 +370,177 @@ function initializeMicroInteractions() {
         });
     });
 
-    // Hover effects para cards
+    // Hover effects avançados para cards
     document.querySelectorAll('.room-card, .facility-item').forEach(card => {
         card.classList.add('hover-lift');
 
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-12px) rotateY(5deg)';
+            this.style.transform = 'translateY(-15px) rotateY(3deg) scale(1.02)';
+            this.style.boxShadow = '0 25px 50px rgba(184, 52, 28, 0.25)';
+            this.style.zIndex = '10';
         });
 
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(0) rotateY(0deg)';
+            this.style.transform = 'translateY(0) rotateY(0deg) scale(1)';
+            this.style.boxShadow = '';
+            this.style.zIndex = '';
         });
     });
+
+    // Animação de digitação para títulos
+    initializeTypingAnimation();
+
+    // Partículas flutuantes
+    initializeFloatingParticles();
 
     // Efeito glow nos botões principais
     document.querySelectorAll('.btn-primary').forEach(btn => {
         btn.classList.add('hover-glow');
+
+        // Efeito de magnetismo do mouse
+        btn.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            this.style.transform = `translateY(-6px) scale(1.05) rotateX(${y / 10}deg) rotateY(${x / 10}deg)`;
+        });
+
+        btn.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
     });
+}
+
+// Animação de digitação para títulos especiais
+function initializeTypingAnimation() {
+    const heroTitles = document.querySelectorAll('.hero-title');
+
+    heroTitles.forEach(title => {
+        const text = title.textContent;
+        title.textContent = '';
+        title.style.borderRight = '2px solid white';
+
+        let i = 0;
+        const typeInterval = setInterval(() => {
+            title.textContent += text.charAt(i);
+            i++;
+
+            if (i >= text.length) {
+                clearInterval(typeInterval);
+                setTimeout(() => {
+                    title.style.borderRight = 'none';
+                }, 1000);
+            }
+        }, 80);
+    });
+}
+
+// Sistema de partículas flutuantes
+function initializeFloatingParticles() {
+    const heroSection = document.querySelector('.hero-section');
+    if (!heroSection) return;
+
+    const particlesContainer = document.createElement('div');
+    particlesContainer.className = 'floating-particles';
+    particlesContainer.style.cssText = `
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 5;
+    `;
+
+    heroSection.appendChild(particlesContainer);
+
+    // Criar partículas
+    for (let i = 0; i < 20; i++) {
+        createParticle(particlesContainer);
+    }
+}
+
+function createParticle(container) {
+    const particle = document.createElement('div');
+    particle.style.cssText = `
+        position: absolute;
+        width: 4px;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.6);
+        border-radius: 50%;
+        pointer-events: none;
+        animation: floatParticle ${15 + Math.random() * 10}s linear infinite;
+        left: ${Math.random() * 100}%;
+        animation-delay: ${Math.random() * 5}s;
+        box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    `;
+
+    container.appendChild(particle);
 }
 
 // ========== GALERIA ==========
 
-function openGalleryModal(index) {
+window.openGalleryModal = function(index) {
     currentGalleryImage = index;
     const modal = document.getElementById('galleryModal');
     const modalImage = document.getElementById('galleryModalImage');
-    
+
     if (modal && modalImage && galleryImages[index]) {
         modalImage.src = galleryImages[index].src;
         modalImage.alt = galleryImages[index].alt;
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
-}
+};
 
-function closeGalleryModal() {
+window.closeGalleryModal = function() {
     const modal = document.getElementById('galleryModal');
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-}
+};
 
-function nextGalleryImage() {
+window.nextGalleryImage = function() {
     currentGalleryImage = (currentGalleryImage + 1) % galleryImages.length;
     const modalImage = document.getElementById('galleryModalImage');
     if (modalImage && galleryImages[currentGalleryImage]) {
         modalImage.src = galleryImages[currentGalleryImage].src;
         modalImage.alt = galleryImages[currentGalleryImage].alt;
     }
-}
+};
 
-function prevGalleryImage() {
+window.prevGalleryImage = function() {
     currentGalleryImage = (currentGalleryImage - 1 + galleryImages.length) % galleryImages.length;
     const modalImage = document.getElementById('galleryModalImage');
     if (modalImage && galleryImages[currentGalleryImage]) {
         modalImage.src = galleryImages[currentGalleryImage].src;
         modalImage.alt = galleryImages[currentGalleryImage].alt;
     }
-}
+};
 
 // ========== RESERVAS ==========
 
-function openReservationModal(roomType) {
+window.openReservationModal = function(roomType) {
     const modal = document.getElementById('reservationModal');
     const roomSelect = document.getElementById('tipoQuarto');
-    
+
     if (modal && roomSelect) {
         // Pré-selecionar o tipo de quarto
         roomSelect.value = roomType;
         modal.style.display = 'block';
         document.body.style.overflow = 'hidden';
     }
-}
+};
 
-function closeReservationModal() {
+window.closeReservationModal = function() {
     const modal = document.getElementById('reservationModal');
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
-}
+};
 
 // ========== FORMULÁRIOS ==========
 
@@ -724,6 +847,31 @@ if ('IntersectionObserver' in window) {
 // CSS adicional para animações via JavaScript
 const additionalStyles = `
 <style>
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) translateX(0px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(${Math.random() * 200 - 100}px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes textGlow {
+    0%, 100% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3), 0 0 20px rgba(255, 255, 255, 0.5);
+    }
+}
 @keyframes slideInRight {
     from {
         transform: translateX(100%);
