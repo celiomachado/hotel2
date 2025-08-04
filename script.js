@@ -1195,27 +1195,45 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Booking form submission
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const formData = {
-            checkin: document.getElementById('modal-checkin').value,
-            checkout: document.getElementById('modal-checkout').value,
-            guests: document.getElementById('modal-guests').value,
-            roomType: document.getElementById('room-type').value,
-            guestName: document.getElementById('guest-name').value,
-            guestEmail: document.getElementById('guest-email').value,
-            guestPhone: document.getElementById('guest-phone').value,
-            guestCpf: document.getElementById('guest-cpf').value
-        };
-        
-        if (new Date(formData.checkin) >= new Date(formData.checkout)) {
-            showNotification('Data de check-out deve ser posterior ao check-in', 'error');
-            return;
-        }
-        
-        processBooking(formData);
-    });
+    const bookingForm = document.getElementById('bookingForm');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const checkinInput = document.getElementById('modal-checkin');
+            const checkoutInput = document.getElementById('modal-checkout');
+            const guestsInput = document.getElementById('modal-guests');
+            const roomTypeInput = document.getElementById('room-type');
+            const guestNameInput = document.getElementById('guest-name');
+            const guestEmailInput = document.getElementById('guest-email');
+            const guestPhoneInput = document.getElementById('guest-phone');
+            const guestCpfInput = document.getElementById('guest-cpf');
+
+            if (!checkinInput || !checkoutInput || !guestsInput || !roomTypeInput ||
+                !guestNameInput || !guestEmailInput || !guestPhoneInput || !guestCpfInput) {
+                showNotification('Erro no formulário de reserva', 'error');
+                return;
+            }
+
+            const formData = {
+                checkin: checkinInput.value,
+                checkout: checkoutInput.value,
+                guests: guestsInput.value,
+                roomType: roomTypeInput.value,
+                guestName: guestNameInput.value,
+                guestEmail: guestEmailInput.value,
+                guestPhone: guestPhoneInput.value,
+                guestCpf: guestCpfInput.value
+            };
+
+            if (new Date(formData.checkin) >= new Date(formData.checkout)) {
+                showNotification('Data de check-out deve ser posterior ao check-in', 'error');
+                return;
+            }
+
+            processBooking(formData);
+        });
+    }
     
     // Guest login
     const guestLoginForm = document.getElementById('guestLoginForm');
