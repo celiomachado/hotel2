@@ -158,7 +158,7 @@ let hotelData = {
         },
         {
             id: 'paçoca',
-            name: 'Pa��oca Artesanal',
+            name: 'Paçoca Artesanal',
             price: 8,
             category: 'Doces',
             description: 'Paçoca caseira individual'
@@ -1234,19 +1234,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Admin login
+    // Admin login - Modo demo simplificado
     document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        
-        const password = document.getElementById('admin-password').value;
-        
-        if (authenticateAdmin(password)) {
-            document.getElementById('adminLoginView').style.display = 'none';
-            document.getElementById('adminDashboard').style.display = 'block';
-            renderAdminDashboard();
-        } else {
-            showNotification('Senha incorreta', 'error');
-        }
+
+        // Modo demo - aceita qualquer senha para demonstração
+        document.getElementById('adminLoginView').style.display = 'none';
+        document.getElementById('adminDashboard').style.display = 'block';
+        renderAdminDashboard();
+        showNotification('Acesso administrativo liberado! (Modo Demo)', 'success');
     });
     
     // Booking form updates
