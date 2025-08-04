@@ -451,7 +451,7 @@ document.addEventListener('keydown', function(e) {
 
 // Fechar modais clicando fora
 document.addEventListener('click', function(e) {
-    if (e.target.classList.contains('modal')) {
+    if (e.target && e.target.classList && e.target.classList.contains('modal')) {
         if (e.target.id === 'galleryModal') {
             closeGalleryModal();
         } else if (e.target.id === 'reservationModal') {
