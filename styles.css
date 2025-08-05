@@ -1149,6 +1149,106 @@ section {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* Botão Reservar Fixo */
+.reserve-float {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+    animation: reserveFloat 3s ease-in-out infinite;
+}
+
+.reserve-float .btn-reserve {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #FF0040 0%, #FF1744 50%, #FF0040 100%);
+    color: var(--text-white);
+    padding: 18px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    box-shadow:
+        0 0 0 0 rgba(255, 0, 64, 0.7),
+        0 8px 25px rgba(255, 0, 64, 0.4);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid #FF0040;
+    animation: neonPulse 2s ease-in-out infinite alternate;
+    position: relative;
+    overflow: hidden;
+}
+
+.reserve-float .btn-reserve::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.7s ease;
+}
+
+.reserve-float .btn-reserve:hover {
+    background: linear-gradient(135deg, #FF1744 0%, #FF4569 50%, #FF1744 100%);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow:
+        0 0 20px 5px rgba(255, 0, 64, 0.6),
+        0 0 40px 10px rgba(255, 0, 64, 0.3),
+        0 15px 35px rgba(255, 0, 64, 0.4);
+    animation: neonGlow 1s ease-in-out infinite alternate;
+}
+
+.reserve-float .btn-reserve:hover::before {
+    left: 100%;
+}
+
+.reserve-float .btn-reserve i {
+    font-size: 1.2rem;
+    animation: reserveIconSpin 3s ease-in-out infinite;
+}
+
+@keyframes reserveFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes neonPulse {
+    0% {
+        box-shadow:
+            0 0 0 0 rgba(255, 0, 64, 0.7),
+            0 8px 25px rgba(255, 0, 64, 0.4);
+    }
+    100% {
+        box-shadow:
+            0 0 0 8px rgba(255, 0, 64, 0),
+            0 0 20px 5px rgba(255, 0, 64, 0.6),
+            0 8px 25px rgba(255, 0, 64, 0.4);
+    }
+}
+
+@keyframes neonGlow {
+    0% {
+        box-shadow:
+            0 0 20px 5px rgba(255, 0, 64, 0.6),
+            0 0 40px 10px rgba(255, 0, 64, 0.3),
+            0 15px 35px rgba(255, 0, 64, 0.4);
+    }
+    100% {
+        box-shadow:
+            0 0 30px 8px rgba(255, 0, 64, 0.8),
+            0 0 60px 15px rgba(255, 0, 64, 0.5),
+            0 20px 45px rgba(255, 0, 64, 0.6);
+    }
+}
+
+@keyframes reserveIconSpin {
+    0%, 100% { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(5deg) scale(1.1); }
+}
+
 /* WhatsApp Float */
 .whatsapp-float {
     position: fixed;
