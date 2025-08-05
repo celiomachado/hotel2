@@ -1019,6 +1019,8 @@ section {
     align-items: stretch;
     max-width: 100%;
     width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .contact-form .btn-primary {
@@ -1881,7 +1883,7 @@ section {
     }
 }
 
-/* Animaç��es base */
+/* Animações base */
 .animate-element {
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
