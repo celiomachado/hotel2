@@ -1914,22 +1914,22 @@ section {
 
 @keyframes heroImageZoomSlowMobile {
     0% {
-        transform: scale(1.02) rotate(0.1deg);
-        opacity: 0.85;
-        filter: blur(0.5px);
+        transform: scale(1.0);
+        opacity: 1;
+        filter: blur(0px);
     }
     30% {
-        transform: scale(1.015) rotate(0deg);
-        opacity: 0.92;
-        filter: blur(0.3px);
+        transform: scale(1.015);
+        opacity: 1;
+        filter: blur(0px);
     }
     60% {
-        transform: scale(1.008) rotate(-0.05deg);
-        opacity: 0.96;
-        filter: blur(0.1px);
+        transform: scale(1.035);
+        opacity: 1;
+        filter: blur(0px);
     }
     100% {
-        transform: scale(1.0) rotate(0deg);
+        transform: scale(1.06);
         opacity: 1;
         filter: blur(0px);
     }
