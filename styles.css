@@ -1902,7 +1902,7 @@ section {
 
 @media (max-width: 480px) {
     .hero-slide img {
-        transform: scale(1.02);
+        transform: scale(1.0);
         object-position: center 30%;
     }
 
