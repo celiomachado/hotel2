@@ -24,8 +24,19 @@
                     <li><a href="#acomodacoes" class="nav-link">Acomodações</a></li>
                     <li><a href="#estrutura" class="nav-link">Estrutura</a></li>
                     <li><a href="#galeria" class="nav-link">Galeria</a></li>
+                    <li><a href="#blog" class="nav-link">Blog</a></li>
                     <li><a href="#contato" class="nav-link">Contato</a></li>
                 </ul>
+                <div class="nav-actions">
+                    <div class="contact-info">
+                        <i class="fas fa-phone"></i>
+                        <span>(66) 3468-2001</span>
+                    </div>
+                    <a href="#contato" class="btn-reserve-header" onclick="openReservationModal('standard')">
+                        <i class="fas fa-calendar-check"></i>
+                        Reservar
+                    </a>
+                </div>
                 <div class="mobile-menu-toggle" id="mobileToggle">
                     <span></span>
                     <span></span>
@@ -46,8 +57,22 @@
                             <h1 class="hero-title">Hospede-se no coração da natureza</h1>
                             <p class="hero-subtitle">Descubra a perfeita harmonia entre conforto e natureza no Hotel Serra do Roncador</p>
                             <div class="hero-buttons">
-                                <a href="#acomodacoes" class="btn-primary">Ver Quartos</a>
-                                <a href="#contato" class="btn-secondary">Reservar Agora</a>
+                                <a href="#acomodacoes" class="btn-secondary">Ver Quartos</a>
+                                <a href="#contato" class="btn-primary hero-cta" onclick="openReservationModal('standard')">Reservar Agora</a>
+                            </div>
+                            <div class="hero-info">
+                                <div class="hero-info-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>BR 158 - Água Boa, MT</span>
+                                </div>
+                                <div class="hero-info-item">
+                                    <i class="fas fa-phone"></i>
+                                    <span>(66) 3468-2001</span>
+                                </div>
+                                <div class="hero-info-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>50 Apartamentos</span>
+                                </div>
                             </div>
                         </div>
                     </div>
