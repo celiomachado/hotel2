@@ -372,8 +372,8 @@ p {
 
 .hero-buttons .btn-primary,
 .hero-buttons .btn-secondary {
-    animation: heroButtonFloat 4s ease-in-out infinite;
-    animation-delay: calc(var(--delay-offset, 0) * 0.3s);
+    /* Removido animação de flutuação para evitar efeito de "pular" na inicialização */
+    animation: none;
 }
 
 .hero-title {
@@ -1354,10 +1354,12 @@ section {
     50% { transform: translateY(-5px); }
 }
 
+/* Animação removida para evitar efeito de "pular" nos botões do hero
 @keyframes heroButtonFloat {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-8px); }
 }
+*/
 
 /* Modais */
 .modal {
