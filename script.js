@@ -194,11 +194,11 @@ window.currentHeroSlide = function(index) {
 function startHeroSlider() {
     if (heroSlides && heroSlides.length > 1) {
         console.log('Iniciando slider com', heroSlides.length, 'slides');
-        clearInterval(heroInterval); // Limpar intervalo anterior
+        clearInterval(heroInterval);
         heroInterval = setInterval(() => {
             console.log('Trocando slide...');
-            nextHeroSlide();
-        }, 12000);
+            window.nextHeroSlide();
+        }, 15000); // Mudança a cada 15 segundos
     } else {
         console.log('Slider não iniciado - slides:', heroSlides?.length);
     }
