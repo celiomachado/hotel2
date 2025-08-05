@@ -1888,15 +1888,6 @@ section {
         display: none;
     }
 
-    .hero-info {
-        gap: 1rem;
-    }
-
-    .hero-info-item {
-        font-size: 0.85rem;
-        padding: 6px 12px;
-    }
-
     .accommodation-filters {
         gap: 0.5rem;
     }
