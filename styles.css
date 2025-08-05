@@ -1950,12 +1950,25 @@ section {
 
     .contact-content {
         grid-template-columns: 1fr;
-        gap: 2.5rem;
+        gap: 2rem;
+        margin-top: 2rem;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0;
     }
 
     .contact-form {
         width: 100%;
         box-sizing: border-box;
+        margin: 0;
+        padding: 1.5rem;
+    }
+
+    .contact-info {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
     }
 }
 
