@@ -1192,12 +1192,8 @@ section {
 
 .reserve-float .btn-reserve:hover {
     background: linear-gradient(135deg, #FF1744 0%, #FF4569 50%, #FF1744 100%);
-    transform: translateY(-5px) scale(1.05);
-    box-shadow:
-        0 0 20px 5px rgba(255, 0, 64, 0.6),
-        0 0 40px 10px rgba(255, 0, 64, 0.3),
-        0 15px 35px rgba(255, 0, 64, 0.4);
-    animation: neonGlow 1s ease-in-out infinite alternate;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 12px 30px rgba(255, 0, 64, 0.3);
 }
 
 .reserve-float .btn-reserve:hover::before {
