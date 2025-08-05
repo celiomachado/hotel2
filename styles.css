@@ -335,14 +335,16 @@ p {
     height: 100%;
     object-fit: cover;
     object-position: center center;
-    transform: scale(1.15);
-    transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: scale(1.0) !important;
+    transition: transform 18s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
+    position: relative;
+    top: 0;
+    left: 0;
 }
 
 .hero-slide.active img {
-    animation: heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-               heroImagePulse 20s ease-in-out infinite 8s;
+    animation: heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
 .hero-overlay {
@@ -966,6 +968,7 @@ section {
 .contact-section {
     padding: var(--section-padding);
     background: var(--cream);
+    overflow-x: hidden;
 }
 
 .contact-content {
@@ -973,6 +976,9 @@ section {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     margin-top: 3rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .contact-info {
@@ -1021,6 +1027,7 @@ section {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    margin: 0 auto;
 }
 
 .contact-form .btn-primary {
@@ -1306,22 +1313,27 @@ section {
 
 @keyframes heroImageZoomSlow {
     0% {
-        transform: scale(1.15) rotate(0.5deg);
-        opacity: 0.6;
-        filter: blur(3px);
+        transform: scale(1.0);
+        opacity: 1;
+        filter: blur(0px);
     }
-    30% {
-        transform: scale(1.08) rotate(0deg);
-        opacity: 0.8;
-        filter: blur(1.5px);
+    25% {
+        transform: scale(1.02);
+        opacity: 1;
+        filter: blur(0px);
     }
-    70% {
-        transform: scale(1.02) rotate(-0.2deg);
-        opacity: 0.95;
-        filter: blur(0.5px);
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+        filter: blur(0px);
+    }
+    75% {
+        transform: scale(1.08);
+        opacity: 1;
+        filter: blur(0px);
     }
     100% {
-        transform: scale(1.0) rotate(0deg);
+        transform: scale(1.12);
         opacity: 1;
         filter: blur(0px);
     }
@@ -1332,7 +1344,7 @@ section {
         transform: scale(1.0);
     }
     50% {
-        transform: scale(1.02);
+        transform: scale(1.005);
     }
 }
 
@@ -1480,6 +1492,15 @@ section {
         padding: 0 15px;
     }
 
+    .hero-slide img {
+        transform: scale(1.0);
+        object-position: center center;
+    }
+
+    .hero-slide.active img {
+        animation: heroImageZoomSlow 15s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+
     .rooms-grid {
         grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 2rem;
@@ -1487,6 +1508,17 @@ section {
 
     .facilities-grid {
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .contact-form {
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
     }
 }
 
@@ -1596,13 +1628,25 @@ section {
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
-        padding: 0 10px;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .contact-form {
         padding: 1.5rem;
-        margin: 0 auto;
-        max-width: calc(100vw - 40px);
+        margin: 0;
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .contact-section .container {
+        padding: 0 15px;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .form-row {
@@ -1731,13 +1775,24 @@ section {
     }
 
     .contact-form {
-        padding: 1.5rem;
+        padding: 1.2rem;
         margin: 0;
         max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .contact-content {
-        padding: 0 5px;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .contact-section .container {
+        padding: 0 10px;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     .form-group {
@@ -1749,6 +1804,17 @@ section {
     .form-group select {
         padding: 12px;
         font-size: 0.95rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .contact-info {
+        margin-bottom: 1rem;
+    }
+
+    .contact-item {
+        padding: 1.5rem;
+        margin-bottom: 1rem;
     }
 
     .room-content {
@@ -1822,46 +1888,46 @@ section {
 /* Responsividade específica para hero images */
 @media (max-width: 768px) {
     .hero-slide img {
-        transform: scale(1.2);
+        transform: scale(1.0);
         object-position: center center;
     }
 
     .hero-slide.active img {
-        animation: heroImageZoomSlowMobile 10s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-                   heroImagePulse 15s ease-in-out infinite 6s;
+        animation: heroImageZoomSlowMobile 15s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                   heroImagePulse 20s ease-in-out infinite 10s;
     }
 }
 
 @media (max-width: 480px) {
     .hero-slide img {
-        transform: scale(1.25);
+        transform: scale(1.0);
         object-position: center 30%;
     }
 
     .hero-slide.active img {
-        animation: heroImageZoomSlowMobile 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-                   heroImagePulse 12s ease-in-out infinite 4s;
+        animation: heroImageZoomSlowMobile 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                   heroImagePulse 18s ease-in-out infinite 8s;
     }
 }
 
 @keyframes heroImageZoomSlowMobile {
     0% {
-        transform: scale(1.25) rotate(0.3deg);
-        opacity: 0.7;
-        filter: blur(2px);
+        transform: scale(1.0);
+        opacity: 1;
+        filter: blur(0px);
     }
-    40% {
-        transform: scale(1.12) rotate(0deg);
-        opacity: 0.85;
-        filter: blur(1px);
+    30% {
+        transform: scale(1.015);
+        opacity: 1;
+        filter: blur(0px);
     }
-    80% {
-        transform: scale(1.05) rotate(-0.1deg);
-        opacity: 0.95;
-        filter: blur(0.3px);
+    60% {
+        transform: scale(1.035);
+        opacity: 1;
+        filter: blur(0px);
     }
     100% {
-        transform: scale(1.0) rotate(0deg);
+        transform: scale(1.06);
         opacity: 1;
         filter: blur(0px);
     }

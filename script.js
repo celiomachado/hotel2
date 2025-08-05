@@ -124,14 +124,16 @@ function initializeHeroSlider() {
     heroSlides = document.querySelectorAll('.hero-slide');
     console.log('Hero slides encontrados:', heroSlides.length);
     if (heroSlides.length > 0) {
-        showHeroSlide(0);
-        // Garantir que todas as imagens tenham a animação
+        // Limpar qualquer transform incorreto das imagens
         heroSlides.forEach((slide, index) => {
             const img = slide.querySelector('img');
             if (img) {
-                img.style.animation = index === 0 ? 'heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none';
+                // Remover qualquer transform de parallax
+                img.style.transform = 'scale(1.0)';
+                img.style.animation = index === 0 ? 'heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none';
             }
         });
+        showHeroSlide(0);
     }
 }
 
@@ -153,9 +155,11 @@ function showHeroSlide(index) {
             // Reiniciar animação da imagem
             const activeImg = heroSlides[index].querySelector('img');
             if (activeImg) {
+                // Garantir que o transform está correto
+                activeImg.style.transform = 'scale(1.0)';
                 activeImg.style.animation = 'none';
                 setTimeout(() => {
-                    activeImg.style.animation = 'heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+                    activeImg.style.animation = 'heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
                 }, 10);
             }
         }
@@ -188,7 +192,7 @@ function startHeroSlider() {
         heroInterval = setInterval(() => {
             console.log('Trocando slide...');
             nextHeroSlide();
-        }, 8000);
+        }, 12000);
     } else {
         console.log('Slider não iniciado - slides:', heroSlides?.length);
     }
@@ -315,7 +319,7 @@ function initializeScrollAnimations() {
     });
 }
 
-// Parallax scrolling para elementos especiais
+// Parallax scrolling para elementos especiais (exceto hero)
 function initializeParallax() {
     const parallaxElements = document.querySelectorAll('.parallax-element');
 
@@ -323,6 +327,10 @@ function initializeParallax() {
         const scrollTop = window.pageYOffset;
 
         parallaxElements.forEach(el => {
+            // Não aplicar parallax se o elemento estiver dentro do hero
+            const isHeroElement = el.closest('.hero-section');
+            if (isHeroElement) return;
+
             const speed = el.dataset.speed || 0.5;
             const yPos = -(scrollTop * speed);
             el.style.transform = `translateY(${yPos}px)`;
