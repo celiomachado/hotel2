@@ -2423,14 +2423,29 @@ section {
         font-size: clamp(0.9rem, 4vw, 1.1rem);
     }
 
-    .contact-form {
-        padding: 1.2rem;
+    .contact-section .container {
+        padding: 0 10px;
         width: 100%;
         box-sizing: border-box;
     }
 
+    .contact-content {
+        gap: 1rem;
+        margin-top: 1.5rem;
+        width: 100%;
+        padding: 0;
+    }
+
+    .contact-form {
+        padding: 1rem;
+        width: 100%;
+        box-sizing: border-box;
+        margin: 0;
+    }
+
     .form-group {
-        margin-bottom: 1.2rem;
+        margin-bottom: 1rem;
+        width: 100%;
     }
 
     .form-group input,
@@ -2444,11 +2459,15 @@ section {
 
     .contact-info {
         margin-bottom: 1rem;
+        width: 100%;
+        padding: 0;
     }
 
     .contact-item {
-        padding: 1.5rem;
-        margin-bottom: 1rem;
+        padding: 1.2rem;
+        margin-bottom: 0.8rem;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .room-content {
