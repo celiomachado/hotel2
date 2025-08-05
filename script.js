@@ -399,7 +399,7 @@ function initializeMicroInteractions() {
     // Animação de digitação para títulos
     initializeTypingAnimation();
 
-    // Part��culas flutuantes
+    // Partículas flutuantes
     initializeFloatingParticles();
 
     // Efeito glow nos botões principais
@@ -737,6 +737,10 @@ function handleContactSubmit(e) {
                 window.open(whatsappUrl, '_blank');
                 showNotification('Mensagem preparada! Complete o envio pelo WhatsApp.', 'success');
                 e.target.reset();
+
+                // Restaurar botão
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
             }, 1500);
         }, 1000);
     } catch (error) {
