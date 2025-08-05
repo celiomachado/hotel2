@@ -2017,11 +2017,39 @@ section {
         padding: 1.5rem;
         border-radius: 12px;
         margin-top: -30px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     .quick-booking-section {
         padding: 1rem 0;
         margin-top: -30px;
+    }
+
+    .quick-booking-widget h3 {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 1.5rem;
+    }
+
+    .quick-booking-form {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .quick-booking-form .form-group {
+        width: 100%;
+        text-align: left;
+    }
+
+    .quick-booking-form .btn-primary {
+        width: 100%;
+        margin: 1rem 0 0 0;
+        justify-content: center;
+        display: flex;
+        align-items: center;
     }
 
     .testimonials-slider {
