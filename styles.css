@@ -276,6 +276,46 @@ p {
     width: 100%;
 }
 
+/* Navigation Actions */
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.contact-info i {
+    color: var(--primary-red);
+}
+
+.btn-reserve-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gradient-warm);
+    color: var(--text-white);
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    box-shadow: var(--shadow-soft);
+}
+
+.btn-reserve-header:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
 .mobile-menu-toggle {
     display: none;
     flex-direction: column;
