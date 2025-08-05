@@ -219,6 +219,7 @@ p {
     justify-content: space-between;
     align-items: center;
     position: relative;
+    gap: 2rem;
 }
 
 .nav-brand {
