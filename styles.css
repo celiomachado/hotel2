@@ -1169,15 +1169,12 @@ section {
     padding: 18px 25px;
     border-radius: 50px;
     text-decoration: none;
-    box-shadow:
-        0 0 0 0 rgba(255, 0, 64, 0.7),
-        0 8px 25px rgba(255, 0, 64, 0.4);
+    box-shadow: 0 8px 25px rgba(255, 0, 64, 0.2);
     transition: all 0.3s ease;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
     border: 2px solid #FF0040;
-    animation: neonPulse 2s ease-in-out infinite alternate;
     position: relative;
     overflow: hidden;
 }
