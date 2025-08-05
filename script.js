@@ -690,23 +690,56 @@ function initializeForms() {
 
 function handleContactSubmit(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    
+
     // Validação básica
     if (!data.nome || !data.email || !data.telefone || !data.mensagem) {
         showNotification('Por favor, preencha todos os campos obrigatórios.', 'error');
         return;
     }
-    
-    // Simular envio
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+        showNotification('Por favor, insira um e-mail válido.', 'error');
+        return;
+    }
+
+    // Mostrar que está enviando
     showNotification('Enviando mensagem...', 'info');
-    
-    setTimeout(() => {
-        showNotification('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
-        e.target.reset();
-    }, 2000);
+
+    // Envio via WhatsApp como backup principal
+    const message = `
+*Nova mensagem do site Hotel Serra do Roncador*
+
+*Nome:* ${data.nome}
+*E-mail:* ${data.email}
+*Telefone:* ${data.telefone}
+*Mensagem:* ${data.mensagem}
+    `.trim();
+
+    const whatsappUrl = `https://wa.me/5566346820014?text=${encodeURIComponent(message)}`;
+
+    // Tentar envio via email (se configurado) ou WhatsApp
+    try {
+        // Simular envio bem-sucedido
+        setTimeout(() => {
+            showNotification('Redirecionando para WhatsApp para confirmar o envio...', 'info');
+            setTimeout(() => {
+                window.open(whatsappUrl, '_blank');
+                showNotification('Mensagem preparada! Complete o envio pelo WhatsApp.', 'success');
+                e.target.reset();
+            }, 1500);
+        }, 1000);
+    } catch (error) {
+        console.error('Erro no envio:', error);
+        showNotification('Erro no envio. Redirecionando para WhatsApp...', 'error');
+        setTimeout(() => {
+            window.open(whatsappUrl, '_blank');
+        }, 2000);
+    }
 }
 
 function handleReservationSubmit(e) {
