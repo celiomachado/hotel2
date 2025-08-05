@@ -1528,7 +1528,94 @@ section {
     color: rgba(255, 255, 255, 0.7);
 }
 
-/* Botão Reservar Fixo */
+/* Barra de Navegação Móvel Fixa */
+.mobile-bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--text-white);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 10px 0 calc(10px + env(safe-area-inset-bottom));
+    z-index: 2000;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.mobile-bottom-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1.5fr;
+    gap: 5px;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.mobile-bottom-nav .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-dark);
+    padding: 8px 4px;
+    border-radius: 8px;
+    transition: var(--transition);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.mobile-bottom-nav .nav-item i {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+    color: var(--primary-red);
+}
+
+.mobile-bottom-nav .nav-item span {
+    font-size: 0.7rem;
+    text-align: center;
+    line-height: 1;
+}
+
+.mobile-bottom-nav .nav-item.reserve-btn {
+    background: var(--gradient-warm);
+    color: var(--text-white);
+    border-radius: 12px;
+    padding: 12px 8px;
+    margin: 0 5px;
+    box-shadow: 0 4px 15px rgba(184, 52, 28, 0.3);
+    animation: reservePulse 2s ease-in-out infinite;
+}
+
+.mobile-bottom-nav .nav-item.reserve-btn i {
+    color: var(--text-white);
+    font-size: 1.3rem;
+}
+
+.mobile-bottom-nav .nav-item.reserve-btn span {
+    color: var(--text-white);
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+}
+
+@keyframes reservePulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.mobile-bottom-nav .nav-item:active {
+    transform: scale(0.95);
+}
+
+/* Classe para esconder botão desktop no mobile */
+.desktop-only {
+    display: block;
+}
+
+/* Botão Reservar Fixo (Desktop) */
 .reserve-float {
     position: fixed;
     bottom: 30px;
