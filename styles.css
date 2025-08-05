@@ -1456,6 +1456,20 @@ section {
     .gallery-item.large {
         grid-column: span 1;
     }
+
+    .hero-content {
+        max-width: 95%;
+        padding: 0 15px;
+    }
+
+    .rooms-grid {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+
+    .facilities-grid {
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
 }
 
 @media (max-width: 768px) {
@@ -1463,13 +1477,18 @@ section {
         --section-padding: 60px 0;
         --container-padding: 0 15px;
     }
-    
+
     .navbar .container {
-        justify-content: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
     }
 
     .nav-brand {
-        justify-content: center;
+        justify-content: flex-start;
+    }
+
+    .logo {
+        height: 40px;
     }
 
     .nav-menu {
@@ -1485,76 +1504,139 @@ section {
         transition: var(--transition);
         box-shadow: var(--shadow-medium);
     }
-    
+
     .nav-menu.active {
         left: 0;
     }
-    
+
     .mobile-menu-toggle {
         display: flex;
+        position: relative;
+        right: auto;
     }
-    
+
     .mobile-menu-toggle.active span:nth-child(1) {
         transform: rotate(-45deg) translate(-5px, 6px);
     }
-    
+
     .mobile-menu-toggle.active span:nth-child(2) {
         opacity: 0;
     }
-    
+
     .mobile-menu-toggle.active span:nth-child(3) {
         transform: rotate(45deg) translate(-5px, -6px);
     }
-    
+
+    .hero-section {
+        height: 70vh;
+        min-height: 500px;
+    }
+
+    .hero-content {
+        max-width: 100%;
+        padding: 0 20px;
+    }
+
+    .hero-title {
+        font-size: clamp(1.8rem, 6vw, 2.5rem);
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: clamp(1rem, 4vw, 1.2rem);
+        margin-bottom: 2rem;
+    }
+
     .hero-buttons {
         flex-direction: column;
         align-items: center;
+        gap: 1rem;
+        width: 100%;
     }
-    
+
+    .hero-buttons .btn-primary,
+    .hero-buttons .btn-secondary {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+
     .hero-controls {
         padding: 0 15px;
     }
-    
+
     .hero-prev, .hero-next {
         width: 40px;
         height: 40px;
     }
-    
+
     .about-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
+    .contact-form {
+        padding: 2rem;
+    }
+
     .form-row {
         grid-template-columns: 1fr;
+        gap: 0;
     }
-    
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 15px;
+        font-size: 1rem;
+    }
+
+    .form-group textarea {
+        min-height: 120px;
+    }
+
     .rooms-grid {
         grid-template-columns: 1fr;
+        gap: 2rem;
     }
-    
+
+    .room-card {
+        max-width: 100%;
+    }
+
     .facilities-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
     }
-    
+
     .gallery-grid {
         grid-template-columns: 1fr;
+        gap: 1rem;
     }
-    
+
+    .gallery-item {
+        height: 200px;
+    }
+
     .footer-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
+    .whatsapp-float {
+        bottom: 120px;
+        right: 20px;
+    }
+
     .whatsapp-float a span {
         display: none;
     }
-    
+
     .whatsapp-float a {
         width: 60px;
         height: 60px;
@@ -1562,43 +1644,139 @@ section {
         padding: 0;
         justify-content: center;
     }
-    
+
+    .reserve-float {
+        bottom: 20px;
+        left: 20px;
+        right: auto;
+    }
+
+    .reserve-float .btn-reserve {
+        padding: 15px 20px;
+        font-size: 0.9rem;
+    }
+
+    .reserve-float .btn-reserve span {
+        display: none;
+    }
+
     .gallery-nav.prev { left: -50px; }
     .gallery-nav.next { right: -50px; }
 }
 
 @media (max-width: 480px) {
+    :root {
+        --section-padding: 40px 0;
+        --container-padding: 0 10px;
+    }
+
+    .hero-section {
+        height: 60vh;
+        min-height: 450px;
+    }
+
+    .hero-content {
+        padding: 0 15px;
+    }
+
     .hero-title {
-        font-size: 2rem;
+        font-size: clamp(1.5rem, 8vw, 2rem);
+        line-height: 1.2;
     }
-    
+
     .hero-subtitle {
-        font-size: 1.1rem;
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+        margin-bottom: 1.5rem;
     }
-    
+
     .btn-primary, .btn-secondary {
-        padding: 12px 24px;
-        font-size: 0.95rem;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 250px;
     }
-    
-    .modal-content {
-        width: 95%;
-        margin: 10% auto;
+
+    .section-title {
+        font-size: clamp(1.5rem, 6vw, 2rem);
+    }
+
+    .section-subtitle {
+        font-size: clamp(0.9rem, 4vw, 1.1rem);
+    }
+
+    .contact-form {
         padding: 1.5rem;
     }
-    
+
+    .form-group {
+        margin-bottom: 1.2rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+
+    .room-content {
+        padding: 1.5rem;
+    }
+
+    .facility-item {
+        padding: 1.5rem;
+    }
+
+    .gallery-item {
+        height: 180px;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 5% auto;
+        padding: 1.5rem;
+    }
+
+    .reservation-form .form-row {
+        margin-bottom: 0.8rem;
+    }
+
     .whatsapp-float {
-        bottom: 20px;
-        right: 20px;
+        bottom: 100px;
+        right: 15px;
     }
-    
+
+    .whatsapp-float a {
+        width: 55px;
+        height: 55px;
+    }
+
+    .reserve-float {
+        bottom: 15px;
+        left: 15px;
+    }
+
+    .reserve-float .btn-reserve {
+        padding: 12px 15px;
+        font-size: 0.8rem;
+        border-radius: 40px;
+    }
+
     .gallery-nav {
-        width: 40px;
-        height: 40px;
+        width: 35px;
+        height: 35px;
     }
-    
-    .gallery-nav.prev { left: -45px; }
-    .gallery-nav.next { right: -45px; }
+
+    .gallery-nav.prev { left: -40px; }
+    .gallery-nav.next { right: -40px; }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .map-container iframe {
+        height: 120px;
+    }
 }
 
 /* Sistema Completo de Animações Modernas e Dinâmicas */
@@ -1809,10 +1987,10 @@ section {
 
 @keyframes buttonGlow {
     0% {
-        box-shadow: var(--shadow-soft);
+        box-shadow: 0 8px 25px rgba(255, 23, 68, 0.4), 0 0 0 1px rgba(255, 23, 68, 0.2);
     }
     100% {
-        box-shadow: 0 4px 25px rgba(184, 52, 28, 0.3), 0 0 20px rgba(184, 52, 28, 0.2);
+        box-shadow: 0 12px 35px rgba(255, 23, 68, 0.6), 0 0 25px rgba(255, 23, 68, 0.4);
     }
 }
 
@@ -1827,12 +2005,12 @@ section {
 
 @keyframes buttonBorderGlow {
     0%, 100% {
-        border-color: var(--text-white);
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+        border-color: #00E676;
+        box-shadow: 0 8px 25px rgba(0, 230, 118, 0.4), 0 0 0 1px rgba(0, 230, 118, 0.2);
     }
     50% {
-        border-color: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        border-color: #1DE9B6;
+        box-shadow: 0 12px 35px rgba(0, 230, 118, 0.6), 0 0 25px rgba(0, 230, 118, 0.4);
     }
 }
 
