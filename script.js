@@ -188,7 +188,7 @@ function startHeroSlider() {
         heroInterval = setInterval(() => {
             console.log('Trocando slide...');
             nextHeroSlide();
-        }, 4500);
+        }, 8000);
     } else {
         console.log('Slider não iniciado - slides:', heroSlides?.length);
     }
@@ -332,7 +332,7 @@ function initializeParallax() {
 
 // Sistema avançado de micro-interações
 function initializeMicroInteractions() {
-    // Animação dos botões do hero com delays
+    // Animaç��o dos botões do hero com delays
     document.querySelectorAll('.hero-buttons .btn-primary').forEach((btn, index) => {
         btn.style.setProperty('--delay-offset', index);
     });
