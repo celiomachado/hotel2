@@ -1716,6 +1716,34 @@ section {
     .navbar .container {
         justify-content: space-between;
         flex-wrap: nowrap;
+        gap: 1rem;
+    }
+
+    .nav-actions {
+        display: none;
+    }
+
+    .hero-info {
+        gap: 1rem;
+    }
+
+    .hero-info-item {
+        font-size: 0.85rem;
+        padding: 6px 12px;
+    }
+
+    .accommodation-filters {
+        gap: 0.5rem;
+    }
+
+    .filter-btn {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .blog-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
     }
 
     .nav-brand {
