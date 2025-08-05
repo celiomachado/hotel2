@@ -124,13 +124,12 @@ function initializeHeroSlider() {
     heroSlides = document.querySelectorAll('.hero-slide');
     console.log('Hero slides encontrados:', heroSlides.length);
     if (heroSlides.length > 0) {
-        // Limpar qualquer transform incorreto das imagens
+        // Limpar qualquer estilo incorreto das imagens
         heroSlides.forEach((slide, index) => {
             const img = slide.querySelector('img');
             if (img) {
-                // Remover qualquer transform de parallax
                 img.style.transform = 'scale(1.0)';
-                img.style.animation = index === 0 ? 'heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none';
+                img.style.animation = 'none';
             }
         });
         showHeroSlide(0);
