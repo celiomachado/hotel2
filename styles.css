@@ -33,7 +33,7 @@
     --shadow-medium: 0 8px 30px rgba(184, 52, 28, 0.15);
     --shadow-strong: 0 15px 50px rgba(184, 52, 28, 0.2);
     
-    /* Transições */
+    /* Transi��ões */
     --transition: all 0.3s ease;
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1672,11 +1672,7 @@ section {
         font-size: 1rem;
         width: auto;
         min-width: 200px;
-        box-shadow:
-            0 0 0 0 rgba(255, 0, 64, 0.8),
-            0 12px 30px rgba(255, 0, 64, 0.5),
-            0 0 40px rgba(255, 0, 64, 0.3);
-        animation: neonPulseMobile 2s ease-in-out infinite alternate;
+        box-shadow: 0 12px 30px rgba(255, 0, 64, 0.3);
     }
 
     .reserve-float .btn-reserve span {
