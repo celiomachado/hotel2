@@ -1893,6 +1893,11 @@ section {
         padding: 1.5rem;
     }
 
+    .testimonials-slider {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
     .nav-brand {
         justify-content: flex-start;
     }
