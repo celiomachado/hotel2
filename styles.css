@@ -1025,6 +1025,7 @@ section {
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
+    margin: 0 auto;
 }
 
 .contact-form .btn-primary {
