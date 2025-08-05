@@ -1742,22 +1742,7 @@ section {
 
     .contact-form {
         padding: 1.2rem;
-        margin: 0;
         width: 100%;
-        box-sizing: border-box;
-    }
-
-    .contact-content {
-        padding: 0 10px;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        margin: 0;
-    }
-
-    .contact-section .container {
-        padding: 0 10px;
-        max-width: 100%;
         box-sizing: border-box;
     }
 
