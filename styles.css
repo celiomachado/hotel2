@@ -1270,6 +1270,8 @@ section {
     padding: var(--section-padding);
     background: var(--cream);
     overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .contact-section .container {
