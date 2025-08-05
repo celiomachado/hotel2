@@ -2268,8 +2268,35 @@ section {
     }
 
     .hero-section {
-        height: 60vh;
-        min-height: 450px;
+        height: 70vh;
+        min-height: 500px;
+    }
+
+    .mobile-bottom-nav {
+        padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
+    }
+
+    .mobile-bottom-nav .nav-item {
+        padding: 6px 2px;
+        font-size: 0.7rem;
+    }
+
+    .mobile-bottom-nav .nav-item i {
+        font-size: 1.1rem;
+        margin-bottom: 3px;
+    }
+
+    .mobile-bottom-nav .nav-item span {
+        font-size: 0.65rem;
+    }
+
+    .mobile-bottom-nav .nav-item.reserve-btn {
+        padding: 10px 6px;
+        margin: 0 3px;
+    }
+
+    .mobile-bottom-nav .nav-item.reserve-btn span {
+        font-size: 0.7rem;
     }
 
     .hero-content {
