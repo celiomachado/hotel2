@@ -2227,20 +2227,7 @@ section {
     }
 
     .whatsapp-float {
-        bottom: 110px;
-        right: 20px;
-    }
-
-    .whatsapp-float a span {
         display: none;
-    }
-
-    .whatsapp-float a {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        padding: 0;
-        justify-content: center;
     }
 
     .reserve-float {
