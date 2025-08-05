@@ -1493,14 +1493,11 @@ section {
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2.5rem;
-        padding: 0 20px;
-        max-width: 100%;
     }
 
     .contact-form {
         width: 100%;
         box-sizing: border-box;
-        margin: 0;
     }
 }
 
