@@ -399,7 +399,7 @@ function initializeMicroInteractions() {
     // Animação de digitação para títulos
     initializeTypingAnimation();
 
-    // Partículas flutuantes
+    // Part��culas flutuantes
     initializeFloatingParticles();
 
     // Efeito glow nos botões principais
@@ -706,6 +706,12 @@ function handleContactSubmit(e) {
         showNotification('Por favor, insira um e-mail válido.', 'error');
         return;
     }
+
+    // Desabilitar botão e mostrar loading
+    const submitButton = e.target.querySelector('button[type="submit"]');
+    const originalText = submitButton.innerHTML;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
 
     // Mostrar que está enviando
     showNotification('Enviando mensagem...', 'info');
