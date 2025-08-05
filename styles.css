@@ -2384,6 +2384,11 @@ section {
         font-size: 0.9rem;
         width: 100%;
         max-width: 250px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
     }
 
     .section-title {
@@ -2553,7 +2558,7 @@ section {
     }
 }
 
-/* Sistema Completo de Animações Modernas e Dinâmicas */
+/* Sistema Completo de Animações Modernas e Din��micas */
 
 /* Animações de entrada para seções */
 @keyframes sectionSlideUp {
