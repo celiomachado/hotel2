@@ -102,6 +102,8 @@ p {
     overflow: hidden;
     margin: 0 auto;
     z-index: 1;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-primary::before,
@@ -133,16 +135,19 @@ p {
 }
 
 .btn-primary {
-    background: var(--gradient-warm);
+    background: linear-gradient(135deg, #FF1744 0%, #FF6B35 50%, #FF1744 100%);
     color: var(--text-white);
-    box-shadow: var(--shadow-soft);
+    box-shadow: 0 8px 25px rgba(255, 23, 68, 0.4), 0 0 0 1px rgba(255, 23, 68, 0.2);
     animation: buttonGlow 3s ease-in-out infinite alternate;
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 .btn-primary:hover {
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 15px 40px rgba(184, 52, 28, 0.4);
+    transform: translateY(-8px) scale(1.08);
+    box-shadow: 0 20px 50px rgba(255, 23, 68, 0.6), 0 0 30px rgba(255, 23, 68, 0.4);
     animation: buttonPulse 0.6s ease-in-out;
+    background: linear-gradient(135deg, #FF1744 0%, #FF4569 50%, #FF1744 100%);
 }
 
 .btn-primary:hover::before {
@@ -160,19 +165,20 @@ p {
 }
 
 .btn-secondary {
-    background: transparent;
+    background: linear-gradient(135deg, #00E676 0%, #1DE9B6 50%, #00E676 100%);
     color: var(--text-white);
-    border: 2px solid var(--text-white);
+    border: 2px solid #00E676;
     position: relative;
     animation: buttonBorderGlow 4s ease-in-out infinite;
+    box-shadow: 0 8px 25px rgba(0, 230, 118, 0.4), 0 0 0 1px rgba(0, 230, 118, 0.2);
 }
 
 .btn-secondary:hover {
-    background: var(--text-white);
-    color: var(--primary-red);
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
-    border-color: var(--primary-red);
+    background: linear-gradient(135deg, #00E676 0%, #26A69A 50%, #00E676 100%);
+    color: var(--text-white);
+    transform: translateY(-8px) scale(1.08);
+    box-shadow: 0 20px 50px rgba(0, 230, 118, 0.6), 0 0 30px rgba(0, 230, 118, 0.4);
+    border-color: #00E676;
 }
 
 .btn-secondary:hover::before {
@@ -291,6 +297,9 @@ p {
     height: 100vh;
     overflow: hidden;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .hero-slider {
@@ -324,13 +333,14 @@ p {
     height: 100%;
     object-fit: cover;
     object-position: center center;
-    transform: scale(1.1);
-    transition: var(--transition-smooth);
+    transform: scale(1.15);
+    transition: transform 12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform;
 }
 
 .hero-slide.active img {
-    animation: heroImageZoom 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-               heroImagePulse 15s ease-in-out infinite 3s;
+    animation: heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+               heroImagePulse 20s ease-in-out infinite 8s;
 }
 
 .hero-overlay {
@@ -348,9 +358,12 @@ p {
 .hero-content {
     text-align: center;
     color: var(--text-white);
-    max-width: 800px;
+    max-width: 90%;
+    width: 100%;
     padding: 0 20px;
     animation: heroContentFadeIn 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-title {
@@ -381,6 +394,7 @@ p {
     gap: 1.5rem;
     justify-content: center;
     flex-wrap: wrap;
+    margin-top: 2rem;
 }
 
 .hero-controls {
@@ -1000,8 +1014,9 @@ section {
     box-shadow: var(--shadow-soft);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     max-width: 100%;
+    width: 100%;
 }
 
 .contact-form .btn-primary {
@@ -1014,7 +1029,7 @@ section {
 .form-group {
     margin-bottom: 1.5rem;
     width: 100%;
-    text-align: center;
+    text-align: left;
 }
 
 .form-group label {
@@ -1047,8 +1062,10 @@ section {
 
 .form-group textarea {
     resize: vertical;
-    min-height: 120px;
+    min-height: 140px;
     text-align: left;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-row {
@@ -1171,19 +1188,24 @@ section {
     100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
 }
 
-@keyframes heroImageZoom {
+@keyframes heroImageZoomSlow {
     0% {
-        transform: scale(1.1) rotate(0.5deg);
-        opacity: 0.7;
-        filter: blur(2px);
+        transform: scale(1.15) rotate(0.5deg);
+        opacity: 0.6;
+        filter: blur(3px);
     }
-    50% {
-        transform: scale(1.05) rotate(0deg);
-        opacity: 0.9;
-        filter: blur(1px);
+    30% {
+        transform: scale(1.08) rotate(0deg);
+        opacity: 0.8;
+        filter: blur(1.5px);
+    }
+    70% {
+        transform: scale(1.02) rotate(-0.2deg);
+        opacity: 0.95;
+        filter: blur(0.5px);
     }
     100% {
-        transform: scale(1.0) rotate(-0.2deg);
+        transform: scale(1.0) rotate(0deg);
         opacity: 1;
         filter: blur(0px);
     }
