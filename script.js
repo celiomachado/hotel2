@@ -36,27 +36,23 @@ const galleryImages = [
 
 // Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
-    try {
-        initializeNavigation();
-        initializeHeroSlider();
-        initializeScrollAnimations();
-        initializeParallax();
-        initializeMicroInteractions();
-        initializeForms();
-        initializeMobileMenu();
-        initializeFilters();
-        initializeQuickBooking();
-        setMinDate();
+    initializeNavigation();
+    initializeHeroSlider();
+    initializeScrollAnimations();
+    initializeParallax();
+    initializeMicroInteractions();
+    initializeForms();
+    initializeMobileMenu();
+    initializeFilters();
+    initializeQuickBooking();
+    setMinDate();
 
-        // Inicia o slider automaticamente após breve delay
-        setTimeout(() => {
-            if (heroSlides && heroSlides.length > 1) {
-                startHeroSlider();
-            }
-        }, 1000);
-    } catch (error) {
-        console.error('Erro na inicialização:', error);
-    }
+    // Inicia o slider automaticamente após breve delay
+    setTimeout(() => {
+        if (heroSlides && heroSlides.length > 1) {
+            startHeroSlider();
+        }
+    }, 1000);
 });
 
 // ========== NAVEGAÇÃO ==========
