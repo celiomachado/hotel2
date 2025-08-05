@@ -551,6 +551,101 @@ window.closeReservationModal = function() {
     }
 };
 
+// ========== FILTROS DE ACOMODAÇÕES ==========
+
+function initializeFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const roomCards = document.querySelectorAll('.room-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remover active de todos os botões
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Adicionar active ao botão clicado
+            this.classList.add('active');
+
+            const filter = this.dataset.filter;
+
+            roomCards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    const roomType = card.querySelector('.room-title').textContent.toLowerCase();
+                    if (roomType.includes(filter)) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+}
+
+// ========== WIDGET DE RESERVA RÁPIDA ==========
+
+function initializeQuickBooking() {
+    const quickForm = document.querySelector('.quick-booking-form');
+    const quickCheckin = document.getElementById('quickCheckin');
+    const quickCheckout = document.getElementById('quickCheckout');
+
+    if (quickForm) {
+        // Definir datas mínimas
+        const today = new Date().toISOString().split('T')[0];
+        if (quickCheckin) quickCheckin.min = today;
+        if (quickCheckout) quickCheckout.min = today;
+
+        // Atualizar check-out quando check-in mudar
+        if (quickCheckin && quickCheckout) {
+            quickCheckin.addEventListener('change', function() {
+                const checkinDate = new Date(this.value);
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                quickCheckout.min = checkinDate.toISOString().split('T')[0];
+
+                // Se check-out for menor que check-in + 1, resetar
+                if (quickCheckout.value && new Date(quickCheckout.value) <= new Date(this.value)) {
+                    quickCheckout.value = checkinDate.toISOString().split('T')[0];
+                }
+            });
+        }
+
+        quickForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const checkin = quickCheckin?.value;
+            const checkout = quickCheckout?.value;
+            const guests = document.getElementById('quickGuests')?.value;
+
+            if (!checkin || !checkout || !guests) {
+                showNotification('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            // Verificar se as datas são válidas
+            const checkinDate = new Date(checkin);
+            const checkoutDate = new Date(checkout);
+
+            if (checkoutDate <= checkinDate) {
+                showNotification('A data de check-out deve ser posterior ao check-in.', 'error');
+                return;
+            }
+
+            // Simular verificação de disponibilidade
+            showNotification('Verificando disponibilidade...', 'info');
+
+            setTimeout(() => {
+                showNotification('Quartos disponíveis! Faça sua reserva.', 'success');
+                // Scroll para seção de acomodações
+                document.getElementById('acomodacoes').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }, 2000);
+        });
+    }
+}
+
 // ========== FORMULÁRIOS ==========
 
 function initializeForms() {
