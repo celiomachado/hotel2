@@ -332,14 +332,7 @@ function initializeParallax() {
 
 // Sistema avançado de micro-interações
 function initializeMicroInteractions() {
-    // Animaç��o dos botões do hero com delays
-    document.querySelectorAll('.hero-buttons .btn-primary').forEach((btn, index) => {
-        btn.style.setProperty('--delay-offset', index);
-    });
-
-    document.querySelectorAll('.hero-buttons .btn-secondary').forEach((btn, index) => {
-        btn.style.setProperty('--delay-offset', index + 1);
-    });
+    // Removido configuração de delays dos botões do hero para evitar animação de "pular"
     // Efeito ripple nos botões
     document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
         button.addEventListener('click', function(e) {
