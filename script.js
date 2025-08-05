@@ -396,7 +396,7 @@ function initializeMicroInteractions() {
         });
     });
 
-    // Animação de digitação para títulos
+    // Anima��ão de digitação para títulos
     initializeTypingAnimation();
 
     // Partículas flutuantes
@@ -746,6 +746,11 @@ function handleContactSubmit(e) {
     } catch (error) {
         console.error('Erro no envio:', error);
         showNotification('Erro no envio. Redirecionando para WhatsApp...', 'error');
+
+        // Restaurar botão
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalText;
+
         setTimeout(() => {
             window.open(whatsappUrl, '_blank');
         }, 2000);
