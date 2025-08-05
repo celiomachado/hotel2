@@ -1610,23 +1610,11 @@ section {
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
-        padding: 0 15px;
-        width: 100%;
-        max-width: 100%;
-        box-sizing: border-box;
-        margin: 0;
     }
 
     .contact-form {
         padding: 1.5rem;
-        margin: 0;
         width: 100%;
-        box-sizing: border-box;
-    }
-
-    .contact-section .container {
-        padding: 0 15px;
-        max-width: 100%;
         box-sizing: border-box;
     }
 
