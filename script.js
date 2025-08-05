@@ -129,7 +129,7 @@ function initializeHeroSlider() {
         heroSlides.forEach((slide, index) => {
             const img = slide.querySelector('img');
             if (img) {
-                img.style.animation = index === 0 ? 'heroImageZoom 4s ease-out forwards' : 'none';
+                img.style.animation = index === 0 ? 'heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none';
             }
         });
     }
@@ -387,7 +387,7 @@ function initializeMicroInteractions() {
         });
     });
 
-    // Animaç��o de digitação para títulos
+    // Animação de digitação para títulos
     initializeTypingAnimation();
 
     // Partículas flutuantes
