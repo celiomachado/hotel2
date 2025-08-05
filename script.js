@@ -652,10 +652,7 @@ function initializeForms() {
     // Formulário de contato
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        console.log('Formulário de contato encontrado e inicializado');
         contactForm.addEventListener('submit', handleContactSubmit);
-    } else {
-        console.warn('Formulário de contato não encontrado');
     }
     
     // Formulário de reserva
