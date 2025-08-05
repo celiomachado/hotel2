@@ -155,6 +155,8 @@ function showHeroSlide(index) {
             // Reiniciar animação da imagem
             const activeImg = heroSlides[index].querySelector('img');
             if (activeImg) {
+                // Garantir que o transform está correto
+                activeImg.style.transform = 'scale(1.05)';
                 activeImg.style.animation = 'none';
                 setTimeout(() => {
                     activeImg.style.animation = 'heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
