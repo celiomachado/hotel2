@@ -646,6 +646,74 @@ section {
     border-color: transparent;
 }
 
+/* Widget de Reserva Rápida */
+.quick-booking-section {
+    padding: 2rem 0;
+    background: var(--warm-white);
+    position: relative;
+    margin-top: -50px;
+    z-index: 100;
+}
+
+.quick-booking-widget {
+    background: var(--text-white);
+    border-radius: var(--border-radius-large);
+    padding: 2rem;
+    box-shadow: var(--shadow-strong);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.quick-booking-widget h3 {
+    text-align: center;
+    color: var(--primary-red);
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.quick-booking-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    align-items: end;
+}
+
+.quick-booking-form .form-group {
+    margin-bottom: 0;
+}
+
+.quick-booking-form .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.quick-booking-form input,
+.quick-booking-form select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid var(--cream);
+    border-radius: var(--border-radius);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: var(--warm-white);
+}
+
+.quick-booking-form input:focus,
+.quick-booking-form select:focus {
+    outline: none;
+    border-color: var(--primary-red);
+    box-shadow: 0 0 0 3px rgba(184, 52, 28, 0.1);
+}
+
+.quick-booking-form .btn-primary {
+    align-self: stretch;
+    min-height: 48px;
+}
+
 /* Seção Sobre */
 .about-section {
     padding: var(--section-padding);
