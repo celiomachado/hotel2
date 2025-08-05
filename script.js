@@ -129,7 +129,7 @@ function initializeHeroSlider() {
         heroSlides.forEach((slide, index) => {
             const img = slide.querySelector('img');
             if (img) {
-                img.style.animation = index === 0 ? 'heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none';
+                img.style.animation = index === 0 ? 'heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none';
             }
         });
     }
@@ -155,7 +155,7 @@ function showHeroSlide(index) {
             if (activeImg) {
                 activeImg.style.animation = 'none';
                 setTimeout(() => {
-                    activeImg.style.animation = 'heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
+                    activeImg.style.animation = 'heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
                 }, 10);
             }
         }
@@ -188,7 +188,7 @@ function startHeroSlider() {
         heroInterval = setInterval(() => {
             console.log('Trocando slide...');
             nextHeroSlide();
-        }, 8000);
+        }, 12000);
     } else {
         console.log('Slider não iniciado - slides:', heroSlides?.length);
     }
