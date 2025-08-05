@@ -966,6 +966,7 @@ section {
 .contact-section {
     padding: var(--section-padding);
     background: var(--cream);
+    overflow-x: hidden;
 }
 
 .contact-content {
@@ -973,6 +974,9 @@ section {
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
     margin-top: 3rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .contact-info {
