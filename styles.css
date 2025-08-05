@@ -1898,6 +1898,34 @@ section {
     }
 }
 
+/* Animação para partículas flutuantes */
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) translateX(0px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100px) translateX(50px) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Animação adicional para efeito de brilho */
+@keyframes shimmer {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
 /* Sistema Completo de Animações Modernas e Dinâmicas */
 
 /* Animações de entrada para seções */
