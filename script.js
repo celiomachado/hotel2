@@ -692,10 +692,12 @@ function initializeForms() {
 }
 
 function handleContactSubmit(e) {
+    console.log('Formulário de contato submetido');
     e.preventDefault();
 
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
+    console.log('Dados do formulário:', data);
 
     // Validação básica
     if (!data.nome || !data.email || !data.telefone || !data.mensagem) {
