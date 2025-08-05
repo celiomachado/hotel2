@@ -1837,12 +1837,7 @@ section {
     50% { transform: translateY(-5px); }
 }
 
-/* Animação removida para evitar efeito de "pular" nos botões do hero
-@keyframes heroButtonFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-8px); }
-}
-*/
+
 
 /* Modais */
 .modal {
