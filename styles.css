@@ -1814,6 +1814,16 @@ section {
         gap: 1.5rem;
     }
 
+    .quick-booking-form {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .quick-booking-widget {
+        margin: 0 15px;
+        padding: 1.5rem;
+    }
+
     .nav-brand {
         justify-content: flex-start;
     }
