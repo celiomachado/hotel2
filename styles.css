@@ -2079,23 +2079,27 @@ section {
     }
 
     .hero-section {
-        height: 70vh;
-        min-height: 500px;
+        height: 80vh;
+        min-height: 600px;
     }
 
     .hero-content {
         max-width: 100%;
         padding: 0 20px;
+        text-align: center;
     }
 
     .hero-title {
-        font-size: clamp(1.8rem, 6vw, 2.5rem);
-        margin-bottom: 1rem;
+        font-size: clamp(2rem, 8vw, 3rem);
+        margin-bottom: 1.5rem;
+        text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        font-weight: 700;
     }
 
     .hero-subtitle {
-        font-size: clamp(1rem, 4vw, 1.2rem);
-        margin-bottom: 2rem;
+        font-size: clamp(1.1rem, 5vw, 1.4rem);
+        margin-bottom: 2.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .hero-buttons {
