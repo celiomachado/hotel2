@@ -44,6 +44,8 @@ document.addEventListener('DOMContentLoaded', function() {
         initializeMicroInteractions();
         initializeForms();
         initializeMobileMenu();
+        initializeFilters();
+        initializeQuickBooking();
         setMinDate();
 
         // Inicia o slider automaticamente após breve delay
