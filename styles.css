@@ -1596,10 +1596,13 @@ section {
     .contact-content {
         grid-template-columns: 1fr;
         gap: 2rem;
+        padding: 0 10px;
     }
 
     .contact-form {
-        padding: 2rem;
+        padding: 1.5rem;
+        margin: 0 auto;
+        max-width: calc(100vw - 40px);
     }
 
     .form-row {
