@@ -315,7 +315,7 @@ function initializeScrollAnimations() {
     });
 }
 
-// Parallax scrolling para elementos especiais
+// Parallax scrolling para elementos especiais (exceto hero)
 function initializeParallax() {
     const parallaxElements = document.querySelectorAll('.parallax-element');
 
@@ -323,6 +323,10 @@ function initializeParallax() {
         const scrollTop = window.pageYOffset;
 
         parallaxElements.forEach(el => {
+            // Não aplicar parallax se o elemento estiver dentro do hero
+            const isHeroElement = el.closest('.hero-section');
+            if (isHeroElement) return;
+
             const speed = el.dataset.speed || 0.5;
             const yPos = -(scrollTop * speed);
             el.style.transform = `translateY(${yPos}px)`;
@@ -332,7 +336,7 @@ function initializeParallax() {
 
 // Sistema avançado de micro-interações
 function initializeMicroInteractions() {
-    // Removido configuração de delays dos botões do hero para evitar animação de "pular"
+    // Removido configuração de delays dos botões do hero para evitar animaç��o de "pular"
     // Efeito ripple nos botões
     document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
         button.addEventListener('click', function(e) {
