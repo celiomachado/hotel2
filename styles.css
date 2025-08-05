@@ -1890,7 +1890,7 @@ section {
 /* Responsividade específica para hero images */
 @media (max-width: 768px) {
     .hero-slide img {
-        transform: scale(1.02);
+        transform: scale(1.0);
         object-position: center center;
     }
 
