@@ -176,11 +176,11 @@ p {
 }
 
 .btn-secondary:hover {
-    background: linear-gradient(135deg, #00E676 0%, #26A69A 50%, #00E676 100%);
+    background: linear-gradient(135deg, rgba(0, 230, 118, 0.75) 0%, rgba(38, 166, 154, 0.75) 50%, rgba(0, 230, 118, 0.75) 100%);
     color: var(--text-white);
     transform: translateY(-8px) scale(1.08);
-    box-shadow: 0 20px 50px rgba(0, 230, 118, 0.6), 0 0 30px rgba(0, 230, 118, 0.4);
-    border-color: #00E676;
+    box-shadow: 0 20px 50px rgba(0, 230, 118, 0.3), 0 0 30px rgba(0, 230, 118, 0.2);
+    border-color: rgba(0, 230, 118, 0.5);
 }
 
 .btn-secondary:hover::before {
