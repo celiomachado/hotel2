@@ -1962,7 +1962,14 @@ section {
 @media (max-width: 768px) {
     :root {
         --section-padding: 60px 0;
-        --container-padding: 0 20px;
+        --container-padding: 0 15px;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     .navbar .container {
