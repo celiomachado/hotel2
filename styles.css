@@ -1052,6 +1052,7 @@ section {
     font-size: 1rem;
     transition: var(--transition);
     background: var(--text-white);
+    box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -1880,7 +1881,7 @@ section {
     }
 }
 
-/* Animações base */
+/* Animaç��es base */
 .animate-element {
     opacity: 0;
     transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
