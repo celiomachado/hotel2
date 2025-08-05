@@ -138,12 +138,22 @@ function initializeHeroSlider() {
 
 function showHeroSlide(index) {
     if (heroSlides && heroSlides.length > 0) {
-        heroSlides.forEach(slide => slide.classList.remove('active'));
+        // Remover active de todos os slides
+        heroSlides.forEach(slide => {
+            slide.classList.remove('active');
+            const img = slide.querySelector('img');
+            if (img) {
+                img.style.animation = 'none';
+            }
+        });
+
+        // Remover active de todos os indicadores
         document.querySelectorAll('.hero-indicators .indicator').forEach(indicator =>
             indicator.classList.remove('active')
         );
 
         if (heroSlides[index]) {
+            // Ativar slide atual
             heroSlides[index].classList.add('active');
             const indicators = document.querySelectorAll('.hero-indicators .indicator');
             if (indicators[index]) {
@@ -151,15 +161,12 @@ function showHeroSlide(index) {
             }
             currentHeroSlide = index;
 
-            // Reiniciar animação da imagem
+            // Iniciar animação contínua da imagem
             const activeImg = heroSlides[index].querySelector('img');
             if (activeImg) {
-                // Garantir que o transform está correto
-                activeImg.style.transform = 'scale(1.0)';
-                activeImg.style.animation = 'none';
                 setTimeout(() => {
-                    activeImg.style.animation = 'heroImageZoomSlow 18s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
-                }, 10);
+                    activeImg.style.animation = 'heroVideoEffect 20s ease-in-out infinite';
+                }, 100);
             }
         }
     }
