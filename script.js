@@ -396,7 +396,7 @@ function initializeMicroInteractions() {
         });
     });
 
-    // Anima��ão de digitação para títulos
+    // Animação de digitação para títulos
     initializeTypingAnimation();
 
     // Partículas flutuantes
@@ -704,6 +704,25 @@ function handleContactSubmit(e) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email)) {
         showNotification('Por favor, insira um e-mail válido.', 'error');
+        return;
+    }
+
+    // Validar telefone (mínimo 10 dígitos)
+    const phoneNumbers = data.telefone.replace(/\D/g, '');
+    if (phoneNumbers.length < 10) {
+        showNotification('Por favor, insira um telefone válido.', 'error');
+        return;
+    }
+
+    // Validar nome (mínimo 2 caracteres)
+    if (data.nome.trim().length < 2) {
+        showNotification('Por favor, insira um nome válido.', 'error');
+        return;
+    }
+
+    // Validar mensagem (mínimo 10 caracteres)
+    if (data.mensagem.trim().length < 10) {
+        showNotification('Por favor, escreva uma mensagem mais detalhada.', 'error');
         return;
     }
 
