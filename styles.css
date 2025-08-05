@@ -1779,6 +1779,54 @@ section {
     }
 }
 
+/* Responsividade específica para hero images */
+@media (max-width: 768px) {
+    .hero-slide img {
+        transform: scale(1.2);
+        object-position: center center;
+    }
+
+    .hero-slide.active img {
+        animation: heroImageZoomSlowMobile 10s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                   heroImagePulse 15s ease-in-out infinite 6s;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-slide img {
+        transform: scale(1.25);
+        object-position: center 30%;
+    }
+
+    .hero-slide.active img {
+        animation: heroImageZoomSlowMobile 8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                   heroImagePulse 12s ease-in-out infinite 4s;
+    }
+}
+
+@keyframes heroImageZoomSlowMobile {
+    0% {
+        transform: scale(1.25) rotate(0.3deg);
+        opacity: 0.7;
+        filter: blur(2px);
+    }
+    40% {
+        transform: scale(1.12) rotate(0deg);
+        opacity: 0.85;
+        filter: blur(1px);
+    }
+    80% {
+        transform: scale(1.05) rotate(-0.1deg);
+        opacity: 0.95;
+        filter: blur(0.3px);
+    }
+    100% {
+        transform: scale(1.0) rotate(0deg);
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
 /* Sistema Completo de Animações Modernas e Dinâmicas */
 
 /* Animações de entrada para seções */
