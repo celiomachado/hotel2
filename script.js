@@ -637,7 +637,7 @@ function initializeQuickBooking() {
 
             setTimeout(() => {
                 showNotification('Quartos disponíveis! Faça sua reserva.', 'success');
-                // Scroll para se��ão de acomodações
+                // Scroll para seção de acomodações
                 document.getElementById('acomodacoes').scrollIntoView({
                     behavior: 'smooth'
                 });
@@ -763,7 +763,6 @@ function handleContactSubmit(e) {
             }, 1500);
         }, 1000);
     } catch (error) {
-        console.error('Erro no envio:', error);
         showNotification('Erro no envio. Redirecionando para WhatsApp...', 'error');
 
         // Restaurar botão
