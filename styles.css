@@ -335,9 +335,12 @@ p {
     height: 100%;
     object-fit: cover;
     object-position: center center;
-    transform: scale(1.05);
+    transform: scale(1.05) !important;
     transition: transform 18s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     will-change: transform;
+    position: relative;
+    top: 0;
+    left: 0;
 }
 
 .hero-slide.active img {
