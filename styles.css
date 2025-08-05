@@ -1732,6 +1732,12 @@ section {
 
     .contact-form {
         padding: 1.5rem;
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .contact-content {
+        padding: 0 5px;
     }
 
     .form-group {
