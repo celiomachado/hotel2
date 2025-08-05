@@ -129,7 +129,7 @@ function initializeHeroSlider() {
         heroSlides.forEach((slide, index) => {
             const img = slide.querySelector('img');
             if (img) {
-                img.style.animation = index === 0 ? 'heroImageZoom 4s ease-out forwards' : 'none';
+                img.style.animation = index === 0 ? 'heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards' : 'none';
             }
         });
     }
@@ -155,7 +155,7 @@ function showHeroSlide(index) {
             if (activeImg) {
                 activeImg.style.animation = 'none';
                 setTimeout(() => {
-                    activeImg.style.animation = 'heroImageZoom 4s ease-out forwards';
+                    activeImg.style.animation = 'heroImageZoomSlow 12s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards';
                 }, 10);
             }
         }
@@ -188,7 +188,7 @@ function startHeroSlider() {
         heroInterval = setInterval(() => {
             console.log('Trocando slide...');
             nextHeroSlide();
-        }, 4500);
+        }, 8000);
     } else {
         console.log('Slider não iniciado - slides:', heroSlides?.length);
     }
@@ -332,14 +332,7 @@ function initializeParallax() {
 
 // Sistema avançado de micro-interações
 function initializeMicroInteractions() {
-    // Animação dos botões do hero com delays
-    document.querySelectorAll('.hero-buttons .btn-primary').forEach((btn, index) => {
-        btn.style.setProperty('--delay-offset', index);
-    });
-
-    document.querySelectorAll('.hero-buttons .btn-secondary').forEach((btn, index) => {
-        btn.style.setProperty('--delay-offset', index + 1);
-    });
+    // Removido configuração de delays dos botões do hero para evitar animação de "pular"
     // Efeito ripple nos botões
     document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
         button.addEventListener('click', function(e) {
