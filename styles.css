@@ -614,6 +614,38 @@ section {
     margin: 0 auto;
 }
 
+/* Filtros de Acomodações */
+.accommodation-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 10px 20px;
+    border: 2px solid var(--primary-red);
+    background: transparent;
+    color: var(--primary-red);
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.filter-btn:hover {
+    background: var(--primary-red);
+    color: var(--text-white);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--gradient-warm);
+    color: var(--text-white);
+    border-color: transparent;
+}
+
 /* Seção Sobre */
 .about-section {
     padding: var(--section-padding);
