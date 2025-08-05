@@ -1249,6 +1249,24 @@ section {
     50% { transform: rotate(5deg) scale(1.1); }
 }
 
+@keyframes neonPulseMobile {
+    0% {
+        box-shadow:
+            0 0 0 0 rgba(255, 0, 64, 0.9),
+            0 10px 25px rgba(255, 0, 64, 0.6),
+            0 0 35px rgba(255, 0, 64, 0.4);
+        transform: translateX(-50%) scale(1);
+    }
+    100% {
+        box-shadow:
+            0 0 0 6px rgba(255, 0, 64, 0),
+            0 0 30px 8px rgba(255, 0, 64, 0.8),
+            0 0 50px 12px rgba(255, 0, 64, 0.6),
+            0 15px 40px rgba(255, 0, 64, 0.5);
+        transform: translateX(-50%) scale(1.02);
+    }
+}
+
 /* WhatsApp Float */
 .whatsapp-float {
     position: fixed;
