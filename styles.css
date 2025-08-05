@@ -135,12 +135,13 @@ p {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #FF1744 0%, #FF6B35 50%, #FF1744 100%);
+    background: linear-gradient(135deg, rgba(255, 23, 68, 0.6) 0%, rgba(255, 107, 53, 0.6) 50%, rgba(255, 23, 68, 0.6) 100%);
     color: var(--text-white);
-    box-shadow: 0 8px 25px rgba(255, 23, 68, 0.4), 0 0 0 1px rgba(255, 23, 68, 0.2);
+    box-shadow: 0 8px 25px rgba(255, 23, 68, 0.2), 0 0 0 1px rgba(255, 23, 68, 0.1);
     animation: buttonGlow 3s ease-in-out infinite alternate;
-    border: 2px solid transparent;
+    border: 2px solid rgba(255, 23, 68, 0.3);
     background-clip: padding-box;
+    backdrop-filter: blur(8px);
 }
 
 .btn-primary:hover {
