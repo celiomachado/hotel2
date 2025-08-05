@@ -36,25 +36,23 @@ const galleryImages = [
 
 // Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
-    try {
-        initializeNavigation();
-        initializeHeroSlider();
-        initializeScrollAnimations();
-        initializeParallax();
-        initializeMicroInteractions();
-        initializeForms();
-        initializeMobileMenu();
-        setMinDate();
+    initializeNavigation();
+    initializeHeroSlider();
+    initializeScrollAnimations();
+    initializeParallax();
+    initializeMicroInteractions();
+    initializeForms();
+    initializeMobileMenu();
+    initializeFilters();
+    initializeQuickBooking();
+    setMinDate();
 
-        // Inicia o slider automaticamente após breve delay
-        setTimeout(() => {
-            if (heroSlides && heroSlides.length > 1) {
-                startHeroSlider();
-            }
-        }, 1000);
-    } catch (error) {
-        console.error('Erro na inicialização:', error);
-    }
+    // Inicia o slider automaticamente após breve delay
+    setTimeout(() => {
+        if (heroSlides && heroSlides.length > 1) {
+            startHeroSlider();
+        }
+    }, 1000);
 });
 
 // ========== NAVEGAÇÃO ==========
@@ -549,6 +547,101 @@ window.closeReservationModal = function() {
     }
 };
 
+// ========== FILTROS DE ACOMODAÇÕES ==========
+
+function initializeFilters() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const roomCards = document.querySelectorAll('.room-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remover active de todos os botões
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Adicionar active ao botão clicado
+            this.classList.add('active');
+
+            const filter = this.dataset.filter;
+
+            roomCards.forEach(card => {
+                if (filter === 'all') {
+                    card.style.display = 'block';
+                    card.style.animation = 'fadeIn 0.5s ease';
+                } else {
+                    const roomType = card.querySelector('.room-title').textContent.toLowerCase();
+                    if (roomType.includes(filter)) {
+                        card.style.display = 'block';
+                        card.style.animation = 'fadeIn 0.5s ease';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+}
+
+// ========== WIDGET DE RESERVA RÁPIDA ==========
+
+function initializeQuickBooking() {
+    const quickForm = document.querySelector('.quick-booking-form');
+    const quickCheckin = document.getElementById('quickCheckin');
+    const quickCheckout = document.getElementById('quickCheckout');
+
+    if (quickForm) {
+        // Definir datas mínimas
+        const today = new Date().toISOString().split('T')[0];
+        if (quickCheckin) quickCheckin.min = today;
+        if (quickCheckout) quickCheckout.min = today;
+
+        // Atualizar check-out quando check-in mudar
+        if (quickCheckin && quickCheckout) {
+            quickCheckin.addEventListener('change', function() {
+                const checkinDate = new Date(this.value);
+                checkinDate.setDate(checkinDate.getDate() + 1);
+                quickCheckout.min = checkinDate.toISOString().split('T')[0];
+
+                // Se check-out for menor que check-in + 1, resetar
+                if (quickCheckout.value && new Date(quickCheckout.value) <= new Date(this.value)) {
+                    quickCheckout.value = checkinDate.toISOString().split('T')[0];
+                }
+            });
+        }
+
+        quickForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const checkin = quickCheckin?.value;
+            const checkout = quickCheckout?.value;
+            const guests = document.getElementById('quickGuests')?.value;
+
+            if (!checkin || !checkout || !guests) {
+                showNotification('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            // Verificar se as datas são válidas
+            const checkinDate = new Date(checkin);
+            const checkoutDate = new Date(checkout);
+
+            if (checkoutDate <= checkinDate) {
+                showNotification('A data de check-out deve ser posterior ao check-in.', 'error');
+                return;
+            }
+
+            // Simular verificação de disponibilidade
+            showNotification('Verificando disponibilidade...', 'info');
+
+            setTimeout(() => {
+                showNotification('Quartos disponíveis! Faça sua reserva.', 'success');
+                // Scroll para seção de acomodações
+                document.getElementById('acomodacoes').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }, 2000);
+        });
+    }
+}
+
 // ========== FORMULÁRIOS ==========
 
 function initializeForms() {
@@ -593,23 +686,89 @@ function initializeForms() {
 
 function handleContactSubmit(e) {
     e.preventDefault();
-    
+
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    
+
     // Validação básica
     if (!data.nome || !data.email || !data.telefone || !data.mensagem) {
         showNotification('Por favor, preencha todos os campos obrigatórios.', 'error');
         return;
     }
-    
-    // Simular envio
+
+    // Validar email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(data.email)) {
+        showNotification('Por favor, insira um e-mail válido.', 'error');
+        return;
+    }
+
+    // Validar telefone (mínimo 10 dígitos)
+    const phoneNumbers = data.telefone.replace(/\D/g, '');
+    if (phoneNumbers.length < 10) {
+        showNotification('Por favor, insira um telefone válido.', 'error');
+        return;
+    }
+
+    // Validar nome (mínimo 2 caracteres)
+    if (data.nome.trim().length < 2) {
+        showNotification('Por favor, insira um nome válido.', 'error');
+        return;
+    }
+
+    // Validar mensagem (mínimo 10 caracteres)
+    if (data.mensagem.trim().length < 10) {
+        showNotification('Por favor, escreva uma mensagem mais detalhada.', 'error');
+        return;
+    }
+
+    // Desabilitar botão e mostrar loading
+    const submitButton = e.target.querySelector('button[type="submit"]');
+    const originalText = submitButton.innerHTML;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+
+    // Mostrar que está enviando
     showNotification('Enviando mensagem...', 'info');
-    
-    setTimeout(() => {
-        showNotification('Mensagem enviada com sucesso! Entraremos em contato em breve.', 'success');
-        e.target.reset();
-    }, 2000);
+
+    // Envio via WhatsApp como backup principal
+    const message = `
+*Nova mensagem do site Hotel Serra do Roncador*
+
+*Nome:* ${data.nome}
+*E-mail:* ${data.email}
+*Telefone:* ${data.telefone}
+*Mensagem:* ${data.mensagem}
+    `.trim();
+
+    const whatsappUrl = `https://wa.me/5566346820014?text=${encodeURIComponent(message)}`;
+
+    // Tentar envio via email (se configurado) ou WhatsApp
+    try {
+        // Simular envio bem-sucedido
+        setTimeout(() => {
+            showNotification('Redirecionando para WhatsApp para confirmar o envio...', 'info');
+            setTimeout(() => {
+                window.open(whatsappUrl, '_blank');
+                showNotification('Mensagem preparada! Complete o envio pelo WhatsApp.', 'success');
+                e.target.reset();
+
+                // Restaurar botão
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalText;
+            }, 1500);
+        }, 1000);
+    } catch (error) {
+        showNotification('Erro no envio. Redirecionando para WhatsApp...', 'error');
+
+        // Restaurar botão
+        submitButton.disabled = false;
+        submitButton.innerHTML = originalText;
+
+        setTimeout(() => {
+            window.open(whatsappUrl, '_blank');
+        }, 2000);
+    }
 }
 
 function handleReservationSubmit(e) {
