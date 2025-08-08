@@ -431,17 +431,17 @@ class LandingPagePreview {
         return [
             {
                 section_key: 'hero',
-                title: 'Bem-vindo ao Hotel Paradise',
-                subtitle: 'Sua experiência única nos aguarda',
-                content: 'Descubra o conforto e a elegância em cada detalhe do nosso hotel.',
+                title: 'Hospede-se no coração da natureza',
+                subtitle: 'Descubra a perfeita harmonia entre conforto e natureza no Hotel Serra do Roncador',
+                content: 'Uma experiência única de hospedagem no coração do Mato Grosso.',
                 order_position: 1,
                 is_active: true
             },
             {
                 section_key: 'about',
-                title: 'Sobre Nós',
-                subtitle: 'História e Tradição',
-                content: 'Com mais de 20 anos de excelência em hospitalidade, oferecemos uma experiência única.',
+                title: 'O Hotel Serra do Roncador',
+                subtitle: 'Uma experiência única de hospedagem no coração do Mato Grosso',
+                content: 'Localizado estrategicamente à margem da BR 158, a apenas 1000 metros do centro de Água Boa - MT, oferecemos a perfeita combinação entre acessibilidade e tranquilidade da natureza.',
                 order_position: 2,
                 is_active: true
             }
