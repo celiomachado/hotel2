@@ -110,7 +110,7 @@ class AdminSystem {
             document.getElementById('monthlyRevenue').textContent = `R$ ${monthlyRevenue.toFixed(2)}`;
 
         } catch (error) {
-            console.error('Erro ao carregar dados do dashboard:', error);
+            console.error('❌ Erro ao carregar dados do dashboard:', JSON.stringify(error, null, 2));
         }
     }
 
@@ -127,7 +127,7 @@ class AdminSystem {
             this.renderSectionsList();
 
         } catch (error) {
-            console.error('Erro ao carregar seções:', error);
+            console.error('❌ Erro ao carregar seções:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao carregar seções', 'error');
         }
     }
@@ -200,7 +200,7 @@ class AdminSystem {
             this.refreshPreview();
 
         } catch (error) {
-            console.error('Erro ao salvar seção:', error);
+            console.error('❌ Erro ao salvar seção:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao salvar seção: ' + error.message, 'error');
         }
     }
@@ -234,7 +234,7 @@ class AdminSystem {
             await this.loadSections();
 
         } catch (error) {
-            console.error('Erro ao criar seção:', error);
+            console.error('❌ Erro ao criar seção:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao criar seção: ' + error.message, 'error');
         }
     }
@@ -255,7 +255,7 @@ class AdminSystem {
             this.renderReservationsTable();
 
         } catch (error) {
-            console.error('Erro ao carregar reservas:', error);
+            console.error('❌ Erro ao carregar reservas:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao carregar reservas', 'error');
         }
     }
@@ -301,7 +301,7 @@ class AdminSystem {
             await this.loadReservations();
 
         } catch (error) {
-            console.error('Erro ao atualizar status:', error);
+            console.error('❌ Erro ao atualizar status:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao atualizar status', 'error');
         }
     }
@@ -319,7 +319,7 @@ class AdminSystem {
             this.renderRoomTypes();
 
         } catch (error) {
-            console.error('Erro ao carregar tipos de quartos:', error);
+            console.error('❌ Erro ao carregar tipos de quartos:', JSON.stringify(error, null, 2));
         }
     }
 
@@ -359,7 +359,7 @@ class AdminSystem {
             this.fillConfigForm();
 
         } catch (error) {
-            console.error('Erro ao carregar configurações:', error);
+            console.error('❌ Erro ao carregar configurações:', JSON.stringify(error, null, 2));
         }
     }
 
@@ -399,7 +399,7 @@ class AdminSystem {
             await this.loadSiteConfig();
 
         } catch (error) {
-            console.error('Erro ao salvar configurações:', error);
+            console.error('❌ Erro ao salvar configurações:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao salvar configurações', 'error');
         }
     }
