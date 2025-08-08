@@ -615,7 +615,7 @@ async function initSupabaseDirect() {
 
         return true;
     } catch (error) {
-        console.error('Erro ao inicializar Supabase:', error);
+        console.error('❌ Erro ao inicializar Supabase:', JSON.stringify(error, null, 2));
         return false;
     }
 }
@@ -703,7 +703,7 @@ async function checkUserAdmin() {
             adminPanel.style.display = 'block';
         }
     } catch (error) {
-        console.error('Erro ao verificar admin:', error);
+        console.error('❌ Erro ao verificar admin:', JSON.stringify(error, null, 2));
     }
 }
 
@@ -745,7 +745,7 @@ async function handleLogin(event) {
         const { data, error } = await Promise.race([loginPromise, timeoutPromise]);
 
         if (error) {
-            console.error('Erro de login do Supabase:', error);
+            console.error('❌ Erro de login do Supabase:', JSON.stringify(error, null, 2));
             let errorMessage = 'Erro no login';
 
             if (error.message.includes('Invalid login credentials')) {
@@ -783,7 +783,7 @@ async function handleLogin(event) {
         }, 1500);
 
     } catch (error) {
-        console.error('Erro crítico no login:', error);
+        console.error('❌ Erro crítico no login:', JSON.stringify(error, null, 2));
 
         if (error.message.includes('Timeout')) {
             showAuthMessage('Timeout na conexão. Use a página de login dedicada.', 'error');
@@ -854,7 +854,7 @@ async function handleRegister(event) {
         }, 2000);
 
     } catch (error) {
-        console.error('Erro crítico no registro:', error);
+        console.error('❌ Erro crítico no registro:', JSON.stringify(error, null, 2));
         showAuthMessage('Erro de conexão. Tente novamente.', 'error');
     } finally {
         submitBtn.disabled = false;
@@ -872,7 +872,7 @@ async function handleLogout() {
         updateAuthUI();
         showNotification('Logout realizado com sucesso!', 'success');
     } catch (error) {
-        console.error('Erro no logout:', error);
+        console.error('❌ Erro no logout:', JSON.stringify(error, null, 2));
         showNotification('Erro no logout', 'error');
     }
 }
@@ -1051,7 +1051,7 @@ function handleContactSubmit(e) {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    // Validação b��sica
+    // Validação básica
     if (!data.nome || !data.email || !data.telefone || !data.mensagem) {
         showNotification('Por favor, preencha todos os campos obrigatórios.', 'error');
         return;
