@@ -484,11 +484,18 @@ class LandingPagePreview {
 }
 
 // Inicializar preview quando a página carregar
-document.addEventListener('DOMContentLoaded', () => {
-    const checkSupabase = setInterval(() => {
-        if (window.supabaseClient) {
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Aguardar inicialização do Supabase
+        await waitForSupabase();
+        console.log('Iniciando sistema de preview da landing page');
+        window.landingPreview = new LandingPagePreview();
+    } catch (error) {
+        console.error('Erro ao inicializar preview da landing page:', error);
+        // Tentar inicializar com dados padrão após um delay
+        setTimeout(() => {
+            console.log('Tentando inicializar preview com dados padrão');
             window.landingPreview = new LandingPagePreview();
-            clearInterval(checkSupabase);
-        }
-    }, 100);
+        }, 2000);
+    }
 });
