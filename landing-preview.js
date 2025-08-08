@@ -388,11 +388,13 @@ class LandingPagePreview {
         });
     }
 
-    setupRealTimeUpdates() {
+    async setupRealTimeUpdates() {
         // Configurar listening para mudanças em tempo real no Supabase
         try {
+            const client = await waitForSupabase();
+
             // Escutar mudanças nas seções
-            supabaseClient
+            client
                 .channel('landing-sections-changes')
                 .on('postgres_changes', {
                     event: '*',
@@ -405,7 +407,7 @@ class LandingPagePreview {
                 .subscribe();
 
             // Escutar mudanças nas configurações
-            supabaseClient
+            client
                 .channel('site-config-changes')
                 .on('postgres_changes', {
                     event: '*',
@@ -417,6 +419,7 @@ class LandingPagePreview {
                 })
                 .subscribe();
 
+            console.log('Real-time updates configurados com sucesso');
         } catch (error) {
             console.error('Erro ao configurar real-time updates:', error);
         }
