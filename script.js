@@ -711,8 +711,10 @@ async function checkUserAdmin() {
 async function handleLogin(event) {
     event.preventDefault();
 
+    // Se não há cliente Supabase, redirecionar para página dedicada
     if (!supabaseClientDirect) {
-        showAuthMessage('Sistema não conectado. Tente novamente.', 'error');
+        console.log('Cliente Supabase não disponível, redirecionando...');
+        window.location.href = 'login-simple.html';
         return;
     }
 
@@ -720,23 +722,44 @@ async function handleLogin(event) {
     const password = document.getElementById('loginPassword').value;
     const submitBtn = document.getElementById('loginSubmitBtn');
 
+    if (!email || !password) {
+        showAuthMessage('Por favor, preencha todos os campos.', 'error');
+        return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.textContent = 'Entrando...';
     clearAuthMessage();
 
     try {
-        const { data, error } = await supabaseClientDirect.auth.signInWithPassword({
+        // Timeout para evitar travamento
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Timeout na autenticação')), 10000)
+        );
+
+        const loginPromise = supabaseClientDirect.auth.signInWithPassword({
             email,
             password
         });
 
+        const { data, error } = await Promise.race([loginPromise, timeoutPromise]);
+
         if (error) {
+            console.error('Erro de login do Supabase:', error);
             let errorMessage = 'Erro no login';
+
             if (error.message.includes('Invalid login credentials')) {
                 errorMessage = 'Email ou senha incorretos';
             } else if (error.message.includes('Email not confirmed')) {
                 errorMessage = 'Email não confirmado. Verifique sua caixa de entrada.';
+            } else if (error.message.includes('Failed to fetch')) {
+                errorMessage = 'Problemas de conexão. Use a página de login dedicada.';
+                // Redirecionar para página dedicada após um tempo
+                setTimeout(() => {
+                    window.location.href = 'login-simple.html';
+                }, 2000);
             }
+
             showAuthMessage(errorMessage, 'error');
             return;
         }
@@ -761,7 +784,15 @@ async function handleLogin(event) {
 
     } catch (error) {
         console.error('Erro crítico no login:', error);
-        showAuthMessage('Erro de conexão. Tente novamente.', 'error');
+
+        if (error.message.includes('Timeout')) {
+            showAuthMessage('Timeout na conexão. Use a página de login dedicada.', 'error');
+            setTimeout(() => {
+                window.location.href = 'login-simple.html';
+            }, 2000);
+        } else {
+            showAuthMessage('Erro de conexão. Tente a página de login dedicada.', 'error');
+        }
     } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = 'Entrar';
@@ -1020,7 +1051,7 @@ function handleContactSubmit(e) {
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
 
-    // Validação básica
+    // Validação b��sica
     if (!data.nome || !data.email || !data.telefone || !data.mensagem) {
         showNotification('Por favor, preencha todos os campos obrigatórios.', 'error');
         return;
