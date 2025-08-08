@@ -11,30 +11,39 @@ class AuthSystem {
             // Aguardar inicialização do Supabase
             const client = await waitForSupabase();
 
+            if (!client || !client.auth) {
+                throw new Error('Cliente Supabase não foi inicializado corretamente');
+            }
+
             // Verificar se há usuário logado
             const { data: { user }, error } = await client.auth.getUser();
             if (error) {
-                console.error('Erro ao verificar usuário logado:', error);
+                console.error('❌ Erro ao verificar usuário logado:', JSON.stringify(error, null, 2));
             } else if (user) {
                 await this.setCurrentUser(user);
             }
 
             // Escutar mudanças na autenticação
-            client.auth.onAuthStateChange(async (event, session) => {
-                if (event === 'SIGNED_IN') {
-                    await this.setCurrentUser(session.user);
-                    this.showNotification('Login realizado com sucesso!', 'success');
-                } else if (event === 'SIGNED_OUT') {
-                    this.currentUser = null;
-                    this.isAdmin = false;
-                    this.updateUI();
-                    this.showNotification('Logout realizado com sucesso!', 'info');
-                }
-            });
+            if (typeof client.auth.onAuthStateChange === 'function') {
+                client.auth.onAuthStateChange(async (event, session) => {
+                    if (event === 'SIGNED_IN') {
+                        await this.setCurrentUser(session.user);
+                        this.showNotification('Login realizado com sucesso!', 'success');
+                    } else if (event === 'SIGNED_OUT') {
+                        this.currentUser = null;
+                        this.isAdmin = false;
+                        this.updateUI();
+                        this.showNotification('Logout realizado com sucesso!', 'info');
+                    }
+                });
+            } else {
+                console.warn('⚠️ onAuthStateChange não está disponível no cliente Supabase');
+            }
 
             this.updateUI();
+            console.log('✅ Sistema de autenticação inicializado com sucesso');
         } catch (error) {
-            console.error('Erro na inicialização do sistema de autenticação:', error);
+            console.error('❌ Erro na inicialização do sistema de autenticação:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao conectar com o servidor. Tente novamente.', 'error');
         }
     }
@@ -52,13 +61,13 @@ class AuthSystem {
                 .single();
 
             if (error) {
-                console.error('Erro ao verificar perfil admin:', error);
+                console.error('❌ Erro ao verificar perfil admin:', JSON.stringify(error, null, 2));
                 this.isAdmin = false;
             } else {
                 this.isAdmin = profile?.is_admin || false;
             }
         } catch (error) {
-            console.error('Erro ao verificar perfil admin:', error);
+            console.error('❌ Erro ao verificar perfil admin:', JSON.stringify(error, null, 2));
             this.isAdmin = false;
         }
 
@@ -239,11 +248,20 @@ class AuthSystem {
 // Inicializar sistema de autenticação quando Supabase estiver pronto
 let authSystem;
 document.addEventListener('DOMContentLoaded', () => {
-    // Aguardar Supabase carregar
+    // Aguardar Supabase carregar com timeout
+    let attempts = 0;
+    const maxAttempts = 50; // 5 segundos no máximo
+
     const checkSupabase = setInterval(() => {
+        attempts++;
         if (window.supabaseClient) {
             authSystem = new AuthSystem();
             clearInterval(checkSupabase);
+            console.log('✅ AuthSystem inicializado após', attempts, 'tentativas');
+        } else if (attempts >= maxAttempts) {
+            clearInterval(checkSupabase);
+            console.error('❌ Timeout ao aguardar inicialização do Supabase');
+            authSystem = new AuthSystem(); // Tentar inicializar mesmo assim
         }
     }, 100);
 });
