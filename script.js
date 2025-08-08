@@ -582,11 +582,32 @@ async function initSupabaseDirect() {
 
         supabaseClientDirect = window.supabase.createClient(
             'https://rxdialhyznmtteztky.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI'
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI',
+            {
+                auth: {
+                    autoRefreshToken: true,
+                    persistSession: true,
+                    detectSessionInUrl: false
+                },
+                realtime: {
+                    disabled: true // Desabilitar realtime para evitar erros de websocket
+                },
+                global: {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            }
         );
 
-        // Verificar usuário logado
-        const { data: { user } } = await supabaseClientDirect.auth.getUser();
+        // Verificar usuário logado com timeout
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('Timeout')), 5000)
+        );
+
+        const authPromise = supabaseClientDirect.auth.getUser();
+
+        const { data: { user } } = await Promise.race([authPromise, timeoutPromise]);
         if (user) {
             currentUser = user;
             updateAuthUI();
