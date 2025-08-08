@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Hotel Serra do Roncador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #B8341C 0%, #D4581F 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            color: #B8341C;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #666;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            color: #B8341C;
+            border-bottom-color: #B8341C;
+            font-weight: 600;
+        }
+
+        .form-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form {
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+            position: absolute;
+            width: 100%;
+        }
+
+        .form.active {
+            opacity: 1;
+            transform: translateX(0);
+            position: static;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.875rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #B8341C;
+            box-shadow: 0 0 0 3px rgba(184, 52, 28, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background: #B8341C;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: #a02e18;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(184, 52, 28, 0.3);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid white;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .back-link a {
+            color: #B8341C;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .links {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .links a {
+            color: #B8341C;
+            text-decoration: none;
+            margin: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>🏨 Hotel Serra do Roncador</h1>
+            <p>Sistema de Login</p>
+        </div>
+
+        <div class="form-tabs">
+            <button class="tab-btn active" onclick="showTab('login')">Entrar</button>
+            <button class="tab-btn" onclick="showTab('register')">Criar Conta</button>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <div class="form-container">
+            <!-- Formulário de Login -->
+            <form class="form active" id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Senha</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn" id="loginBtn">
+                    <div class="loader" id="loginLoader"></div>
+                    <span id="loginBtnText">Entrar</span>
+                </button>
+            </form>
+
+            <!-- Formulário de Registro -->
+            <form class="form" id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="registerName">Nome Completo</label>
+                    <input type="text" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email</label>
+                    <input type="email" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Senha (mín. 6 caracteres)</label>
+                    <input type="password" id="registerPassword" required minlength="6">
+                </div>
+                <button type="submit" class="btn" id="registerBtn">
+                    <div class="loader" id="registerLoader"></div>
+                    <span id="registerBtnText">Criar Conta</span>
+                </button>
+            </form>
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Voltar ao Site</a>
+        </div>
+
+        <div class="links">
+            <a href="admin.html">Painel Admin</a>
+            <a href="cliente.html">Painel Cliente</a>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // Configuração do Supabase
+        const supabaseConfig = {
+            url: 'https://rxdialhyznmtteztky.supabase.co',
+            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI'
+        };
+
+        let supabaseClient;
+
+        // Inicializar Supabase
+        function initSupabase() {
+            try {
+                supabaseClient = window.supabase.createClient(
+                    supabaseConfig.url,
+                    supabaseConfig.anonKey
+                );
+                console.log('Supabase inicializado com sucesso');
+                return true;
+            } catch (error) {
+                console.error('Erro ao inicializar Supabase:', error);
+                showMessage('Erro de conexão. Verifique sua internet.', 'error');
+                return false;
+            }
+        }
+
+        // Alternar entre abas
+        function showTab(tab) {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const forms = document.querySelectorAll('.form');
+
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            forms.forEach(form => form.classList.remove('active'));
+
+            if (tab === 'login') {
+                tabBtns[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                tabBtns[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+
+            hideMessage();
+        }
+
+        // Mostrar mensagem
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = `message ${type}`;
+            message.style.display = 'block';
+        }
+
+        // Esconder mensagem
+        function hideMessage() {
+            document.getElementById('message').style.display = 'none';
+        }
+
+        // Controlar loading
+        function setLoading(formType, loading) {
+            const btn = document.getElementById(`${formType}Btn`);
+            const loader = document.getElementById(`${formType}Loader`);
+            const text = document.getElementById(`${formType}BtnText`);
+
+            btn.disabled = loading;
+            loader.style.display = loading ? 'inline-block' : 'none';
+            text.textContent = loading ? 'Aguarde...' : (formType === 'login' ? 'Entrar' : 'Criar Conta');
+        }
+
+        // Handle Login
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showMessage('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            setLoading('login', true);
+            hideMessage();
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email,
+                    password
+                });
+
+                if (error) {
+                    console.error('Erro de login:', error);
+                    
+                    let errorMessage = 'Erro no login';
+                    if (error.message.includes('Invalid login credentials')) {
+                        errorMessage = 'Email ou senha incorretos';
+                    } else if (error.message.includes('Email not confirmed')) {
+                        errorMessage = 'Email não confirmado. Verifique sua caixa de entrada.';
+                    } else if (error.message.includes('Too many requests')) {
+                        errorMessage = 'Muitas tentativas. Aguarde um momento.';
+                    }
+                    
+                    showMessage(errorMessage, 'error');
+                    return;
+                }
+
+                // Login bem-sucedido
+                showMessage('Login realizado com sucesso! Redirecionando...', 'success');
+                
+                // Verificar se é admin
+                const { data: profile } = await supabaseClient
+                    .from('user_profiles')
+                    .select('is_admin')
+                    .eq('id', data.user.id)
+                    .single();
+
+                // Redirecionar baseado no tipo de usuário
+                setTimeout(() => {
+                    if (profile?.is_admin) {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'cliente.html';
+                    }
+                }, 1500);
+
+            } catch (error) {
+                console.error('Erro crítico no login:', error);
+                showMessage('Erro de conexão. Tente novamente.', 'error');
+            } finally {
+                setLoading('login', false);
+            }
+        }
+
+        // Handle Register
+        async function handleRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+
+            if (!name || !email || !password) {
+                showMessage('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            if (password.length < 6) {
+                showMessage('A senha deve ter pelo menos 6 caracteres.', 'error');
+                return;
+            }
+
+            setLoading('register', true);
+            hideMessage();
+
+            try {
+                const { data, error } = await supabaseClient.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+
+                if (error) {
+                    console.error('Erro de registro:', error);
+                    
+                    let errorMessage = 'Erro no registro';
+                    if (error.message.includes('User already registered')) {
+                        errorMessage = 'Este email já está cadastrado. Tente fazer login.';
+                    } else if (error.message.includes('Password should be')) {
+                        errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+                    } else if (error.message.includes('Invalid email')) {
+                        errorMessage = 'Email inválido';
+                    }
+                    
+                    showMessage(errorMessage, 'error');
+                    return;
+                }
+
+                // Registro bem-sucedido
+                showMessage('Conta criada com sucesso! Verifique seu email para confirmar e depois faça login.', 'success');
+                
+                // Limpar formulário e mostrar aba de login
+                document.getElementById('registerForm').reset();
+                setTimeout(() => {
+                    showTab('login');
+                }, 2000);
+
+            } catch (error) {
+                console.error('Erro crítico no registro:', error);
+                showMessage('Erro de conex��o. Tente novamente.', 'error');
+            } finally {
+                setLoading('register', false);
+            }
+        }
+
+        // Verificar se já está logado
+        async function checkAuthStatus() {
+            try {
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                
+                if (user) {
+                    // Usuário já está logado, redirecionar
+                    const { data: profile } = await supabaseClient
+                        .from('user_profiles')
+                        .select('is_admin')
+                        .eq('id', user.id)
+                        .single();
+
+                    if (profile?.is_admin) {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'cliente.html';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao verificar status de autenticação:', error);
+            }
+        }
+
+        // Inicializar página
+        window.onload = function() {
+            if (initSupabase()) {
+                checkAuthStatus();
+            }
+        };
+    </script>
+</body>
+</html>
