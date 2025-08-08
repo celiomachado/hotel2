@@ -389,6 +389,11 @@ class LandingPagePreview {
     }
 
     async setupRealTimeUpdates() {
+        // Desabilitar real-time temporariamente para evitar erros de websocket
+        console.log('Real-time updates desabilitados temporariamente para estabilidade');
+        return;
+
+        /*
         // Configurar listening para mudanças em tempo real no Supabase
         try {
             const client = await waitForSupabase();
@@ -423,6 +428,7 @@ class LandingPagePreview {
         } catch (error) {
             console.error('Erro ao configurar real-time updates:', error);
         }
+        */
     }
 
     async handleSectionChange(payload) {
