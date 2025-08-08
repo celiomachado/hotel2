@@ -55,13 +55,13 @@ class LandingPagePreview {
     }
 
     updateTitle() {
-        const hotelName = this.siteConfig.hotel_name || 'Hotel Paradise';
+        const hotelName = this.siteConfig.hotel_name || 'Hotel Serra do Roncador';
         document.title = `${hotelName} - Hospede-se no coração da natureza`;
-        
+
         // Atualizar logos/nomes na página
         const logoElements = document.querySelectorAll('.nav-brand h1, .footer-section h3');
         logoElements.forEach(el => {
-            if (el.textContent.includes('Hotel')) {
+            if (el.textContent.includes('Hotel') || el.textContent.includes('Paradise')) {
                 el.textContent = hotelName;
             }
         });
