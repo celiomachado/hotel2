@@ -797,8 +797,10 @@
     <!-- Modal de Login/Registro -->
     <div id="authModal" class="modal">
         <div class="modal-content auth-modal">
-            <span class="close" onclick="authSystem.hideLoginModal()">&times;</span>
+            <span class="close" onclick="hideAuthModal()">&times;</span>
             <h2 id="authTitle">Entrar</h2>
+
+            <div class="auth-message" id="authMessage" style="display: none;"></div>
 
             <!-- Formulário de Login -->
             <form id="loginForm" onsubmit="handleLogin(event)">
@@ -810,8 +812,9 @@
                     <label for="loginPassword">Senha</label>
                     <input type="password" id="loginPassword" required>
                 </div>
-                <button type="submit" class="btn-primary">Entrar</button>
-                <p class="auth-switch">Não tem conta? <a href="#" onclick="authSystem.toggleAuthMode()">Criar conta</a></p>
+                <button type="submit" class="btn-primary" id="loginSubmitBtn">Entrar</button>
+                <p class="auth-switch">Não tem conta? <a href="#" onclick="toggleAuthMode()">Criar conta</a></p>
+                <p class="auth-switch"><a href="login-simple.html">Usar página de login dedicada</a></p>
             </form>
 
             <!-- Formulário de Registro -->
@@ -825,11 +828,12 @@
                     <input type="email" id="registerEmail" required>
                 </div>
                 <div class="form-group">
-                    <label for="registerPassword">Senha</label>
+                    <label for="registerPassword">Senha (mín. 6 caracteres)</label>
                     <input type="password" id="registerPassword" required minlength="6">
                 </div>
-                <button type="submit" class="btn-primary">Criar Conta</button>
-                <p class="auth-switch">Já tem conta? <a href="#" onclick="authSystem.toggleAuthMode()">Fazer login</a></p>
+                <button type="submit" class="btn-primary" id="registerSubmitBtn">Criar Conta</button>
+                <p class="auth-switch">Já tem conta? <a href="#" onclick="toggleAuthMode()">Fazer login</a></p>
+                <p class="auth-switch"><a href="login-simple.html">Usar página de login dedicada</a></p>
             </form>
         </div>
     </div>
