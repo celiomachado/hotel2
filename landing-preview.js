@@ -15,35 +15,47 @@ class LandingPagePreview {
 
     async loadSections() {
         try {
-            const { data: sections, error } = await supabaseClient
+            const client = await waitForSupabase();
+            const { data: sections, error } = await client
                 .from('landing_sections')
                 .select('*')
                 .eq('is_active', true)
                 .order('order_position');
 
-            if (error) throw error;
+            if (error) {
+                console.error('Erro do Supabase ao carregar seções:', error);
+                throw error;
+            }
             this.sections = sections || [];
+            console.log('Seções carregadas:', this.sections.length);
         } catch (error) {
             console.error('Erro ao carregar seções:', error);
             this.sections = this.getDefaultSections();
+            console.log('Usando seções padrão');
         }
     }
 
     async loadSiteConfig() {
         try {
-            const { data: configs, error } = await supabaseClient
+            const client = await waitForSupabase();
+            const { data: configs, error } = await client
                 .from('site_config')
                 .select('*');
 
-            if (error) throw error;
+            if (error) {
+                console.error('Erro do Supabase ao carregar configurações:', error);
+                throw error;
+            }
 
             this.siteConfig = {};
             configs?.forEach(config => {
                 this.siteConfig[config.config_key] = config.config_value;
             });
+            console.log('Configurações carregadas:', Object.keys(this.siteConfig));
         } catch (error) {
             console.error('Erro ao carregar configurações:', error);
             this.siteConfig = this.getDefaultConfig();
+            console.log('Usando configurações padrão');
         }
     }
 
