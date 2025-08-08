@@ -92,7 +92,7 @@ function initSupabase() {
     return initializationPromise;
 }
 
-// Função para aguardar inicialização
+// Função para aguardar inicializa��ão
 async function waitForSupabase() {
     if (supabaseInitialized && window.supabaseClient && window.supabaseClient.auth && window.supabaseClient.from) {
         return window.supabaseClient;
@@ -128,12 +128,12 @@ async function saveReservation(reservationData) {
             .insert([reservationData]);
         
         if (error) {
-            console.error('Erro do Supabase ao salvar reserva:', error);
+            console.error('❌ Erro do Supabase ao salvar reserva:', JSON.stringify(error, null, 2));
             throw error;
         }
         return { success: true, data };
     } catch (error) {
-        console.error('Erro ao salvar reserva:', error);
+        console.error('❌ Erro ao salvar reserva:', JSON.stringify(error, null, 2));
         return { success: false, error: error.message };
     }
 }
@@ -147,12 +147,12 @@ async function getReservations() {
             .order('created_at', { ascending: false });
         
         if (error) {
-            console.error('Erro do Supabase ao buscar reservas:', error);
+            console.error('❌ Erro do Supabase ao buscar reservas:', JSON.stringify(error, null, 2));
             throw error;
         }
         return { success: true, data };
     } catch (error) {
-        console.error('Erro ao buscar reservas:', error);
+        console.error('❌ Erro ao buscar reservas:', JSON.stringify(error, null, 2));
         return { success: false, error: error.message };
     }
 }
@@ -167,14 +167,14 @@ async function testConnection() {
             .limit(1);
         
         if (error) {
-            console.error('Erro na conexão de teste:', error);
+            console.error('❌ Erro na conexão de teste:', JSON.stringify(error, null, 2));
             return false;
         }
         
         console.log('Conexão com Supabase testada com sucesso!');
         return true;
     } catch (error) {
-        console.error('Falha no teste de conexão:', error);
+        console.error('❌ Falha no teste de conexão:', JSON.stringify(error, null, 2));
         return false;
     }
 }
