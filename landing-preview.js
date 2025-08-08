@@ -16,6 +16,11 @@ class LandingPagePreview {
     async loadSections() {
         try {
             const client = await waitForSupabase();
+
+            if (!client || !client.from) {
+                throw new Error('Cliente Supabase não foi inicializado corretamente');
+            }
+
             const { data: sections, error } = await client
                 .from('landing_sections')
                 .select('*')
@@ -23,15 +28,15 @@ class LandingPagePreview {
                 .order('order_position');
 
             if (error) {
-                console.error('Erro do Supabase ao carregar seções:', error);
+                console.error('❌ Erro do Supabase ao carregar seções:', JSON.stringify(error, null, 2));
                 throw error;
             }
             this.sections = sections || [];
-            console.log('Seções carregadas:', this.sections.length);
+            console.log('✅ Seções carregadas:', this.sections.length);
         } catch (error) {
-            console.error('Erro ao carregar seções:', error);
+            console.error('❌ Erro ao carregar seções:', JSON.stringify(error, null, 2));
             this.sections = this.getDefaultSections();
-            console.log('Usando seções padrão');
+            console.log('📝 Usando seções padrão');
         }
     }
 
@@ -43,7 +48,7 @@ class LandingPagePreview {
                 .select('*');
 
             if (error) {
-                console.error('Erro do Supabase ao carregar configurações:', error);
+                console.error('❌ Erro do Supabase ao carregar configurações:', JSON.stringify(error, null, 2));
                 throw error;
             }
 
@@ -53,9 +58,9 @@ class LandingPagePreview {
             });
             console.log('Configurações carregadas:', Object.keys(this.siteConfig));
         } catch (error) {
-            console.error('Erro ao carregar configurações:', error);
+            console.error('❌ Erro ao carregar configurações:', JSON.stringify(error, null, 2));
             this.siteConfig = this.getDefaultConfig();
-            console.log('Usando configurações padrão');
+            console.log('📝 Usando configurações padrão');
         }
     }
 
@@ -497,13 +502,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Aguardar inicialização do Supabase
         await waitForSupabase();
-        console.log('Iniciando sistema de preview da landing page');
+        console.log('🚀 Iniciando sistema de preview da landing page');
         window.landingPreview = new LandingPagePreview();
     } catch (error) {
-        console.error('Erro ao inicializar preview da landing page:', error);
+        console.error('❌ Erro ao inicializar preview da landing page:', JSON.stringify(error, null, 2));
         // Tentar inicializar com dados padrão após um delay
         setTimeout(() => {
-            console.log('Tentando inicializar preview com dados padrão');
+            console.log('📝 Tentando inicializar preview com dados padrão');
             window.landingPreview = new LandingPagePreview();
         }, 2000);
     }
