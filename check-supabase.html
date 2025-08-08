@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificador de Configuração Supabase</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 2rem;
+            background: #1a1a1a;
+            color: #00ff00;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00ff88;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .config-section {
+            background: #2a2a2a;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #00ff88;
+        }
+        .config-section h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+        }
+        .current-config {
+            background: #440000;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            word-break: break-all;
+        }
+        .status {
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            margin: 0.5rem 0;
+            font-weight: bold;
+        }
+        .status.error {
+            background: #ff4444;
+            color: white;
+        }
+        .status.success {
+            background: #44ff44;
+            color: black;
+        }
+        .status.warning {
+            background: #ffaa00;
+            color: black;
+        }
+        input[type="text"], input[type="url"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: #333;
+            color: #00ff00;
+            border: 1px solid #555;
+            border-radius: 4px;
+            font-family: monospace;
+            margin: 0.5rem 0;
+        }
+        button {
+            background: #00ff88;
+            color: black;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #00cc66;
+        }
+        .test-results {
+            background: #003300;
+            padding: 1rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+            min-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #00ff88;
+        }
+        .log-entry {
+            margin: 0.25rem 0;
+            padding: 0.25rem;
+        }
+        .log-entry.error { color: #ff6666; }
+        .log-entry.success { color: #66ff66; }
+        .log-entry.info { color: #66aaff; }
+        .copy-btn {
+            background: #0066cc;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Verificador de Configuração Supabase</h1>
+        
+        <div class="config-section">
+            <h3>📋 Configuração Atual (do código)</h3>
+            <div class="current-config">
+                <strong>URL:</strong> https://rxdialhyznmtteztky.supabase.co<br>
+                <strong>Project ID:</strong> rxdialhyznmtteztky<br>
+                <strong>Anon Key:</strong> eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI
+            </div>
+            <div class="status error">❌ PROBLEMA: Project ID não é válido!</div>
+        </div>
+
+        <div class="config-section">
+            <h3>🔍 Testar Nova Configuração</h3>
+            <p>Cole aqui as configurações corretas do seu projeto Supabase:</p>
+            
+            <label>🌐 URL do Projeto:</label>
+            <input type="url" id="newUrl" placeholder="https://seu-projeto.supabase.co" value="">
+            
+            <label>🔑 Anon Key:</label>
+            <input type="text" id="newAnonKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." value="">
+            
+            <button onclick="testNewConfig()">🧪 Testar Configuração</button>
+            <button onclick="extractFromUrl()">📋 Extrair do Dashboard URL</button>
+        </div>
+
+        <div class="config-section">
+            <h3>📊 Resultados dos Testes</h3>
+            <div class="test-results" id="testResults">
+                <div class="log-entry info">Aguardando testes...</div>
+            </div>
+            <button onclick="testCurrentConfig()">🔍 Testar Config Atual</button>
+            <button onclick="clearResults()">🗑️ Limpar</button>
+        </div>
+
+        <div class="config-section">
+            <h3>🛠️ Geração de Arquivos Corrigidos</h3>
+            <p>Após encontrar a configuração correta, clique para gerar os arquivos:</p>
+            <button onclick="generateFixedFiles()" id="generateBtn" disabled>📦 Gerar Arquivos Corrigidos</button>
+        </div>
+
+        <div class="config-section">
+            <h3>ℹ️ Como Obter as Configurações Corretas</h3>
+            <ol>
+                <li>Acesse seu painel Supabase: <a href="https://supabase.com/dashboard" target="_blank" style="color: #00ffff;">https://supabase.com/dashboard</a></li>
+                <li>Selecione seu projeto</li>
+                <li>Vá em Settings → API</li>
+                <li>Copie a URL e o anon key</li>
+                <li>Cole aqui e teste</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let validConfig = null;
+
+        function log(message, type = 'info') {
+            const results = document.getElementById('testResults');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            results.appendChild(entry);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        function clearResults() {
+            document.getElementById('testResults').innerHTML = '<div class="log-entry info">Resultados limpos.</div>';
+        }
+
+        async function testCurrentConfig() {
+            log('🔍 Testando configuração atual...', 'info');
+            
+            const url = 'https://rxdialhyznmtteztky.supabase.co';
+            const key = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZUi6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI';
+            
+            await testSupabaseConfig(url, key, 'Configuração Atual');
+        }
+
+        async function testNewConfig() {
+            const url = document.getElementById('newUrl').value.trim();
+            const key = document.getElementById('newAnonKey').value.trim();
+            
+            if (!url || !key) {
+                log('❌ Por favor, preencha URL e Anon Key', 'error');
+                return;
+            }
+            
+            log('🔍 Testando nova configuração...', 'info');
+            await testSupabaseConfig(url, key, 'Nova Configuração');
+        }
+
+        async function testSupabaseConfig(url, key, label) {
+            try {
+                // Teste 1: Conectividade básica
+                log(`📡 ${label} - Testando conectividade básica...`, 'info');
+                
+                const response = await fetch(`${url}/rest/v1/`, {
+                    method: 'HEAD',
+                    headers: {
+                        'apikey': key,
+                        'Authorization': `Bearer ${key}`
+                    }
+                });
+                
+                if (response.ok) {
+                    log(`✅ ${label} - Conectividade OK (Status: ${response.status})`, 'success');
+                } else {
+                    log(`❌ ${label} - Falha na conectividade (Status: ${response.status})`, 'error');
+                    return false;
+                }
+                
+                // Teste 2: Carregamento do Supabase JS
+                log(`📚 ${label} - Testando cliente Supabase...`, 'info');
+                
+                if (!window.supabase) {
+                    // Carregar Supabase se não estiver carregado
+                    const script = document.createElement('script');
+                    script.src = 'https://unpkg.com/@supabase/supabase-js@2';
+                    document.head.appendChild(script);
+                    
+                    await new Promise((resolve, reject) => {
+                        script.onload = resolve;
+                        script.onerror = reject;
+                        setTimeout(reject, 10000); // timeout
+                    });
+                }
+                
+                // Teste 3: Criação do cliente
+                const client = window.supabase.createClient(url, key);
+                log(`✅ ${label} - Cliente Supabase criado`, 'success');
+                
+                // Teste 4: Teste de autenticação
+                log(`🔐 ${label} - Testando sistema de auth...`, 'info');
+                const { data: userData, error: userError } = await client.auth.getUser();
+                
+                if (userError && !userError.message.includes('session_missing')) {
+                    log(`❌ ${label} - Erro no auth: ${userError.message}`, 'error');
+                    return false;
+                }
+                
+                log(`✅ ${label} - Sistema de auth OK`, 'success');
+                
+                // Teste 5: Teste de database
+                log(`💾 ${label} - Testando acesso ao database...`, 'info');
+                try {
+                    const { data: dbData, error: dbError } = await client
+                        .from('landing_sections')
+                        .select('count')
+                        .limit(1);
+                    
+                    if (dbError) {
+                        log(`⚠️ ${label} - Tabela landing_sections não existe ainda (normal)`, 'warning');
+                    } else {
+                        log(`✅ ${label} - Database acessível`, 'success');
+                    }
+                } catch (dbErr) {
+                    log(`⚠️ ${label} - Database não configurado ainda: ${dbErr.message}`, 'warning');
+                }
+                
+                // Sucesso total
+                log(`🎉 ${label} - CONFIGURAÇÃO VÁLIDA!`, 'success');
+                
+                validConfig = { url, key };
+                document.getElementById('generateBtn').disabled = false;
+                
+                return true;
+                
+            } catch (error) {
+                log(`❌ ${label} - Erro crítico: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        function extractFromUrl() {
+            const dashboardUrl = prompt('Cole a URL do seu dashboard Supabase\n(ex: https://supabase.com/dashboard/project/abc123)');
+            
+            if (dashboardUrl) {
+                // Extrair project ID da URL
+                const match = dashboardUrl.match(/project\/([a-zA-Z0-9]+)/);
+                if (match) {
+                    const projectId = match[1];
+                    const supabaseUrl = `https://${projectId}.supabase.co`;
+                    
+                    document.getElementById('newUrl').value = supabaseUrl;
+                    log(`📋 URL extraída: ${supabaseUrl}`, 'info');
+                    log('ℹ️ Agora cole o Anon Key do Settings → API', 'info');
+                } else {
+                    log('❌ Não foi possível extrair project ID da URL', 'error');
+                }
+            }
+        }
+
+        function generateFixedFiles() {
+            if (!validConfig) {
+                log('❌ Nenhuma configuração válida encontrada', 'error');
+                return;
+            }
+            
+            log('📦 Gerando arquivos corrigidos...', 'info');
+            
+            // Gerar configuração corrigida
+            const configJs = `// Configuração CORRIGIDA do Supabase
+const SUPABASE_CONFIG = {
+    url: '${validConfig.url}',
+    anonKey: '${validConfig.key}'
+};
+
+// Função para inicializar Supabase
+function initSupabase() {
+    try {
+        if (!window.supabase) {
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/@supabase/supabase-js@2';
+            script.onload = () => {
+                window.supabaseClient = window.supabase.createClient(
+                    SUPABASE_CONFIG.url,
+                    SUPABASE_CONFIG.anonKey
+                );
+                console.log('✅ Supabase conectado com configuração corrigida!');
+            };
+            document.head.appendChild(script);
+        } else {
+            window.supabaseClient = window.supabase.createClient(
+                SUPABASE_CONFIG.url,
+                SUPABASE_CONFIG.anonKey
+            );
+            console.log('✅ Supabase conectado!');
+        }
+        return true;
+    } catch (error) {
+        console.error('❌ Erro ao inicializar Supabase:', error);
+        return false;
+    }
+}
+
+// Aguardar carregamento e inicializar
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSupabase);
+} else {
+    initSupabase();
+}`;
+
+            // Baixar arquivo
+            downloadFile('supabase-config-FIXED.js', configJs);
+            
+            log('✅ Arquivo supabase-config-FIXED.js gerado!', 'success');
+            log('📁 Substitua o supabase-config.js atual por este arquivo', 'info');
+            
+            // Mostrar instruções
+            setTimeout(() => {
+                alert(`✅ CONFIGURAÇÃO CORRETA ENCONTRADA!
+
+URL: ${validConfig.url}
+Key: ${validConfig.key.substring(0, 20)}...
+
+📁 Arquivo baixado: supabase-config-FIXED.js
+📋 Substitua o arquivo atual e recarregue a página.
+
+Depois execute o SQL no Supabase para criar as tabelas.`);
+            }, 1000);
+        }
+
+        function downloadFile(filename, content) {
+            const blob = new Blob([content], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Carregar Supabase automaticamente
+        if (!window.supabase) {
+            const script = document.createElement('script');
+            script.src = 'https://unpkg.com/@supabase/supabase-js@2';
+            document.head.appendChild(script);
+            
+            script.onload = () => {
+                log('📚 Biblioteca Supabase carregada', 'success');
+            };
+            
+            script.onerror = () => {
+                log('❌ Erro ao carregar biblioteca Supabase', 'error');
+            };
+        }
+
+        log('🚀 Verificador de configuração iniciado', 'info');
+        log('📋 Cole suas configurações corretas do Supabase e teste', 'info');
+    </script>
+</body>
+</html>
