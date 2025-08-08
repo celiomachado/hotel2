@@ -61,22 +61,40 @@ class AuthSystem {
 
     async login(email, password) {
         try {
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
+            const client = await waitForSupabase();
+            const { data, error } = await client.auth.signInWithPassword({
                 email,
                 password
             });
 
-            if (error) throw error;
+            if (error) {
+                console.error('Erro de login:', error);
+                throw error;
+            }
             return { success: true, user: data.user };
         } catch (error) {
-            this.showNotification('Erro no login: ' + error.message, 'error');
+            console.error('Erro no login:', error);
+            let errorMessage = 'Erro no login';
+
+            if (error.message.includes('Invalid login credentials')) {
+                errorMessage = 'Email ou senha incorretos';
+            } else if (error.message.includes('Email not confirmed')) {
+                errorMessage = 'Email não confirmado. Verifique sua caixa de entrada.';
+            } else if (error.message.includes('Failed to fetch')) {
+                errorMessage = 'Erro de conexão. Verifique sua internet.';
+            } else {
+                errorMessage = 'Erro no login: ' + error.message;
+            }
+
+            this.showNotification(errorMessage, 'error');
             return { success: false, error: error.message };
         }
     }
 
     async register(email, password, fullName) {
         try {
-            const { data, error } = await supabaseClient.auth.signUp({
+            const client = await waitForSupabase();
+            const { data, error } = await client.auth.signUp({
                 email,
                 password,
                 options: {
@@ -86,22 +104,40 @@ class AuthSystem {
                 }
             });
 
-            if (error) throw error;
-            
+            if (error) {
+                console.error('Erro de registro:', error);
+                throw error;
+            }
+
             this.showNotification('Conta criada! Verifique seu email para confirmar.', 'success');
             return { success: true, user: data.user };
         } catch (error) {
-            this.showNotification('Erro no registro: ' + error.message, 'error');
+            console.error('Erro no registro:', error);
+            let errorMessage = 'Erro no registro';
+
+            if (error.message.includes('User already registered')) {
+                errorMessage = 'Este email já está cadastrado';
+            } else if (error.message.includes('Password should be')) {
+                errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+            } else if (error.message.includes('Failed to fetch')) {
+                errorMessage = 'Erro de conexão. Verifique sua internet.';
+            } else {
+                errorMessage = 'Erro no registro: ' + error.message;
+            }
+
+            this.showNotification(errorMessage, 'error');
             return { success: false, error: error.message };
         }
     }
 
     async logout() {
         try {
-            const { error } = await supabaseClient.auth.signOut();
+            const client = await waitForSupabase();
+            const { error } = await client.auth.signOut();
             if (error) throw error;
             return { success: true };
         } catch (error) {
+            console.error('Erro no logout:', error);
             this.showNotification('Erro no logout: ' + error.message, 'error');
             return { success: false, error: error.message };
         }
