@@ -357,14 +357,21 @@
             hideMessage();
 
             try {
-                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                // Adicionar timeout para evitar travamento
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Timeout na autenticação')), 15000)
+                );
+
+                const loginPromise = supabaseClient.auth.signInWithPassword({
                     email,
                     password
                 });
 
+                const { data, error } = await Promise.race([loginPromise, timeoutPromise]);
+
                 if (error) {
                     console.error('Erro de login:', error);
-                    
+
                     let errorMessage = 'Erro no login';
                     if (error.message.includes('Invalid login credentials')) {
                         errorMessage = 'Email ou senha incorretos';
@@ -372,34 +379,62 @@
                         errorMessage = 'Email não confirmado. Verifique sua caixa de entrada.';
                     } else if (error.message.includes('Too many requests')) {
                         errorMessage = 'Muitas tentativas. Aguarde um momento.';
+                    } else if (error.message.includes('Failed to fetch')) {
+                        errorMessage = 'Erro de conexão. Verifique sua internet.';
+                    } else if (error.message.includes('NetworkError')) {
+                        errorMessage = 'Problema de rede. Verifique sua conexão.';
                     }
-                    
+
                     showMessage(errorMessage, 'error');
                     return;
                 }
 
                 // Login bem-sucedido
                 showMessage('Login realizado com sucesso! Redirecionando...', 'success');
-                
-                // Verificar se é admin
-                const { data: profile } = await supabaseClient
-                    .from('user_profiles')
-                    .select('is_admin')
-                    .eq('id', data.user.id)
-                    .single();
 
-                // Redirecionar baseado no tipo de usuário
-                setTimeout(() => {
-                    if (profile?.is_admin) {
-                        window.location.href = 'admin.html';
-                    } else {
+                // Salvar token simples para fallback
+                localStorage.setItem('simple_auth_token', data.user.id);
+                localStorage.setItem('user_email', data.user.email);
+
+                try {
+                    // Verificar se é admin com timeout
+                    const profilePromise = supabaseClient
+                        .from('user_profiles')
+                        .select('is_admin')
+                        .eq('id', data.user.id)
+                        .single();
+
+                    const profileTimeout = new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error('Timeout')), 5000)
+                    );
+
+                    const { data: profile } = await Promise.race([profilePromise, profileTimeout]);
+
+                    // Redirecionar baseado no tipo de usuário
+                    setTimeout(() => {
+                        if (profile?.is_admin) {
+                            window.location.href = 'admin.html';
+                        } else {
+                            window.location.href = 'cliente.html';
+                        }
+                    }, 1500);
+
+                } catch (profileError) {
+                    console.error('Erro ao verificar perfil:', profileError);
+                    // Fallback: redirecionar para cliente por padrão
+                    setTimeout(() => {
                         window.location.href = 'cliente.html';
-                    }
-                }, 1500);
+                    }, 1500);
+                }
 
             } catch (error) {
                 console.error('Erro crítico no login:', error);
-                showMessage('Erro de conexão. Tente novamente.', 'error');
+
+                if (error.message.includes('Timeout')) {
+                    showMessage('Conexão muito lenta. Tente novamente ou verifique sua internet.', 'error');
+                } else {
+                    showMessage('Erro de conexão. Verifique sua internet e tente novamente.', 'error');
+                }
             } finally {
                 setLoading('login', false);
             }
