@@ -20,13 +20,25 @@ function initSupabase() {
             try {
                 window.supabaseClient = window.supabase.createClient(
                     SUPABASE_CONFIG.url,
-                    SUPABASE_CONFIG.anonKey
+                    SUPABASE_CONFIG.anonKey,
+                    {
+                        auth: {
+                            autoRefreshToken: true,
+                            persistSession: true,
+                            detectSessionInUrl: false
+                        },
+                        global: {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        }
+                    }
                 );
                 supabaseInitialized = true;
-                console.log('Supabase conectado com sucesso!');
+                console.log('✅ Supabase conectado com sucesso!');
                 resolve(window.supabaseClient);
             } catch (error) {
-                console.error('Erro ao criar cliente Supabase:', error);
+                console.error('❌ Erro ao criar cliente Supabase:', JSON.stringify(error, null, 2));
                 reject(error);
             }
             return;
@@ -41,7 +53,7 @@ function initSupabase() {
                 if (!window.supabase) {
                     throw new Error('Supabase não foi carregado corretamente');
                 }
-                
+
                 window.supabaseClient = window.supabase.createClient(
                     SUPABASE_CONFIG.url,
                     SUPABASE_CONFIG.anonKey,
@@ -51,11 +63,6 @@ function initSupabase() {
                             persistSession: true,
                             detectSessionInUrl: false
                         },
-                        realtime: {
-                            params: {
-                                eventsPerSecond: 2
-                            }
-                        },
                         global: {
                             headers: {
                                 'Content-Type': 'application/json'
@@ -63,18 +70,18 @@ function initSupabase() {
                         }
                     }
                 );
-                
+
                 supabaseInitialized = true;
-                console.log('Supabase conectado com sucesso!');
+                console.log('✅ Supabase conectado com sucesso via CDN!');
                 resolve(window.supabaseClient);
             } catch (error) {
-                console.error('Erro ao criar cliente Supabase:', error);
+                console.error('❌ Erro ao criar cliente Supabase:', JSON.stringify(error, null, 2));
                 reject(error);
             }
         };
         
         script.onerror = () => {
-            const error = new Error('Falha ao carregar biblioteca Supabase');
+            const error = new Error('❌ Falha ao carregar biblioteca Supabase via CDN');
             console.error(error);
             reject(error);
         };
