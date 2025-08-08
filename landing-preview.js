@@ -334,33 +334,44 @@ class LandingPagePreview {
 
     updateContactInfo() {
         const phone = this.siteConfig.hotel_phone || '(66) 3468-2001';
-        const email = this.siteConfig.hotel_email || 'contato@hotelparadise.com';
+        const email = this.siteConfig.hotel_email || 'reservas@serradoncador.com.br';
         const address = this.siteConfig.hotel_address || 'BR 158 - Água Boa, MT';
 
-        // Atualizar telefone
-        const phoneElements = document.querySelectorAll('.contact-info span, .footer-contact p');
+        // Atualizar telefone no header
+        const headerPhone = document.querySelector('.contact-info span');
+        if (headerPhone) {
+            headerPhone.textContent = phone;
+        }
+
+        // Atualizar telefones na página
+        const phoneElements = document.querySelectorAll('.footer-contact p, .contact-details p');
         phoneElements.forEach(el => {
-            if (el.textContent.includes('(') || el.textContent.includes('66')) {
-                el.textContent = phone;
+            if (el.textContent.includes('(') && el.textContent.includes(')')) {
+                const iconMatch = el.innerHTML.match(/<i[^>]*><\/i>/);
+                const icon = iconMatch ? iconMatch[0] : '';
+                if (el.textContent.includes('Telefone') || el.innerHTML.includes('fa-phone')) {
+                    el.innerHTML = `${icon} ${phone}<br>Recepção 24 horas`;
+                }
             }
         });
 
-        // Atualizar email
-        const emailElements = document.querySelectorAll('a[href^="mailto:"], .footer-contact p');
+        // Atualizar emails
+        const emailElements = document.querySelectorAll('.footer-contact p, .contact-details p');
         emailElements.forEach(el => {
-            if (el.href && el.href.includes('mailto:')) {
-                el.href = `mailto:${email}`;
-                el.textContent = email;
-            } else if (el.textContent.includes('@')) {
-                el.textContent = email;
+            if (el.textContent.includes('@') && (el.textContent.includes('E-mail') || el.innerHTML.includes('fa-envelope'))) {
+                const iconMatch = el.innerHTML.match(/<i[^>]*><\/i>/);
+                const icon = iconMatch ? iconMatch[0] : '';
+                el.innerHTML = `${icon} ${email}<br>contato@serradoncador.com.br`;
             }
         });
 
-        // Atualizar endereço
-        const addressElements = document.querySelectorAll('.contact-details p, .footer-contact p');
+        // Atualizar endereços
+        const addressElements = document.querySelectorAll('.footer-contact p, .contact-details p');
         addressElements.forEach(el => {
-            if (el.textContent.includes('BR 158') || el.textContent.includes('Água Boa')) {
-                el.textContent = address;
+            if ((el.textContent.includes('BR') || el.textContent.includes('Localização')) && (el.innerHTML.includes('fa-map') || el.textContent.includes('Água Boa'))) {
+                const iconMatch = el.innerHTML.match(/<i[^>]*><\/i>/);
+                const icon = iconMatch ? iconMatch[0] : '';
+                el.innerHTML = `${icon} ${address}<br>A 1000m do centro da cidade`;
             }
         });
     }
