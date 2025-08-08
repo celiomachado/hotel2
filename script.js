@@ -527,6 +527,17 @@ window.prevGalleryImage = function() {
 
 // ========== RESERVAS ==========
 
+// Função para mostrar modal de login
+function showLoginModal() {
+    // Verificar se o sistema de autenticação está disponível
+    if (typeof authSystem !== 'undefined') {
+        authSystem.showLoginModal();
+    } else {
+        // Fallback - redirecionar para página de login
+        window.location.href = 'login-simple.html';
+    }
+}
+
 // Função para mostrar formulário de reserva (com verificação de login)
 function showReservationForm() {
     // Verificar se o sistema de autenticação está disponível
@@ -535,12 +546,7 @@ function showReservationForm() {
         window.location.href = 'cliente.html#new-reservation';
     } else {
         // Usuário não logado - mostrar modal de login
-        if (typeof authSystem !== 'undefined') {
-            authSystem.showLoginModal();
-        } else {
-            // Fallback - mostrar modal de reserva simples
-            document.getElementById('reservationModal').style.display = 'flex';
-        }
+        showLoginModal();
     }
 }
 
