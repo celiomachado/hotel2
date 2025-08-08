@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Garantido - Hotel Serra do Roncador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #B8341C 0%, #D4581F 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            color: #B8341C;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status-badge {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            border: 1px solid #2196f3;
+        }
+
+        .credentials {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .credentials h3 {
+            color: #333;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        .credential-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .copy-btn {
+            background: #B8341C;
+            color: white;
+            border: none;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.75rem;
+        }
+
+        .login-buttons {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .login-btn {
+            padding: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .login-btn.admin {
+            background: #B8341C;
+            color: white;
+        }
+
+        .login-btn.admin:hover {
+            background: #a02e18;
+            transform: translateY(-2px);
+        }
+
+        .login-btn.client {
+            background: #6c757d;
+            color: white;
+        }
+
+        .login-btn.client:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            color: #B8341C;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .demo-info {
+            background: #fff3cd;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .demo-info strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #B8341C;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">
+            <h1>🏨 Hotel Serra do Roncador</h1>
+            <p>Login Garantido - Sistema Offline</p>
+        </div>
+
+        <div class="status-badge">
+            🔄 Sistema funcionando em modo demonstração offline
+        </div>
+
+        <div class="credentials">
+            <h3>Credenciais de Teste</h3>
+            
+            <div class="credential-item">
+                <span>admin@hotel.com / 123456</span>
+                <button class="copy-btn" onclick="copyText('admin@hotel.com')">📋</button>
+            </div>
+            
+            <div class="credential-item">
+                <span>cliente@hotel.com / 123456</span>
+                <button class="copy-btn" onclick="copyText('cliente@hotel.com')">📋</button>
+            </div>
+        </div>
+
+        <div class="success" id="successMessage">
+            ✅ Login realizado com sucesso! Redirecionando...
+        </div>
+
+        <div class="loading" id="loadingMessage">
+            <div class="spinner"></div>
+            Fazendo login...
+        </div>
+
+        <div class="login-buttons" id="loginButtons">
+            <button class="login-btn admin" onclick="quickLogin('admin')">
+                🔑 Entrar como Administrador
+            </button>
+            
+            <button class="login-btn client" onclick="quickLogin('client')">
+                👤 Entrar como Cliente
+            </button>
+        </div>
+
+        <div class="demo-info">
+            <strong>💡 Como funciona:</strong>
+            Este sistema funciona 100% offline para demonstração. 
+            Clique em qualquer botão acima para fazer login automaticamente 
+            e ser redirecionado para o painel correspondente.
+        </div>
+
+        <div class="back-link">
+            <a href="index.html">← Voltar ao Site</a> |
+            <a href="demo-offline.html">Ver Demo Completo</a>
+        </div>
+    </div>
+
+    <script>
+        // Usuários de demonstração
+        const demoUsers = {
+            admin: {
+                id: 'admin-demo',
+                email: 'admin@hotel.com',
+                full_name: 'Administrador Demo',
+                is_admin: true
+            },
+            client: {
+                id: 'client-demo', 
+                email: 'cliente@hotel.com',
+                full_name: 'Cliente Demo',
+                is_admin: false
+            }
+        };
+
+        function quickLogin(userType) {
+            const user = demoUsers[userType];
+            if (!user) return;
+
+            // Mostrar loading
+            document.getElementById('loginButtons').style.display = 'none';
+            document.getElementById('loadingMessage').classList.add('show');
+
+            // Simular processo de login
+            setTimeout(() => {
+                // Salvar usuário no localStorage
+                localStorage.setItem('offline_current_user', JSON.stringify(user));
+                localStorage.setItem('demo_logged_in', 'true');
+                localStorage.setItem('demo_user_type', userType);
+
+                // Mostrar sucesso
+                document.getElementById('loadingMessage').classList.remove('show');
+                document.getElementById('successMessage').classList.add('show');
+
+                // Redirecionar após delay
+                setTimeout(() => {
+                    if (user.is_admin) {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'cliente.html';
+                    }
+                }, 1500);
+            }, 1000);
+        }
+
+        function copyText(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showTempMessage('Email copiado!');
+                });
+            } else {
+                // Fallback
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showTempMessage('Email copiado!');
+            }
+        }
+
+        function showTempMessage(message) {
+            const msg = document.createElement('div');
+            msg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 0.75rem 1rem;
+                border-radius: 6px;
+                z-index: 1000;
+                font-size: 0.9rem;
+                animation: slideIn 0.3s ease-out;
+            `;
+            msg.textContent = message;
+            document.body.appendChild(msg);
+            
+            setTimeout(() => {
+                if (msg.parentElement) {
+                    msg.style.animation = 'slideIn 0.3s ease-out reverse';
+                    setTimeout(() => msg.remove(), 300);
+                }
+            }, 2000);
+        }
+
+        // CSS adicional para animação
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Verificar se já está logado
+        if (localStorage.getItem('demo_logged_in') === 'true') {
+            const userType = localStorage.getItem('demo_user_type');
+            if (userType) {
+                document.querySelector('.status-badge').innerHTML = 
+                    `✅ Já logado como ${userType === 'admin' ? 'Administrador' : 'Cliente'}`;
+                
+                // Adicionar botão de logout
+                const logoutBtn = document.createElement('button');
+                logoutBtn.textContent = 'Fazer Logout';
+                logoutBtn.className = 'login-btn admin';
+                logoutBtn.style.background = '#dc3545';
+                logoutBtn.onclick = () => {
+                    localStorage.removeItem('demo_logged_in');
+                    localStorage.removeItem('demo_user_type');
+                    localStorage.removeItem('offline_current_user');
+                    location.reload();
+                };
+                
+                document.querySelector('.login-buttons').appendChild(logoutBtn);
+            }
+        }
+
+        console.log('🔄 Página de login garantido carregada');
+    </script>
+</body>
+</html>
