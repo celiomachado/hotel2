@@ -4,36 +4,103 @@ const SUPABASE_CONFIG = {
     anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI'
 };
 
-// Função para inicializar Supabase (usando CDN)
+// Variável para controlar se o Supabase foi inicializado
+let supabaseInitialized = false;
+let initializationPromise = null;
+
+// Função para inicializar Supabase
 function initSupabase() {
-    // Carregar Supabase via CDN
-    if (!window.supabase) {
+    if (initializationPromise) {
+        return initializationPromise;
+    }
+
+    initializationPromise = new Promise((resolve, reject) => {
+        // Verificar se o Supabase já está carregado
+        if (window.supabase) {
+            try {
+                window.supabaseClient = window.supabase.createClient(
+                    SUPABASE_CONFIG.url,
+                    SUPABASE_CONFIG.anonKey
+                );
+                supabaseInitialized = true;
+                console.log('Supabase conectado com sucesso!');
+                resolve(window.supabaseClient);
+            } catch (error) {
+                console.error('Erro ao criar cliente Supabase:', error);
+                reject(error);
+            }
+            return;
+        }
+
+        // Carregar Supabase via CDN
         const script = document.createElement('script');
         script.src = 'https://unpkg.com/@supabase/supabase-js@2';
+        
         script.onload = () => {
-            window.supabaseClient = window.supabase.createClient(
-                SUPABASE_CONFIG.url,
-                SUPABASE_CONFIG.anonKey
-            );
-            console.log('Supabase conectado com sucesso!');
+            try {
+                if (!window.supabase) {
+                    throw new Error('Supabase não foi carregado corretamente');
+                }
+                
+                window.supabaseClient = window.supabase.createClient(
+                    SUPABASE_CONFIG.url,
+                    SUPABASE_CONFIG.anonKey,
+                    {
+                        auth: {
+                            autoRefreshToken: true,
+                            persistSession: true,
+                            detectSessionInUrl: true
+                        }
+                    }
+                );
+                
+                supabaseInitialized = true;
+                console.log('Supabase conectado com sucesso!');
+                resolve(window.supabaseClient);
+            } catch (error) {
+                console.error('Erro ao criar cliente Supabase:', error);
+                reject(error);
+            }
         };
+        
+        script.onerror = () => {
+            const error = new Error('Falha ao carregar biblioteca Supabase');
+            console.error(error);
+            reject(error);
+        };
+        
         document.head.appendChild(script);
-    } else {
-        window.supabaseClient = window.supabase.createClient(
-            SUPABASE_CONFIG.url,
-            SUPABASE_CONFIG.anonKey
-        );
+    });
+
+    return initializationPromise;
+}
+
+// Função para aguardar inicialização
+async function waitForSupabase() {
+    if (supabaseInitialized && window.supabaseClient) {
+        return window.supabaseClient;
+    }
+    
+    try {
+        return await initSupabase();
+    } catch (error) {
+        console.error('Erro ao inicializar Supabase:', error);
+        throw error;
     }
 }
 
-// Funções para reservas
+// Funções para reservas com tratamento de erro aprimorado
 async function saveReservation(reservationData) {
     try {
-        const { data, error } = await window.supabaseClient
+        const client = await waitForSupabase();
+        const { data, error } = await client
             .from('reservations')
             .insert([reservationData]);
         
-        if (error) throw error;
+        if (error) {
+            console.error('Erro do Supabase ao salvar reserva:', error);
+            throw error;
+        }
         return { success: true, data };
     } catch (error) {
         console.error('Erro ao salvar reserva:', error);
@@ -43,12 +110,16 @@ async function saveReservation(reservationData) {
 
 async function getReservations() {
     try {
-        const { data, error } = await window.supabaseClient
+        const client = await waitForSupabase();
+        const { data, error } = await client
             .from('reservations')
             .select('*')
             .order('created_at', { ascending: false });
         
-        if (error) throw error;
+        if (error) {
+            console.error('Erro do Supabase ao buscar reservas:', error);
+            throw error;
+        }
         return { success: true, data };
     } catch (error) {
         console.error('Erro ao buscar reservas:', error);
@@ -56,5 +127,47 @@ async function getReservations() {
     }
 }
 
-// Inicializar quando a página carregar
-document.addEventListener('DOMContentLoaded', initSupabase);
+// Função de teste de conexão
+async function testConnection() {
+    try {
+        const client = await waitForSupabase();
+        const { data, error } = await client
+            .from('landing_sections')
+            .select('count')
+            .limit(1);
+        
+        if (error) {
+            console.error('Erro na conexão de teste:', error);
+            return false;
+        }
+        
+        console.log('Conexão com Supabase testada com sucesso!');
+        return true;
+    } catch (error) {
+        console.error('Falha no teste de conexão:', error);
+        return false;
+    }
+}
+
+// Inicializar automaticamente quando a página carregar
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        await initSupabase();
+        console.log('Supabase inicializado na carga da página');
+        
+        // Teste de conexão
+        setTimeout(async () => {
+            const connected = await testConnection();
+            if (!connected) {
+                console.warn('Problema na conexão com Supabase detectado');
+            }
+        }, 1000);
+        
+    } catch (error) {
+        console.error('Erro na inicialização do Supabase:', error);
+    }
+});
+
+// Exportar para uso global
+window.waitForSupabase = waitForSupabase;
+window.testConnection = testConnection;
