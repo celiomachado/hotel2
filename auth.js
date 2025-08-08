@@ -7,26 +7,36 @@ class AuthSystem {
     }
 
     async init() {
-        // Verificar se há usuário logado
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (user) {
-            await this.setCurrentUser(user);
-        }
+        try {
+            // Aguardar inicialização do Supabase
+            const client = await waitForSupabase();
 
-        // Escutar mudanças na autenticação
-        supabaseClient.auth.onAuthStateChange(async (event, session) => {
-            if (event === 'SIGNED_IN') {
-                await this.setCurrentUser(session.user);
-                this.showNotification('Login realizado com sucesso!', 'success');
-            } else if (event === 'SIGNED_OUT') {
-                this.currentUser = null;
-                this.isAdmin = false;
-                this.updateUI();
-                this.showNotification('Logout realizado com sucesso!', 'info');
+            // Verificar se há usuário logado
+            const { data: { user }, error } = await client.auth.getUser();
+            if (error) {
+                console.error('Erro ao verificar usuário logado:', error);
+            } else if (user) {
+                await this.setCurrentUser(user);
             }
-        });
 
-        this.updateUI();
+            // Escutar mudanças na autenticação
+            client.auth.onAuthStateChange(async (event, session) => {
+                if (event === 'SIGNED_IN') {
+                    await this.setCurrentUser(session.user);
+                    this.showNotification('Login realizado com sucesso!', 'success');
+                } else if (event === 'SIGNED_OUT') {
+                    this.currentUser = null;
+                    this.isAdmin = false;
+                    this.updateUI();
+                    this.showNotification('Logout realizado com sucesso!', 'info');
+                }
+            });
+
+            this.updateUI();
+        } catch (error) {
+            console.error('Erro na inicialização do sistema de autenticação:', error);
+            this.showNotification('Erro ao conectar com o servidor. Tente novamente.', 'error');
+        }
     }
 
     async setCurrentUser(user) {
