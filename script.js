@@ -566,6 +566,296 @@ window.openReservationModal = function(roomType) {
 
 window.closeReservationModal = closeReservationModal;
 
+// ========== SISTEMA DE AUTH DIRETO ==========
+
+// Variáveis globais de auth
+let supabaseClientDirect = null;
+let currentUser = null;
+
+// Inicializar Supabase direto
+async function initSupabaseDirect() {
+    try {
+        if (!window.supabase) {
+            console.log('Supabase não carregado ainda');
+            return false;
+        }
+
+        supabaseClientDirect = window.supabase.createClient(
+            'https://rxdialhyznmtteztky.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI'
+        );
+
+        // Verificar usuário logado
+        const { data: { user } } = await supabaseClientDirect.auth.getUser();
+        if (user) {
+            currentUser = user;
+            updateAuthUI();
+        }
+
+        return true;
+    } catch (error) {
+        console.error('Erro ao inicializar Supabase:', error);
+        return false;
+    }
+}
+
+// Mostrar modal de auth
+function showAuthModal() {
+    document.getElementById('authModal').style.display = 'flex';
+}
+
+// Esconder modal de auth
+function hideAuthModal() {
+    document.getElementById('authModal').style.display = 'none';
+    clearAuthMessage();
+}
+
+// Alternar entre login e registro
+function toggleAuthMode() {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const authTitle = document.getElementById('authTitle');
+
+    if (loginForm.style.display === 'none') {
+        // Mostrar login
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        authTitle.textContent = 'Entrar';
+    } else {
+        // Mostrar registro
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        authTitle.textContent = 'Criar Conta';
+    }
+    clearAuthMessage();
+}
+
+// Mostrar mensagem de auth
+function showAuthMessage(message, type) {
+    const messageEl = document.getElementById('authMessage');
+    messageEl.textContent = message;
+    messageEl.className = `auth-message ${type}`;
+    messageEl.style.display = 'block';
+}
+
+// Limpar mensagem de auth
+function clearAuthMessage() {
+    document.getElementById('authMessage').style.display = 'none';
+}
+
+// Atualizar UI baseado no status de auth
+function updateAuthUI() {
+    const loginBtn = document.getElementById('loginBtn');
+    const userMenu = document.getElementById('userMenu');
+    const userName = document.getElementById('userName');
+    const adminPanel = document.getElementById('adminPanel');
+
+    if (currentUser) {
+        // Usuário logado
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (userMenu) userMenu.style.display = 'block';
+        if (userName) userName.textContent = currentUser.user_metadata?.full_name || currentUser.email;
+
+        // Verificar se é admin (simplificado)
+        checkUserAdmin();
+    } else {
+        // Usuário não logado
+        if (loginBtn) loginBtn.style.display = 'block';
+        if (userMenu) userMenu.style.display = 'none';
+        if (adminPanel) adminPanel.style.display = 'none';
+    }
+}
+
+// Verificar se usuário é admin
+async function checkUserAdmin() {
+    if (!currentUser || !supabaseClientDirect) return;
+
+    try {
+        const { data: profile } = await supabaseClientDirect
+            .from('user_profiles')
+            .select('is_admin')
+            .eq('id', currentUser.id)
+            .single();
+
+        const adminPanel = document.getElementById('adminPanel');
+        if (adminPanel && profile?.is_admin) {
+            adminPanel.style.display = 'block';
+        }
+    } catch (error) {
+        console.error('Erro ao verificar admin:', error);
+    }
+}
+
+// Fazer login
+async function handleLogin(event) {
+    event.preventDefault();
+
+    if (!supabaseClientDirect) {
+        showAuthMessage('Sistema não conectado. Tente novamente.', 'error');
+        return;
+    }
+
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const submitBtn = document.getElementById('loginSubmitBtn');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Entrando...';
+    clearAuthMessage();
+
+    try {
+        const { data, error } = await supabaseClientDirect.auth.signInWithPassword({
+            email,
+            password
+        });
+
+        if (error) {
+            let errorMessage = 'Erro no login';
+            if (error.message.includes('Invalid login credentials')) {
+                errorMessage = 'Email ou senha incorretos';
+            } else if (error.message.includes('Email not confirmed')) {
+                errorMessage = 'Email não confirmado. Verifique sua caixa de entrada.';
+            }
+            showAuthMessage(errorMessage, 'error');
+            return;
+        }
+
+        // Login bem-sucedido
+        currentUser = data.user;
+        updateAuthUI();
+        showAuthMessage('Login realizado com sucesso!', 'success');
+
+        setTimeout(() => {
+            hideAuthModal();
+            // Verificar se deve redirecionar para admin
+            checkUserAdmin().then(() => {
+                const adminPanel = document.getElementById('adminPanel');
+                if (adminPanel && adminPanel.style.display === 'block') {
+                    if (confirm('Deseja acessar o painel administrativo?')) {
+                        window.location.href = 'admin.html';
+                    }
+                }
+            });
+        }, 1500);
+
+    } catch (error) {
+        console.error('Erro crítico no login:', error);
+        showAuthMessage('Erro de conexão. Tente novamente.', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Entrar';
+    }
+}
+
+// Fazer registro
+async function handleRegister(event) {
+    event.preventDefault();
+
+    if (!supabaseClientDirect) {
+        showAuthMessage('Sistema não conectado. Tente novamente.', 'error');
+        return;
+    }
+
+    const name = document.getElementById('registerFullName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const submitBtn = document.getElementById('registerSubmitBtn');
+
+    if (password.length < 6) {
+        showAuthMessage('A senha deve ter pelo menos 6 caracteres.', 'error');
+        return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Criando conta...';
+    clearAuthMessage();
+
+    try {
+        const { data, error } = await supabaseClientDirect.auth.signUp({
+            email,
+            password,
+            options: {
+                data: {
+                    full_name: name
+                }
+            }
+        });
+
+        if (error) {
+            let errorMessage = 'Erro no registro';
+            if (error.message.includes('User already registered')) {
+                errorMessage = 'Este email já está cadastrado. Tente fazer login.';
+            } else if (error.message.includes('Password should be')) {
+                errorMessage = 'A senha deve ter pelo menos 6 caracteres';
+            }
+            showAuthMessage(errorMessage, 'error');
+            return;
+        }
+
+        // Registro bem-sucedido
+        showAuthMessage('Conta criada! Verifique seu email para confirmar e depois faça login.', 'success');
+
+        // Limpar formulário e mostrar login
+        document.getElementById('registerForm').reset();
+        setTimeout(() => {
+            toggleAuthMode(); // Voltar para login
+        }, 2000);
+
+    } catch (error) {
+        console.error('Erro crítico no registro:', error);
+        showAuthMessage('Erro de conexão. Tente novamente.', 'error');
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Criar Conta';
+    }
+}
+
+// Fazer logout
+async function handleLogout() {
+    if (!supabaseClientDirect) return;
+
+    try {
+        await supabaseClientDirect.auth.signOut();
+        currentUser = null;
+        updateAuthUI();
+        showNotification('Logout realizado com sucesso!', 'success');
+    } catch (error) {
+        console.error('Erro no logout:', error);
+        showNotification('Erro no logout', 'error');
+    }
+}
+
+// Atualizar função showLoginModal para usar modal local
+function showLoginModal() {
+    if (supabaseClientDirect) {
+        showAuthModal();
+    } else {
+        // Fallback para página dedicada
+        window.location.href = 'login-simple.html';
+    }
+}
+
+// Inicializar sistema de auth
+document.addEventListener('DOMContentLoaded', function() {
+    // Aguardar um pouco para o Supabase carregar
+    setTimeout(async () => {
+        const initialized = await initSupabaseDirect();
+        if (initialized) {
+            console.log('Sistema de auth inicializado com sucesso');
+        } else {
+            console.log('Falha na inicialização do auth, usando fallback');
+        }
+    }, 1000);
+});
+
+// Tornar funções globais
+window.showLoginModal = showLoginModal;
+window.hideAuthModal = hideAuthModal;
+window.toggleAuthMode = toggleAuthMode;
+window.handleLogin = handleLogin;
+window.handleRegister = handleRegister;
+window.handleLogout = handleLogout;
+
 // ========== FILTROS DE ACOMODAÇÕES ==========
 
 function initializeFilters() {
