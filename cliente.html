@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta - Hotel Paradise</title>
+    <link rel="stylesheet" href="cliente-styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <header class="client-header">
+        <div class="header-container">
+            <div class="logo">
+                <h1>🏨 Hotel Paradise</h1>
+            </div>
+            <nav class="header-nav">
+                <a href="index.html">Início</a>
+                <div class="user-menu">
+                    <span id="clientUserName">Usuário</span>
+                    <button onclick="handleLogout()" class="logout-btn">Sair</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="client-layout">
+        <!-- Sidebar -->
+        <nav class="client-sidebar">
+            <ul class="client-nav">
+                <li><a href="#profile" class="nav-link active" data-tab="profile">👤 Meu Perfil</a></li>
+                <li><a href="#reservations" class="nav-link" data-tab="reservations">📋 Minhas Reservas</a></li>
+                <li><a href="#new-reservation" class="nav-link" data-tab="new-reservation">➕ Nova Reserva</a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="client-main">
+            <!-- Profile Tab -->
+            <div id="profile" class="client-tab active">
+                <div class="tab-header">
+                    <h2>Meu Perfil</h2>
+                    <button onclick="saveProfile()" class="btn btn-primary">💾 Salvar</button>
+                </div>
+                <div class="profile-content">
+                    <form id="profileForm" class="profile-form">
+                        <div class="form-section">
+                            <h3>Informações Pessoais</h3>
+                            <div class="form-group">
+                                <label for="fullName">Nome Completo</label>
+                                <input type="text" id="fullName" name="full_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Telefone</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="dateOfBirth">Data de Nascimento</label>
+                                <input type="date" id="dateOfBirth" name="date_of_birth">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Reservations Tab -->
+            <div id="reservations" class="client-tab">
+                <div class="tab-header">
+                    <h2>Minhas Reservas</h2>
+                </div>
+                <div class="reservations-grid">
+                    <div id="reservationsList">
+                        <!-- Reservas serão carregadas dinamicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- New Reservation Tab -->
+            <div id="new-reservation" class="client-tab">
+                <div class="tab-header">
+                    <h2>Nova Reserva</h2>
+                </div>
+                <div class="reservation-wizard">
+                    <!-- Step 1: Escolher datas -->
+                    <div class="wizard-step active" id="step1">
+                        <h3>1. Escolha as datas</h3>
+                        <div class="date-selection">
+                            <div class="form-group">
+                                <label for="checkIn">Check-in</label>
+                                <input type="date" id="checkIn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="checkOut">Check-out</label>
+                                <input type="date" id="checkOut" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="guests">Número de Hóspedes</label>
+                                <select id="guests">
+                                    <option value="1">1 Hóspede</option>
+                                    <option value="2">2 Hóspedes</option>
+                                    <option value="3">3 Hóspedes</option>
+                                    <option value="4">4 Hóspedes</option>
+                                </select>
+                            </div>
+                            <button onclick="nextStep()" class="btn btn-primary">Próximo</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Escolher quarto -->
+                    <div class="wizard-step" id="step2">
+                        <h3>2. Escolha o quarto</h3>
+                        <div id="roomTypesList" class="room-types-grid">
+                            <!-- Tipos de quartos serão carregados dinamicamente -->
+                        </div>
+                        <div class="step-actions">
+                            <button onclick="prevStep()" class="btn btn-secondary">Voltar</button>
+                            <button onclick="nextStep()" class="btn btn-primary" id="nextStepBtn" disabled>Próximo</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Confirmar reserva -->
+                    <div class="wizard-step" id="step3">
+                        <h3>3. Confirmar Reserva</h3>
+                        <div class="reservation-summary">
+                            <div class="summary-section">
+                                <h4>Resumo da Reserva</h4>
+                                <div class="summary-item">
+                                    <span>Check-in:</span>
+                                    <span id="summaryCheckIn"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Check-out:</span>
+                                    <span id="summaryCheckOut"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Hóspedes:</span>
+                                    <span id="summaryGuests"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Quarto:</span>
+                                    <span id="summaryRoomType"></span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Noites:</span>
+                                    <span id="summaryNights"></span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total:</span>
+                                    <span id="summaryTotal"></span>
+                                </div>
+                            </div>
+
+                            <div class="guest-info-section">
+                                <h4>Informações Adicionais</h4>
+                                <div class="form-group">
+                                    <label for="specialRequests">Solicitações Especiais</label>
+                                    <textarea id="specialRequests" rows="4" placeholder="Ex: cama de casal, andar alto, check-in tardio..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-actions">
+                            <button onclick="prevStep()" class="btn btn-secondary">Voltar</button>
+                            <button onclick="confirmReservation()" class="btn btn-primary">Confirmar Reserva</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de sucesso -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>✅ Reserva Confirmada!</h3>
+            </div>
+            <div class="modal-body">
+                <p>Sua reserva foi confirmada com sucesso! Você receberá um email com os detalhes.</p>
+                <p><strong>Número da reserva:</strong> <span id="reservationNumber"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeSuccessModal()" class="btn btn-primary">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="supabase-config.js"></script>
+    <script src="auth.js"></script>
+    <script src="cliente.js"></script>
+</body>
+</html>
