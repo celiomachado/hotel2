@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel Serra do Roncador - Hospede-se no coração da natureza</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="auth-styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <meta name="description" content="Hotel Serra do Roncador - Hospede-se no coração da natureza. Conforto e aventura na Serra do Roncador, MT.">
     <meta name="keywords" content="hotel, serra do roncador, mato grosso, natureza, hospedagem, conforto">
 </head>
@@ -34,25 +32,7 @@
                         <i class="fas fa-phone"></i>
                         <span>(66) 3468-2001</span>
                     </div>
-                    <!-- Menu do usuário quando logado -->
-                    <div id="userMenu" class="user-menu" style="display: none;">
-                        <span id="userName">Usuário</span>
-                        <div class="user-dropdown">
-                            <a href="cliente.html"><i class="fas fa-user"></i> Minha Conta</a>
-                            <a href="#" onclick="handleLogout()"><i class="fas fa-sign-out-alt"></i> Sair</a>
-                        </div>
-                    </div>
-                    <!-- Botão de login quando não logado -->
-                    <button id="loginBtn" class="btn-login" onclick="showLoginModal()">
-                        <i class="fas fa-user"></i>
-                        Entrar
-                    </button>
-                    <!-- Painel admin para admins -->
-                    <a id="adminPanel" href="admin.html" class="btn-admin" style="display: none;">
-                        <i class="fas fa-cog"></i>
-                        Admin
-                    </a>
-                    <a href="#contato" class="btn-reserve-header" onclick="showReservationForm()">
+                    <a href="#contato" class="btn-reserve-header" onclick="openReservationModal('standard')">
                         <i class="fas fa-calendar-check"></i>
                         Reservar
                     </a>
@@ -78,7 +58,7 @@
                             <p class="hero-subtitle">Descubra a perfeita harmonia entre conforto e natureza no Hotel Serra do Roncador</p>
                             <div class="hero-buttons">
                                 <a href="#acomodacoes" class="btn-primary">Ver Quartos</a>
-                                <a href="#contato" class="btn-secondary" onclick="showReservationForm()">Reservar Agora</a>
+                                <a href="#contato" class="btn-secondary">Reservar Agora</a>
                             </div>
                         </div>
                     </div>
@@ -150,7 +130,7 @@
                             <option value="4">4 Hóspedes</option>
                         </select>
                     </div>
-                    <button type="button" class="btn-primary" onclick="showReservationForm()">
+                    <button type="submit" class="btn-primary">
                         <i class="fas fa-search"></i>
                         Verificar Disponibilidade
                     </button>
@@ -242,7 +222,7 @@
                                 <span class="price">R$ 280</span>
                                 <span class="period">/noite</span>
                             </div>
-                            <button class="btn-primary" onclick="showReservationForm()">Reservar</button>
+                            <button class="btn-primary" onclick="openReservationModal('standard')">Reservar</button>
                         </div>
                     </div>
                 </div>
@@ -268,7 +248,7 @@
                                 <span class="price">R$ 380</span>
                                 <span class="period">/noite</span>
                             </div>
-                            <button class="btn-primary" onclick="showReservationForm()">Reservar</button>
+                            <button class="btn-primary" onclick="openReservationModal('deluxe')">Reservar</button>
                         </div>
                     </div>
                 </div>
@@ -294,7 +274,7 @@
                                 <span class="price">R$ 580</span>
                                 <span class="period">/noite</span>
                             </div>
-                            <button class="btn-primary" onclick="showReservationForm()">Reservar</button>
+                            <button class="btn-primary" onclick="openReservationModal('suite')">Reservar</button>
                         </div>
                     </div>
                 </div>
@@ -356,7 +336,7 @@
                     <div class="facility-icon">
                         <i class="fas fa-concierge-bell"></i>
                     </div>
-                    <h3>Servi��o de Quarto</h3>
+                    <h3>Serviço de Quarto</h3>
                     <p>Atendimento 24 horas para sua comodidade</p>
                 </div>
                 <div class="facility-item hover-lift">
@@ -794,69 +774,6 @@
         </div>
     </div>
 
-    <!-- Modal de Login/Registro -->
-    <div id="authModal" class="modal">
-        <div class="modal-content auth-modal">
-            <span class="close" onclick="hideAuthModal()">&times;</span>
-            <h2 id="authTitle">Entrar</h2>
-
-            <div class="auth-message" id="authMessage" style="display: none;"></div>
-
-            <!-- Formulário de Login -->
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label for="loginEmail">Email</label>
-                    <input type="email" id="loginEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword">Senha</label>
-                    <input type="password" id="loginPassword" required>
-                </div>
-                <button type="submit" class="btn-primary" id="loginSubmitBtn">Entrar</button>
-                <p class="auth-switch">Não tem conta? <a href="#" onclick="toggleAuthMode()">Criar conta</a></p>
-                <p class="auth-switch"><a href="login-simple.html">Usar página de login dedicada</a></p>
-            </form>
-
-            <!-- Formulário de Registro -->
-            <form id="registerForm" onsubmit="handleRegister(event)" style="display: none;">
-                <div class="form-group">
-                    <label for="registerFullName">Nome Completo</label>
-                    <input type="text" id="registerFullName" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerEmail">Email</label>
-                    <input type="email" id="registerEmail" required>
-                </div>
-                <div class="form-group">
-                    <label for="registerPassword">Senha (mín. 6 caracteres)</label>
-                    <input type="password" id="registerPassword" required minlength="6">
-                </div>
-                <button type="submit" class="btn-primary" id="registerSubmitBtn">Criar Conta</button>
-                <p class="auth-switch">Já tem conta? <a href="#" onclick="toggleAuthMode()">Fazer login</a></p>
-                <p class="auth-switch"><a href="login-simple.html">Usar página de login dedicada</a></p>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal de Reserva do Cliente -->
-    <div id="reservationModal" class="modal">
-        <div class="modal-content reservation-modal">
-            <span class="close" onclick="closeReservationModal()">&times;</span>
-            <h2>Nova Reserva</h2>
-            <p>Você será redirecionado para o painel de reservas após o login.</p>
-            <div class="modal-actions">
-                <button onclick="closeReservationModal()" class="btn-secondary">Cancelar</button>
-                <a href="cliente.html" class="btn-primary">Ir para Painel</a>
-            </div>
-        </div>
-    </div>
-
-    <script src="force-offline.js"></script>
-    <script src="offline-fallback.js"></script>
-    <script src="supabase-config.js"></script>
-    <script src="auth.js"></script>
-    <script src="landing-preview.js"></script>
-    <script src="login-redirect.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
