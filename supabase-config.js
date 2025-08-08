@@ -94,14 +94,27 @@ function initSupabase() {
 
 // Função para aguardar inicialização
 async function waitForSupabase() {
-    if (supabaseInitialized && window.supabaseClient) {
+    if (supabaseInitialized && window.supabaseClient && window.supabaseClient.auth && window.supabaseClient.from) {
         return window.supabaseClient;
     }
-    
+
     try {
-        return await initSupabase();
+        const client = await initSupabase();
+
+        // Validar que o cliente tem todas as funções necessárias
+        if (!client || !client.auth || !client.from) {
+            throw new Error('Cliente Supabase incompleto - faltam métodos essenciais');
+        }
+
+        // Validar que as funções de auth estão disponíveis
+        if (typeof client.auth.getUser !== 'function' || typeof client.auth.signInWithPassword !== 'function') {
+            throw new Error('Métodos de autenticação não estão disponíveis');
+        }
+
+        console.log('✅ Cliente Supabase validado e pronto para uso');
+        return client;
     } catch (error) {
-        console.error('Erro ao inicializar Supabase:', error);
+        console.error('❌ Erro ao inicializar Supabase:', JSON.stringify(error, null, 2));
         throw error;
     }
 }
