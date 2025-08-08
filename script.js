@@ -527,25 +527,38 @@ window.prevGalleryImage = function() {
 
 // ========== RESERVAS ==========
 
-window.openReservationModal = function(roomType) {
-    const modal = document.getElementById('reservationModal');
-    const roomSelect = document.getElementById('tipoQuarto');
-
-    if (modal && roomSelect) {
-        // Pré-selecionar o tipo de quarto
-        roomSelect.value = roomType;
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden';
+// Função para mostrar formulário de reserva (com verificação de login)
+function showReservationForm() {
+    // Verificar se o sistema de autenticação está disponível
+    if (typeof authSystem !== 'undefined' && authSystem.currentUser) {
+        // Usuário logado - redirecionar para painel cliente
+        window.location.href = 'cliente.html#new-reservation';
+    } else {
+        // Usuário não logado - mostrar modal de login
+        if (typeof authSystem !== 'undefined') {
+            authSystem.showLoginModal();
+        } else {
+            // Fallback - mostrar modal de reserva simples
+            document.getElementById('reservationModal').style.display = 'flex';
+        }
     }
-};
+}
 
-window.closeReservationModal = function() {
+// Função para fechar modal de reserva
+function closeReservationModal() {
     const modal = document.getElementById('reservationModal');
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
     }
+}
+
+// Função para abrir modal de reserva (mantida para compatibilidade)
+window.openReservationModal = function(roomType) {
+    showReservationForm();
 };
+
+window.closeReservationModal = closeReservationModal;
 
 // ========== FILTROS DE ACOMODAÇÕES ==========
 
