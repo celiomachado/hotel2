@@ -446,7 +446,46 @@
                 console.error('Erro crítico no login:', error);
 
                 if (error.message.includes('Timeout')) {
-                    showMessage('Conexão muito lenta. Tente novamente ou verifique sua internet.', 'error');
+                    showMessage('Conexão muito lenta. Ativando modo offline...', 'error');
+                } else if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    showMessage('Problemas de conexão. Ativando modo demonstração...', 'error');
+
+                    // Ativar modo offline e tentar novamente
+                    if (window.offlineFallback) {
+                        window.offlineFallback.enableOfflineMode();
+                        supabaseClient = window.supabaseClientOffline;
+
+                        // Tentar login offline após um delay
+                        setTimeout(() => {
+                            const offlineBtn = document.createElement('button');
+                            offlineBtn.textContent = 'Tentar Modo Demonstração';
+                            offlineBtn.className = 'btn';
+                            offlineBtn.style.marginTop = '1rem';
+                            offlineBtn.onclick = async () => {
+                                try {
+                                    const result = await supabaseClient.auth.signInWithPassword({
+                                        email: document.getElementById('loginEmail').value,
+                                        password: document.getElementById('loginPassword').value
+                                    });
+
+                                    if (result.data.user) {
+                                        showMessage('Login offline realizado! Redirecionando...', 'success');
+                                        setTimeout(() => {
+                                            if (result.data.user.is_admin) {
+                                                window.location.href = 'admin.html';
+                                            } else {
+                                                window.location.href = 'cliente.html';
+                                            }
+                                        }, 1500);
+                                    }
+                                } catch (offlineError) {
+                                    showMessage('Erro no modo offline: ' + offlineError.message, 'error');
+                                }
+                            };
+
+                            document.querySelector('.message').appendChild(offlineBtn);
+                        }, 1000);
+                    }
                 } else {
                     showMessage('Erro de conexão. Verifique sua internet e tente novamente.', 'error');
                 }
