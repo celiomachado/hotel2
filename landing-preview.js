@@ -450,12 +450,12 @@ class LandingPagePreview {
 
     getDefaultConfig() {
         return {
-            hotel_name: 'Hotel Paradise',
-            hotel_phone: '(11) 99999-9999',
-            hotel_email: 'contato@hotelparadise.com',
-            hotel_address: 'Rua das Flores, 123 - Centro',
-            primary_color: '#4F46E5',
-            secondary_color: '#059669'
+            hotel_name: 'Hotel Serra do Roncador',
+            hotel_phone: '(66) 3468-2001',
+            hotel_email: 'reservas@serradoncador.com.br',
+            hotel_address: 'BR 158 - Água Boa, MT',
+            primary_color: '#B8341C',
+            secondary_color: '#D4581F'
         };
     }
 }
