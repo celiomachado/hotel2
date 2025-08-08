@@ -286,14 +286,28 @@
         // Inicializar Supabase
         function initSupabase() {
             try {
-                supabaseClient = window.supabase.createClient(
-                    supabaseConfig.url,
-                    supabaseConfig.anonKey
-                );
-                console.log('Supabase inicializado com sucesso');
-                return true;
+                if (window.supabase) {
+                    supabaseClient = window.supabase.createClient(
+                        supabaseConfig.url,
+                        supabaseConfig.anonKey
+                    );
+                    console.log('Supabase inicializado com sucesso');
+                    return true;
+                } else {
+                    console.log('Biblioteca Supabase não encontrada, usando fallback offline');
+                    supabaseClient = window.supabaseClientOffline;
+                    return true;
+                }
             } catch (error) {
                 console.error('Erro ao inicializar Supabase:', error);
+
+                // Usar fallback offline
+                if (window.offlineFallback) {
+                    window.offlineFallback.enableOfflineMode();
+                    supabaseClient = window.supabaseClientOffline;
+                    return true;
+                }
+
                 showMessage('Erro de conexão. Verifique sua internet.', 'error');
                 return false;
             }
