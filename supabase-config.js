@@ -49,7 +49,17 @@ function initSupabase() {
                         auth: {
                             autoRefreshToken: true,
                             persistSession: true,
-                            detectSessionInUrl: true
+                            detectSessionInUrl: false
+                        },
+                        realtime: {
+                            params: {
+                                eventsPerSecond: 2
+                            }
+                        },
+                        global: {
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
                         }
                     }
                 );
