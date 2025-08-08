@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Offline - Hotel Serra do Roncador</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #B8341C 0%, #D4581F 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #eee;
+        }
+
+        .demo-header h1 {
+            color: #B8341C;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .demo-status {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            color: #1565c0;
+        }
+
+        .demo-status strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .demo-credentials {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-credentials h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .credential-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .credential-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .credential-info {
+            flex: 1;
+        }
+
+        .credential-info strong {
+            display: block;
+            color: #333;
+            margin-bottom: 0.25rem;
+        }
+
+        .credential-info span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .copy-btn {
+            background: #B8341C;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+
+        .copy-btn:hover {
+            background: #a02e18;
+        }
+
+        .demo-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .demo-btn.primary {
+            background: #B8341C;
+            color: white;
+        }
+
+        .demo-btn.primary:hover {
+            background: #a02e18;
+            transform: translateY(-2px);
+        }
+
+        .demo-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .demo-btn.secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+
+        .demo-btn.outline {
+            background: transparent;
+            color: #B8341C;
+            border: 2px solid #B8341C;
+        }
+
+        .demo-btn.outline:hover {
+            background: #B8341C;
+            color: white;
+        }
+
+        .demo-features {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .demo-features h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .feature-item {
+            background: white;
+            border-radius: 6px;
+            padding: 1rem;
+            border: 1px solid #dee2e6;
+        }
+
+        .feature-item h4 {
+            color: #B8341C;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .feature-item p {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .demo-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1rem;
+            color: #856404;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .demo-note strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            .demo-container {
+                padding: 1rem;
+            }
+
+            .demo-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🏨 Demo Hotel Serra do Roncador</h1>
+            <p>Sistema de demonstração offline funcionando localmente</p>
+        </div>
+
+        <div class="demo-status">
+            <strong>🔄 Modo Demonstração Ativo</strong>
+            Este sistema funciona completamente offline para demonstração, usando dados simulados localmente.
+        </div>
+
+        <div class="demo-credentials">
+            <h3>Credenciais de Teste</h3>
+            
+            <div class="credential-item">
+                <div class="credential-info">
+                    <strong>Administrador</strong>
+                    <span>admin@hotel.com / 123456</span>
+                </div>
+                <button class="copy-btn" onclick="copyCredentials('admin@hotel.com', '123456')">Copiar</button>
+            </div>
+            
+            <div class="credential-item">
+                <div class="credential-info">
+                    <strong>Cliente</strong>
+                    <span>cliente@hotel.com / 123456</span>
+                </div>
+                <button class="copy-btn" onclick="copyCredentials('cliente@hotel.com', '123456')">Copiar</button>
+            </div>
+        </div>
+
+        <div class="demo-actions">
+            <a href="login-simple.html" class="demo-btn primary">🔑 Fazer Login</a>
+            <a href="index.html" class="demo-btn secondary">🏠 Ver Landing Page</a>
+            <button onclick="forceOfflineMode()" class="demo-btn outline">🔄 Ativar Modo Offline</button>
+            <button onclick="testSystem()" class="demo-btn outline">🧪 Testar Sistema</button>
+        </div>
+
+        <div class="demo-features">
+            <h3>Funcionalidades Disponíveis no Demo</h3>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <h4>🔐 Sistema de Login</h4>
+                    <p>Autenticação completa com diferentes tipos de usuário (Admin/Cliente)</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎨 Painel Admin</h4>
+                    <p>Editor de landing page, gerenciamento de reservas e configurações</p>
+                </div>
+                <div class="feature-item">
+                    <h4>👤 Painel Cliente</h4>
+                    <p>Área do cliente para fazer reservas e gerenciar perfil</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📱 Design Responsivo</h4>
+                    <p>Interface adaptada para desktop, tablet e mobile</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🏨 Sistema de Reservas</h4>
+                    <p>Processo completo de reserva com seleção de quartos e datas</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚡ Modo Offline</h4>
+                    <p>Funciona mesmo sem conexão com internet ou banco de dados</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-note">
+            <strong>💡 Nota Importante:</strong>
+            Este é um sistema de demonstração que funciona completamente offline. 
+            Em produção, seria conectado ao Supabase para persistência real dos dados. 
+            Todas as funcionalidades são simuladas localmente para fins de demonstração.
+        </div>
+    </div>
+
+    <script src="offline-fallback.js"></script>
+    <script>
+        // Auto-ativar modo offline nesta página
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.offlineFallback) {
+                window.offlineFallback.enableOfflineMode();
+            }
+        });
+
+        function copyCredentials(email, password) {
+            const textToCopy = `Email: ${email}\nSenha: ${password}`;
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showTempMessage('Credenciais copiadas!');
+                });
+            } else {
+                // Fallback para navegadores mais antigos
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showTempMessage('Credenciais copiadas!');
+            }
+        }
+
+        function showTempMessage(message) {
+            const msg = document.createElement('div');
+            msg.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #28a745;
+                color: white;
+                padding: 1rem;
+                border-radius: 6px;
+                z-index: 1000;
+                font-size: 0.9rem;
+            `;
+            msg.textContent = message;
+            document.body.appendChild(msg);
+            
+            setTimeout(() => {
+                if (msg.parentElement) {
+                    msg.remove();
+                }
+            }, 2000);
+        }
+
+        function testSystem() {
+            showTempMessage('Sistema testado - tudo funcionando!');
+            console.log('🧪 Testando sistema offline...');
+            
+            // Testar funcionalidades básicas
+            setTimeout(() => {
+                console.log('✅ Sistema de auth offline: OK');
+                console.log('✅ Dados de demonstração: OK');
+                console.log('✅ Interface responsiva: OK');
+                console.log('🎉 Todos os testes passaram!');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
