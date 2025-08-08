@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste de Conectividade - Supabase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 2rem;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0.5rem;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Diagnóstico de Conectividade - Supabase</h1>
+        
+        <div class="test-result info">
+            <strong>Status:</strong> <span id="status">Aguardando testes...</span>
+        </div>
+
+        <div class="actions">
+            <button onclick="testAll()">🔍 Executar Todos os Testes</button>
+            <button onclick="testBasicConnection()">🌐 Teste de Conexão Básica</button>
+            <button onclick="testAuth()">🔐 Teste de Autenticação</button>
+            <button onclick="testDatabase()">💾 Teste de Banco de Dados</button>
+            <button onclick="clearResults()">🗑️ Limpar Resultados</button>
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_CONFIG = {
+            url: 'https://rxdialhyznmtteztky.supabase.co',
+            anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ4ZGlhbGhoeXpubXR0ZXp0a2t5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQ2MjA2MjEsImV4cCI6MjA3MDE5NjYyMX0.dBTMs_roLMap7De9zO_tPPxJsjdQ2RFVot0CkiOJ0pI'
+        };
+
+        let supabaseClient;
+
+        // Inicializar Supabase
+        function initializeSupabase() {
+            try {
+                supabaseClient = window.supabase.createClient(
+                    SUPABASE_CONFIG.url,
+                    SUPABASE_CONFIG.anonKey
+                );
+                return true;
+            } catch (error) {
+                addResult('error', 'Erro ao inicializar Supabase: ' + error.message);
+                return false;
+            }
+        }
+
+        function addResult(type, message) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${type}`;
+            div.innerHTML = `<strong>${new Date().toLocaleTimeString()}:</strong> ${message}`;
+            results.appendChild(div);
+            results.scrollTop = results.scrollHeight;
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        function setLoading(loading) {
+            document.body.classList.toggle('loading', loading);
+        }
+
+        async function testBasicConnection() {
+            addResult('info', '🌐 Testando conexão básica...');
+            
+            try {
+                // Teste de rede
+                const response = await fetch(SUPABASE_CONFIG.url + '/rest/v1/', {
+                    headers: {
+                        'apikey': SUPABASE_CONFIG.anonKey
+                    }
+                });
+                
+                if (response.ok) {
+                    addResult('success', '✅ Conexão de rede OK - Status: ' + response.status);
+                } else {
+                    addResult('error', '❌ Falha na conexão - Status: ' + response.status);
+                }
+            } catch (error) {
+                addResult('error', '❌ Erro de rede: ' + error.message);
+            }
+        }
+
+        async function testAuth() {
+            addResult('info', '🔐 Testando sistema de autenticação...');
+            
+            if (!supabaseClient) {
+                addResult('error', '❌ Cliente Supabase não inicializado');
+                return;
+            }
+
+            try {
+                // Teste de verificação de usuário
+                const { data, error } = await supabaseClient.auth.getUser();
+                
+                if (error) {
+                    addResult('error', '❌ Erro na autenticação: ' + error.message);
+                } else {
+                    addResult('success', '✅ Sistema de autenticação OK - Usuário: ' + (data.user ? data.user.email : 'Não logado'));
+                }
+            } catch (error) {
+                addResult('error', '❌ Erro no teste de auth: ' + error.message);
+            }
+        }
+
+        async function testDatabase() {
+            addResult('info', '💾 Testando acesso ao banco de dados...');
+            
+            if (!supabaseClient) {
+                addResult('error', '❌ Cliente Supabase não inicializado');
+                return;
+            }
+
+            try {
+                // Teste de leitura das tabelas
+                const tests = [
+                    { table: 'landing_sections', desc: 'Seções da Landing Page' },
+                    { table: 'site_config', desc: 'Configurações do Site' },
+                    { table: 'room_types', desc: 'Tipos de Quartos' },
+                    { table: 'user_profiles', desc: 'Perfis de Usuário' }
+                ];
+
+                for (const test of tests) {
+                    try {
+                        const { data, error } = await supabaseClient
+                            .from(test.table)
+                            .select('*')
+                            .limit(1);
+                        
+                        if (error) {
+                            addResult('error', `❌ Erro na tabela ${test.table}: ${error.message}`);
+                        } else {
+                            addResult('success', `✅ Tabela ${test.table} (${test.desc}) - Acessível`);
+                        }
+                    } catch (error) {
+                        addResult('error', `❌ Erro crítico na tabela ${test.table}: ${error.message}`);
+                    }
+                }
+            } catch (error) {
+                addResult('error', '❌ Erro geral no teste de DB: ' + error.message);
+            }
+        }
+
+        async function testAll() {
+            clearResults();
+            setLoading(true);
+            updateStatus('Executando testes completos...');
+            
+            try {
+                addResult('info', '🚀 Iniciando bateria completa de testes...');
+                
+                // Inicializar Supabase
+                if (initializeSupabase()) {
+                    addResult('success', '✅ Supabase inicializado com sucesso');
+                } else {
+                    addResult('error', '❌ Falha na inicialização do Supabase');
+                    return;
+                }
+                
+                // Executar todos os testes
+                await testBasicConnection();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                await testAuth();
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                await testDatabase();
+                
+                addResult('info', '🏁 Testes concluídos!');
+                updateStatus('Testes concluídos');
+                
+            } catch (error) {
+                addResult('error', '❌ Erro durante os testes: ' + error.message);
+                updateStatus('Erro durante os testes');
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+            updateStatus('Resultados limpos');
+        }
+
+        // Inicializar página
+        window.onload = function() {
+            addResult('info', '📋 Página de diagnóstico carregada');
+            updateStatus('Pronto para testes');
+            
+            // Verificar se Supabase está disponível
+            if (window.supabase) {
+                addResult('success', '✅ Biblioteca Supabase carregada');
+            } else {
+                addResult('error', '❌ Biblioteca Supabase não encontrada');
+            }
+        };
+    </script>
+</body>
+</html>
