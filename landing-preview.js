@@ -10,7 +10,7 @@ class LandingPagePreview {
         await this.loadSections();
         await this.loadSiteConfig();
         this.renderLandingPage();
-        this.setupRealTimeUpdates();
+        await this.setupRealTimeUpdates();
     }
 
     async loadSections() {
