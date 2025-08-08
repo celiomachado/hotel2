@@ -93,7 +93,7 @@ class ClientSystem {
             this.fillProfileForm();
 
         } catch (error) {
-            console.error('Erro ao carregar perfil:', error);
+            console.error('❌ Erro ao carregar perfil:', JSON.stringify(error, null, 2));
         }
     }
 
@@ -124,7 +124,7 @@ class ClientSystem {
             this.showNotification('Perfil atualizado com sucesso!', 'success');
 
         } catch (error) {
-            console.error('Erro ao salvar perfil:', error);
+            console.error('❌ Erro ao salvar perfil:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao salvar perfil: ' + error.message, 'error');
         }
     }
@@ -143,7 +143,7 @@ class ClientSystem {
             this.renderReservations();
 
         } catch (error) {
-            console.error('Erro ao carregar reservas:', error);
+            console.error('❌ Erro ao carregar reservas:', JSON.stringify(error, null, 2));
         }
     }
 
@@ -215,7 +215,7 @@ class ClientSystem {
             this.roomTypes = roomTypes || [];
 
         } catch (error) {
-            console.error('Erro ao carregar tipos de quartos:', error);
+            console.error('❌ Erro ao carregar tipos de quartos:', JSON.stringify(error, null, 2));
         }
     }
 
@@ -420,7 +420,7 @@ class ClientSystem {
             await this.loadUserReservations();
 
         } catch (error) {
-            console.error('Erro ao confirmar reserva:', error);
+            console.error('❌ Erro ao confirmar reserva:', JSON.stringify(error, null, 2));
             this.showNotification('Erro ao confirmar reserva: ' + error.message, 'error');
         }
     }
