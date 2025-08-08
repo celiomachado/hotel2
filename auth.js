@@ -41,16 +41,22 @@ class AuthSystem {
 
     async setCurrentUser(user) {
         this.currentUser = user;
-        
+
         // Verificar se é admin
         try {
-            const { data: profile } = await supabaseClient
+            const client = await waitForSupabase();
+            const { data: profile, error } = await client
                 .from('user_profiles')
                 .select('is_admin')
                 .eq('id', user.id)
                 .single();
-            
-            this.isAdmin = profile?.is_admin || false;
+
+            if (error) {
+                console.error('Erro ao verificar perfil admin:', error);
+                this.isAdmin = false;
+            } else {
+                this.isAdmin = profile?.is_admin || false;
+            }
         } catch (error) {
             console.error('Erro ao verificar perfil admin:', error);
             this.isAdmin = false;
