@@ -92,7 +92,7 @@ function initSupabase() {
     return initializationPromise;
 }
 
-// Função para aguardar inicializa��ão
+// Função para aguardar inicialização
 async function waitForSupabase() {
     if (supabaseInitialized && window.supabaseClient && window.supabaseClient.auth && window.supabaseClient.from) {
         return window.supabaseClient;
@@ -182,19 +182,23 @@ async function testConnection() {
 // Inicializar automaticamente quando a página carregar
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        console.log('🚀 Iniciando inicialização do Supabase...');
         await initSupabase();
-        console.log('Supabase inicializado na carga da página');
-        
-        // Teste de conexão
+        console.log('✅ Supabase inicializado na carga da página');
+
+        // Teste de conexão após delay
         setTimeout(async () => {
+            console.log('🔍 Testando conexão com Supabase...');
             const connected = await testConnection();
             if (!connected) {
-                console.warn('Problema na conexão com Supabase detectado');
+                console.warn('⚠️ Problema na conexão com Supabase detectado');
+            } else {
+                console.log('✅ Conexão com Supabase funcionando corretamente');
             }
-        }, 1000);
-        
+        }, 1500);
+
     } catch (error) {
-        console.error('Erro na inicialização do Supabase:', error);
+        console.error('❌ Erro na inicialização do Supabase:', JSON.stringify(error, null, 2));
     }
 });
 
